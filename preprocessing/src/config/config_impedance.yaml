@@ -1,5 +1,0 @@
-initial_lulc:
-  enabled: true
-vector:
-  enabled: true
-  types: true
