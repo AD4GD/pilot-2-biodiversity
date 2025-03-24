@@ -1,0 +1,82 @@
+# !DO NOT REMOVE keys, just assign 'null' if needed
+
+## INPUT DATASETS
+
+# land-use/land-cover (GeoTIFF)
+lulc: 'lulc_cat_aggr_buf_30m_{year}.tif' # ESA dataset: 'lulc_esa_{year}.tif'. NE Catalonia: 'lulc_ext_concat_upd_{year}.tif'
+# yearstamp of raster dataset to be enriched with vector data. This can also be a list of years (e.g. [2017, 2018, 2019])
+year: [2012, 2017, 2022]
+# LULC codes of corresponding vector data (all parameters are optional)
+lulc_codes:
+    lulc_road: 2 # corresponding LULC code ('built area'). ESA dataset: 7.  NE Catalonia: 4
+    lulc_railway: 2 # ESA dataset: 7.  NE Catalonia: 4
+    lulc_water: 1 # ESA dataset: 1.  NE Catalonia: 2
+    lulc_vineyard: 4 # ESA dataset: 3.  NE Catalonia: 3
+    
+# landscape impedance based on LULC dataset
+impedance_tif: 'impedance_lulc_cat_aggr_buf_30m_{year}.tif' # added 'impedance_' prefix. For ESA dataset: 'impedance_lulc_esa_{year}.tif'.  NE Catalonia: 'impedance_lulc_ext_concat_upd_{year}.tif'
+# input auxiliary csv data (reclassification table)
+impedance: 'reclassification_meadows.csv' # to fetch table with LULC types mapping with impedance values. For ESA dataset: 'lulc_descr_esa.csv'. NE Catalonia: 'lulc_descr_albera.csv'
+
+# vector data
+osm_data: 'osm_merged_{year}.gpkg' # derived from Open Street Map
+
+# overpass filter queries
+overpass_roads: ['way[highway~"^(motorway|trunk|primary|secondary|tertiary)(_link)?$"][!"tunnel"][!"bridge"]']
+# also includes 'motorway_link',  'trunk_link' etc because they also restrict connectivity
+overpass_railways:  ['way[railway~"^(rail|light_rail|narrow_gauge|tram|preserved)(_link)?$"][!"tunnel"][!"bridge"]']
+# to include historical railways
+overpass_waterways: ['way[waterway~"^(river|canal|flowline|tidal_channel)"][!"tunnel"][!"bridge"]',
+                        'way[water~"^(river|canal)"][!"tunnel"][!"bridge"]'
+                    ]
+#^ and $ symbols to exclude 'riverbank' and 'derelict_canal'
+# second line has been added in case if some older features are missing 'way' tag
+overpass_waterbodies:   ['way[natural=water]',
+                            'way[water~"^(cenote|lagoon|lake|oxbow|rapids|river|stream|stream_pool|canal|harbour|pond|reservoir|wastewater|tidal|natural)"]',
+                            'way[landuse=reservoir]',
+                            'way[waterway=riverbank]'
+                        ]
+# second filter has been added to catch other water features at all timestamps 
+# third and fourth filters were added to catch other water features at older timestamps 
+# it is more reliable to query nodes, ways and relations altogether ('nwr') to fetch the complete polygon spatial features 
+overpass_vineyards: ['way[landuse=vineyard]']
+# to include vineyards and orchards
+
+# ohsome filter queries
+ohsome_roads: type:way and (highway in (motorway, motorway_link, trunk, trunk_link, primary, primary_link, secondary, secondary_link, tertiary, tertiary_link)) and (tunnel!=*) and (bridge!=*)
+ohsome_railways: type:way and (railway in (rail, light_rail, narrow_gauge, tram, preserved)) and (tunnel!=*) and (bridge!=*)
+ohsome_waterways: type:way and (waterway in (river, canal, flowline, tidal_channel)) and (tunnel!=*) and (bridge!=*)
+ohsome_waterbodies: natural=water or (water in (cenote, lagoon, lake, oxbow, rapids, river, stream, stream_pool, canal, harbour, pond, reservoir, wastewater, tidal, natural)) or (landuse=reservoir) or (waterway=riverbank)
+ohsome_vineyards: landuse=vineyard
+
+user_vector: null # derived from other sources and provided by users ('null' by default)
+
+## PATHS TO DIRECTORIES
+# recommended to leave as default
+case_study_dir: 'data/cat_aggr_buf_30m' # prefix (directory name) for the case study's input and output files#
+# when case studies share the same LULC file, but different impedance files (e.g. 'turtle' and 'bird') we can use the parameter below to get each impedance file
+subcase_study: 'forest' # LEAVE EMPTY if there is no sub-case study. Otherwise, specify the sub-case study name (e.g. 'forest' or 'turtle')
+lulc_dir: 'data/shared/input/lulc'
+vector_dir: 'input/vector'
+impedance_dir: 'input/impedance'
+stressors_dir: 'output/stressors'
+
+## 1st component
+# Protected Planet API
+token: "" # replace with your token
+marine: false # 'false' by default to bring marine protected areas or not. warning: being transformed into 'False' in URI, but recognised as a boolean value. Does not cause issues.
+api_countries: true # 'true' by default. Brings codes of countries intersecting with input raster dataset. Otherwise, user must specify list of countries as ISO3 codes.
+api_url: 'https://api.protectedplanet.net/v3/protected_areas/search?token={token}&country={country}&marine={marine}&with_geometry=true&per_page=50' # API URL
+# Parameters to update the impedance datasets
+lulc_reclass_table: false # 'false' (use the effect of protected areas) or 'true' (use the reclassification table)
+pa_effect: 0.3 # positive effect of protected areas on landscape impedance (for example, if landscape impedance of non-protected grasslands is 10, it will be 3 for protected grasslands)
+
+## 2nd component
+# OSM buffering (might be any value, but integer is recommended)
+width_lev1: 30 # roads: 'motorway', 'motorway_link', 'trunk', 'trunk_link'
+width_lev2: 20 # roads: 'primary', 'primary_link', 'secondary', 'secondary_link'
+width_other: 10 # other roads and other layers (railways)
+
+## 3rd component
+# matching OSM categories with LULC types
+user_matching: 'true' # 'true' by default. 'false' triggers text-matching subtool searching over the definitions of LULC types

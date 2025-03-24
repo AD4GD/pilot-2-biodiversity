@@ -1,0 +1,6 @@
+# should be used for PUBLISHING in releases for `config_impedance.yaml`
+initial_lulc:
+  enabled: true
+vector:
+  enabled: true
+  types: true

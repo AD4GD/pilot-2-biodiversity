@@ -1,0 +1,70 @@
+                    GNU AFFERO GENERAL PUBLIC LICENSE
+                       Version 3, 19 November 2007
+
+Copyright (C) [2024] [Dr Vitalii Kriukov(main author), Riyad Rahman and Lucy Bastin]
+Everyone is permitted to copy and distribute verbatim copies
+of this license document, but changing it is not allowed.
+
+                             Preamble
+
+The GNU Affero General Public License is a free software license
+that guarantees end users the freedom to run, study, share, and modify
+the software. In addition, this license ensures that users who
+interact with the software over a network have the same freedoms
+regarding the source code of the software as they would have if they
+obtained a copy of the software.
+
+                             TERMS AND CONDITIONS
+
+0. Definitions.
+
+"This License" refers to version 3 of the GNU Affero General Public License.
+
+"Copyright" also means copyright-like laws that apply to other kinds of
+works, such as semiconductor masks.
+
+"The Program" refers to any copyrightable work licensed under this License.
+Each licensee is addressed as "you". "Licensor" means the copyright owner or
+entity authorized by the copyright owner that is granting you the License.
+"Source Code" for a work means the preferred form of the work for making
+modifications to it. "Object Code" means any non-source form of a work.
+
+"You" means the licensee of the Program, and "your" has a corresponding meaning.
+
+1. Source Code.
+
+The Licensor must make the Source Code available under the terms of this
+License, and must license the Program in a manner that allows others to
+obtain the Source Code. 
+
+2. Modified Versions.
+
+You may modify the Program and distribute your modifications under the terms
+of this License. You must also make the modified source code available
+to the users.
+
+3. Copyleft.
+
+You may not impose any further restrictions on the exercise of the rights
+granted by this License. 
+
+4. Distribution.
+
+You may distribute copies of the Program or your modified version,
+provided you meet the conditions of this License.
+
+5. Warranty Disclaimer.
+
+THE PROGRAM IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+6. Limitation of Liability.
+
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE PROGRAM OR THE USE
+OR OTHER DEALINGS IN THE PROGRAM.
+
+This is a summary of the GNU Affero General Public License version 3. For the full license text, please refer to the official document at:
+https://www.gnu.org/licenses/agpl-3.0.txt

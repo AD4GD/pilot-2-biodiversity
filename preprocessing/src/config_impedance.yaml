@@ -1,0 +1,112 @@
+initial_lulc:
+  enabled: true
+  stressor_lulc_102_2012:
+    decline_type: exp_decline
+    exp_decline:
+      lambda_decay: 500
+    prop_decline:
+      k_value: 500
+    types: null
+  stressor_lulc_102_2017:
+    decline_type: exp_decline
+    exp_decline:
+      lambda_decay: 500
+    prop_decline:
+      k_value: 500
+    types: null
+  stressor_lulc_102_2022:
+    decline_type: exp_decline
+    exp_decline:
+      lambda_decay: 500
+    prop_decline:
+      k_value: 500
+    types: null
+  stressor_lulc_2_2012:
+    decline_type: exp_decline
+    exp_decline:
+      lambda_decay: 500
+    prop_decline:
+      k_value: 500
+    types: null
+  stressor_lulc_2_2017:
+    decline_type: exp_decline
+    exp_decline:
+      lambda_decay: 500
+    prop_decline:
+      k_value: 500
+    types: null
+  stressor_lulc_2_2022:
+    decline_type: exp_decline
+    exp_decline:
+      lambda_decay: 500
+    prop_decline:
+      k_value: 500
+    types: null
+  stressor_lulc_4_2017:
+    decline_type: exp_decline
+    exp_decline:
+      lambda_decay: 100
+    prop_decline:
+      k_value: 0
+    types: null
+  stressor_lulc_5_2017:
+    decline_type: prop_decline
+    exp_decline:
+      lambda_decay: 0
+    prop_decline:
+      k_value: 8
+    types: null
+  stressor_lulc_6_2017:
+    decline_type: prop_decline
+    exp_decline:
+      lambda_decay: 0
+    prop_decline:
+      k_value: 7
+    types: null
+  stressor_lulc_7_2017:
+    decline_type: prop_decline
+    exp_decline:
+      lambda_decay: 0
+    prop_decline:
+      k_value: 9
+    types: null
+vector:
+  enabled: true
+  railways:
+    decline_type: exp_decline
+    exp_decline:
+      lambda_decay: 200
+    prop_decline:
+      k_value: 0
+    types: null
+  roads:
+    motorway:
+      decline_type: exp_decline
+      exp_decline:
+        lambda_decay: 50
+      prop_decline:
+        k_value: 0
+      types: null
+    primary:
+      decline_type: exp_decline
+      exp_decline:
+        lambda_decay: 70
+      prop_decline:
+        k_value: 0
+      types: null
+    secondary:
+      decline_type: exp_decline
+      exp_decline:
+        lambda_decay: 90
+      prop_decline:
+        k_value: 0
+      types: null
+    tertiary:
+      decline_type: exp_decline
+      exp_decline:
+        lambda_decay: 130
+      prop_decline:
+        k_value: 0
+      types: null
+    types: true
+  types: true
