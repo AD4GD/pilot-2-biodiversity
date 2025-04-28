@@ -94,13 +94,14 @@ Computed indices can be explored in CSVs in the output folder for each case stud
 - `stats_loc.csv` describes all local connectivity metrics for case study, filtered by year, habitat and graph (computed via raster statistics)
 - `ext_stats_loc.csv` describes EXTERNAL local connectivity metrics for case study, filtered by year, habitat and graph (computed via raster statistics). In this case, EXTERNAL outputs are computed in MiraMon software
 
-Visualisations can be explored for each statistic set:
-- **Global internal (Graphab) indices**
-![stats_internal_glob](data/cat_aggr_buf_390m_test/output/stats_glob_plot.png)
-- **Local internal (Graphab) indices**
-![stats_internal_loc](data/cat_aggr_buf_390m_test/output/stats_loc_plot.png)
-- **Local external (MiraMon) indices**
-![stats_external_loc](data/cat_aggr_buf_390m_test/output/ext_stats_loc_plot.png)
+### Global internal (Graphab) indices
+<img src="data/cat_aggr_buf_390m_test/output/stats_glob_plot.png" alt="Global internal indices" width="400"/>
+
+### Local internal (Graphab) indices
+<img src="data/cat_aggr_buf_390m_test/output/stats_loc_plot.png" alt="Local internal indices" width="400"/>
+
+### Local external (MiraMon) indices
+<img src="data/cat_aggr_buf_390m_test/output/ext_stats_loc_plot.png" alt="Local external indices" width="400"/>
 
 
 **Status of case studies in `data\`:**
