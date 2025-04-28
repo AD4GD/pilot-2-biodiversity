@@ -14,13 +14,47 @@
 <https://raw.githubusercontent.com/opengeospatial/NamingAuthority/master/entailed/ebv-iadopt.ttl> a prov:Entity ;
     dcterms:format "text/turtle" ;
     dcterms:hasVersion "git:a9453b97572804acd59708a6bc49b1303e318859" ;
-    prov:wasAttributedTo _:nec79034923e64e888d1a39e626dcedd1b1 ;
+    prov:wasAttributedTo _:Nef2f6c7f8b324c92b2fe2cee5c10b156,
+        _:nfbc50aa584184beab73aeac180625a48b1 ;
     prov:wasGeneratedBy [ a prov:Activity ;
+            rdfs:label "Entailment and validation" ;
+            rdfs:comment "python ogc.na.update_vocabs rainbow-data/catalog.ttl --batch -w rainbow-data --update --graph-store https://defs-dev.opengis.net/fuseki-hosted/data" ;
+            prov:endedAtTime "2025-04-28T09:38:57.178496"^^xsd:dateTime ;
+            prov:startedAtTime "2025-04-28T09:38:05.483305"^^xsd:dateTime ;
+            prov:used [ a prov:Entity ;
+                    rdfs:seeAlso <http://www.opengis.net/def/metamodel/profiles/skos_shared> ],
+                [ a prov:Entity ;
+                    rdfs:seeAlso <http://defs-dev.opengis.net/ogc-na/definitions/profiles/resources/skos_shared_shacl.ttl> ],
+                [ a prov:Entity ;
+                    rdfs:seeAlso <http://defs-dev.opengis.net/ogc-na/scripts/ogc_skos_profile.shapes.ttl> ],
+                [ a prov:Entity ;
+                    rdfs:seeAlso <http://defs-dev.opengis.net/ogc-na/scripts/skosbasics.shapes.ttl> ],
+                [ a prov:Entity ;
+                    rdfs:seeAlso <http://defs-dev.opengis.net/def/metamodel/profiles/skos_shared?_profile=shacl&_mediatype=text/turtle> ],
+                [ a prov:Entity ;
+                    rdfs:seeAlso <https://datashapes.org/dash.ttl> ],
+                [ a prov:Entity ;
+                    dcterms:format "text/turtle" ;
+                    dcterms:hasVersion "git:b40b1c4a9d1e31c8b5673409120f45aefbfe5ebc" ;
+                    rdfs:seeAlso <https://raw.githubusercontent.com/opengeospatial/NamingAuthority/master/catalog.ttl> ],
+                [ a prov:Entity ;
+                    dcterms:format "text/turtle" ;
+                    dcterms:hasVersion "git:b40b1c4a9d1e31c8b5673409120f45aefbfe5ebc" ;
+                    rdfs:seeAlso <https://raw.githubusercontent.com/opengeospatial/NamingAuthority/master/ebv-iadopt.ttl> ],
+                [ a prov:Entity ;
+                    rdfs:seeAlso <http://defs-dev.opengis.net/ogc-na/scripts/ogc_skos_profile_entailments.ttl> ] ;
+            prov:wasAssociatedWith _:Nef2f6c7f8b324c92b2fe2cee5c10b156 ;
+            prov:wasInformedBy [ dcterms:identifier "6555ed8c-b42d-46a4-bd46-f5bc645b1ed7" ] ],
+        [ a prov:Activity ;
             rdfs:label "Entailment and validation" ;
             rdfs:comment "python ogc.na.update_vocabs .ogc/catalog.ttl --batch -w . --update --graph-store https://defs-dev.opengis.net/fuseki-hosted/data" ;
             prov:endedAtTime "2025-04-08T10:56:28.542944"^^xsd:dateTime ;
             prov:startedAtTime "2025-04-08T10:55:47.469839"^^xsd:dateTime ;
             prov:used [ a prov:Entity ;
+                    dcterms:format "text/turtle" ;
+                    dcterms:hasVersion "git:a9453b97572804acd59708a6bc49b1303e318859" ;
+                    rdfs:seeAlso <https://raw.githubusercontent.com/opengeospatial/NamingAuthority/master/ebv-iadopt.ttl> ],
+                [ a prov:Entity ;
                     rdfs:seeAlso <http://defs-dev.opengis.net/ogc-na/scripts/ogc_skos_profile_entailments.ttl> ],
                 [ a prov:Entity ;
                     rdfs:seeAlso <http://www.opengis.net/def/metamodel/profiles/skos_shared> ],
@@ -35,12 +69,8 @@
                     dcterms:hasVersion "git:a9453b97572804acd59708a6bc49b1303e318859" ;
                     rdfs:seeAlso <https://raw.githubusercontent.com/opengeospatial/NamingAuthority/master/.ogc/catalog.ttl> ],
                 [ a prov:Entity ;
-                    rdfs:seeAlso <https://datashapes.org/dash.ttl> ],
-                [ a prov:Entity ;
-                    dcterms:format "text/turtle" ;
-                    dcterms:hasVersion "git:a9453b97572804acd59708a6bc49b1303e318859" ;
-                    rdfs:seeAlso <https://raw.githubusercontent.com/opengeospatial/NamingAuthority/master/ebv-iadopt.ttl> ] ;
-            prov:wasAssociatedWith _:nec79034923e64e888d1a39e626dcedd1b1 ;
+                    rdfs:seeAlso <https://datashapes.org/dash.ttl> ] ;
+            prov:wasAssociatedWith _:nfbc50aa584184beab73aeac180625a48b1 ;
             prov:wasInformedBy [ dcterms:identifier "10eb4c50-0e21-413f-be6f-45b9526aff68" ] ] .
 
 <http://w3id.org/ad4gd/ev/ebv/> a skos:Collection ;
@@ -3130,321 +3160,17 @@
     ns2:lowerSpatialResolution "10km2SpatialResolution" ;
     ns2:measures <http://w3id.org/ad4gd/ev/ebv/ST_phe_TER_wildFruits_SA> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/HANPP> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "HANPP" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/HANPPharv> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "HANPPharv" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/HANPPluc> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "HANPPluc" .
-
 <http://w3id.org/ad4gd/ev/ebv/entity/aquaticOrganisms> a ns1:Constraint ;
     skos:prefLabel "Aquatic Organisms" ;
     ns1:constrains <http://w3id.org/ad4gd/ev/ebv/entity/decomposition> .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/averageDisturbanceFrequency> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Average Disturbance Frequency" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/averageDisturbanceSeverity> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Average Disturbance Severity" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/averageDisturbanceSize> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Average Disturbance Size" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/averageWetOrDryWeight> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Average Wet or Dry Weight Per Ecosystem Type" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/biomassPerArea> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Biomass per Area" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/bloomIntensity> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Bloom Intensity" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/bloomingAmplitude> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Blooming Amplitude" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/connectivityBetweenRiversLakesAndPonds> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Connectivity Between Rivers Lakes and Ponds" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/dayOfEmergence> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Day of Emergence" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/dayOfEndOfBlooming> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Day of End-of-Blooming" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/dayOfEndOfSeason> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Day of End-of-Season" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/dayOfStartOfBlooming> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Day of Start-of-Blooming" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/deadTreesPerUnitArea> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Dead Trees Per Unit Area" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/degreeOfDisturbance> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Degree of Disturbance" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/distanceToNearestNeighborPatch> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Distance to Nearest Neighbor Patch" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/diversity> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Diversity" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/diversityIndices> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Diversity Indices" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/diversityOfFunctionalGroups> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Diversity of Functional Groups" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/estimatedCanopyCover> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/functionalComposition> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Functional Composition" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/functionalDiversityIndices> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Functional Diversity Indices" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/graphRelatedIndices> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Graph-Related Indices" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/habitatWithinSpecificBufferArea> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Habitat Within Specific Buffer Area" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/horizontalHeightVariability> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Horizontal Height Variability" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/keyOvergroundSites> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Key Overground Sites" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/keyUndergroundSites> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Key Underground Sites" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/lengthOfBloomingSeason> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Length of the Blooming Season" .
 
 <http://w3id.org/ad4gd/ev/ebv/entity/listedInAnnexIIandAnnexIV> a ns1:Constraint ;
     skos:prefLabel "Listed in the Annex II and Annex IV of the Habitats Directive" ;
     ns1:constrains <http://w3id.org/ad4gd/ev/ebv/entity/butterflies> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/macroalgae> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Macroalgae" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/massOfSoilBacteriaArea> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Mass of Soil Bacteria, Fungi and Protozoa/area" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/massOfSoilBacteriaDrySoil> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Mass of Soil Bacteria, Fungi and Protozoa/Mass of Dry Soil" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/microbialBasalRespiration> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Microbial Basal Respiration" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/modeledCyanobacterialDensity> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Modeled Cyanobacterial Density" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/modeledDensity> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Modeled Density" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/otherConnectivityMetrics> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Other Connectivity Metrics" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/percentageOfCyanobacteria> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Percentage of Cyanobacteria" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/percentageOfFreeFlowingRiverLength> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Percentage of Free Flowing River Length" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/plantMaterial> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Plant Material" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/pollinatorInsects> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Pollinator Insects" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/predictedNumber> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Predicted Number" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/presenceAndDominance> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Presence and Dominance" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/presenceNumberAndLocationOfArtificialBarriers> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Presence Number and Location of Artificial Barriers" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/rateExponentialDecayModel> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Rate Exponential Decay Model" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/richness> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Richness" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/seabed> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Seabed" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/slopeOfBloomingUpPeriod> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Slope of the Blooming Up Period" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/slopeOfTheGreeningUpPeriod> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Slope of the Greening Up Period" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/slopeOfTheSenescentPeriod%20> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Slope of the Senescent Period " .
-
 <http://w3id.org/ad4gd/ev/ebv/entity/softBottomBenthic> a ns1:Constraint ;
     skos:prefLabel "soft-bottom benthic" ;
     ns1:constrains <http://w3id.org/ad4gd/ev/ebv/entity/macroinvertebrate> .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/teaBagIndex> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Tea Bag Index" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/topographicVariabilityAndTerrainStructure> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Topographic Variability and Terrain Structure" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/totalAbundance> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Total Abundance" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/totalAmount> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Total Amount" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/totalPlantBiomass> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Total Plant Biomass per Vegetation Strata" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/totalWetOrDryWeight> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Total Wet or Dry Weight Per Ecosystem Type" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/vegetationCover> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Vegetation Cover" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/vegetationCoverCanopyGapsAndPenetrationRatios> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Vegetation Cover, Canopy Gaps and Penetration Ratios" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/vegetationHeight> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Vegetation Height" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/vegetationHeightAndItsHorizontalVariability> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Vegetation Height and Its Horizontal Variability" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/widthAndLengthOfRiparianZone> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Width and Length of Riparian Zone" .
 
 <http://www.opengis.net/def/entities/bodies/ogcna> a skos:Concept .
 
@@ -3480,96 +3206,202 @@
     skos:prefLabel "EUNIS habitats" ;
     ns1:constrains <http://w3id.org/ad4gd/ev/ebv/entity/habitats> .
 
+<http://w3id.org/ad4gd/ev/ebv/entity/HANPP> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "HANPP" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/HANPPharv> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "HANPPharv" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/HANPPluc> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "HANPPluc" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
 <http://w3id.org/ad4gd/ev/ebv/entity/NativeListedInTheHabitatsDirective> a ns1:Constraint ;
     skos:prefLabel "Native listed in the Habitats Directive" ;
     ns1:constrains <http://w3id.org/ad4gd/ev/ebv/entity/mammals> .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/ProbabilityOfEndDate> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Probability of the End Date" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/abundance> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Abundance" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/amphibians> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Amphibians" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/animalDiseaseVectors> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Animal Disease Vectors" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/aquaticFungi> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Aquatic Fungi" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/arthropods> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Arthropods" .
 
 <http://w3id.org/ad4gd/ev/ebv/entity/asDefinedInPOPLAIR> a ns1:Constraint ;
     skos:prefLabel "As Defined in POPLAIR" ;
     ns1:constrains <http://w3id.org/ad4gd/ev/ebv/entity/lichens> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/bats> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Bats" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/biomassOfLargeHerbivores> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/averageDisturbanceFrequency> a skos:Concept,
         ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Biomass of Large Herbivores" .
+    skos:prefLabel "Average Disturbance Frequency" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/biomassRemoved> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/averageDisturbanceSeverity> a skos:Concept,
         ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Biomass Removed" .
+    skos:prefLabel "Average Disturbance Severity" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/birdHerbivor> a skos:Concept,
-        ns1:Entity ;
+<http://w3id.org/ad4gd/ev/ebv/entity/averageDisturbanceSize> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Bird Herbivor" .
+    skos:prefLabel "Average Disturbance Size" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/breedingStagingAndWinteringSites> a skos:Concept,
-        ns1:Entity ;
+<http://w3id.org/ad4gd/ev/ebv/entity/averageWetOrDryWeight> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "At breeding, staging and wintering sites" .
+    skos:prefLabel "Average Wet or Dry Weight Per Ecosystem Type" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/biomassPerArea> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Biomass per Area" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/bloomIntensity> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Bloom Intensity" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/bloomingAmplitude> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Blooming Amplitude" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/ebv/entity/commercialAndLongDistanceMigratory> a ns1:Constraint ;
     skos:prefLabel "Commercial and Long-distance Migratory" ;
     ns1:constrains <http://w3id.org/ad4gd/ev/ebv/entity/fishes> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/cropAndForestPests> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Crop and Forest Pests" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/decomposition> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Decomposition" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/duration> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/connectivityBetweenRiversLakesAndPonds> a skos:Concept,
         ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Duration" .
+    skos:prefLabel "Connectivity Between Rivers Lakes and Ponds" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/dayOfEmergence> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Day of Emergence" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/dayOfEndOfBlooming> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Day of End-of-Blooming" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/dayOfEndOfSeason> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Day of End-of-Season" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/dayOfStartOfBlooming> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Day of Start-of-Blooming" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/deadTreesPerUnitArea> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Dead Trees Per Unit Area" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/degreeOfDisturbance> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Degree of Disturbance" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/distanceToNearestNeighborPatch> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Distance to Nearest Neighbor Patch" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/diversity> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Diversity" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/diversityIndices> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Diversity Indices" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/diversityOfFunctionalGroups> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Diversity of Functional Groups" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/estimatedCanopyCover> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/ebv/entity/fullMigrantsInTheEuropeanRedList> a ns1:Constraint ;
     skos:prefLabel "Defined as full migrants in the European Red List" ;
     ns1:constrains <http://w3id.org/ad4gd/ev/ebv/entity/migrationOfBirds> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/grassland> a skos:Concept,
-        ns1:Entity ;
+<http://w3id.org/ad4gd/ev/ebv/entity/functionalComposition> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Grassland" .
+    skos:prefLabel "Functional Composition" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/functionalDiversityIndices> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Functional Diversity Indices" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/graphRelatedIndices> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Graph-Related Indices" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/habitatWithinSpecificBufferArea> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Habitat Within Specific Buffer Area" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/ebv/entity/hardCoralHabitats> a ns1:Constraint ;
     skos:prefLabel "Hard Coral Habitats" ;
@@ -3583,73 +3415,181 @@
     skos:prefLabel "Harmful and non-harmful" ;
     ns1:constrains <http://w3id.org/ad4gd/ev/ebv/entity/algalBlooms> .
 
+<http://w3id.org/ad4gd/ev/ebv/entity/horizontalHeightVariability> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Horizontal Height Variability" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
 <http://w3id.org/ad4gd/ev/ebv/entity/indicateInTheReviewAndAnalysisOfMemberStates2018ReportsDescriptor6SeafloorIntegrityAndDescriptor1BenthicHabitats> a ns1:Constraint ;
     skos:prefLabel "Indicated in the Review and analysis of EU Member States 2018 reports - Descriptor 6: Sea-floor integrity and Descriptor 1: Benthic habitats" ;
     ns1:constrains <http://w3id.org/ad4gd/ev/ebv/entity/benthicInvertebrates> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/insects> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/keyOvergroundSites> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Insects" .
+    skos:prefLabel "Key Overground Sites" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/lakesAndRiverCatchments> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/keyUndergroundSites> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Lakes and river catchments" .
+    skos:prefLabel "Key Underground Sites" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/macroinvertebrate> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Macroinvertebrate" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/mammalHerbivor> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Mammal Herbivor" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/migratoryButterflies> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Migratory Butterflies" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/observedLocationAndIntensity> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/lengthOfBloomingSeason> a skos:Concept,
         ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Observed Location and Intensity" .
+    skos:prefLabel "Length of the Blooming Season" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/oysterReefHabitats> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/macroalgae> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Oyster Reef Habitats" .
+    skos:prefLabel "Macroalgae" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/probabilityOfStartDate> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/massOfSoilBacteriaArea> a skos:Concept,
         ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Probability of the Start Date" .
+    skos:prefLabel "Mass of Soil Bacteria, Fungi and Protozoa/area" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/seagrassHabitats> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/massOfSoilBacteriaDrySoil> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Mass of Soil Bacteria, Fungi and Protozoa/Mass of Dry Soil" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/microbialBasalRespiration> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Microbial Basal Respiration" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/modeledCyanobacterialDensity> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Modeled Cyanobacterial Density" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/modeledDensity> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Modeled Density" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/otherConnectivityMetrics> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Other Connectivity Metrics" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/percentageOfCyanobacteria> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Percentage of Cyanobacteria" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/percentageOfFreeFlowingRiverLength> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Percentage of Free Flowing River Length" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/plantMaterial> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Seagrass Habitats" .
+    skos:prefLabel "Plant Material" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/seasonalAmplitude> a skos:Concept,
-        ns1:Property ;
+<http://w3id.org/ad4gd/ev/ebv/entity/pollinatorInsects> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Seasonal Amplitude" .
+    skos:prefLabel "Pollinator Insects" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/predictedNumber> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Predicted Number" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/presenceAndDominance> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Presence and Dominance" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/presenceNumberAndLocationOfArtificialBarriers> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Presence Number and Location of Artificial Barriers" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/rateExponentialDecayModel> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Rate Exponential Decay Model" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/richness> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Richness" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/seabed> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Seabed" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/slopeOfBloomingUpPeriod> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Slope of the Blooming Up Period" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/slopeOfTheGreeningUpPeriod> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Slope of the Greening Up Period" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/slopeOfTheSenescentPeriod%20> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Slope of the Senescent Period " ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/ebv/entity/specifiedInTheListOfInvasiveAlienSpecies> a ns1:Constraint ;
     skos:prefLabel "Specified in the List of Invasive Alien Species" ;
     ns1:constrains <http://w3id.org/ad4gd/ev/ebv/entity/invasiveAlienTaxa> .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/standingOrLying> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Standing or Lying" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/surfaceChlorophyll-aConcentrations> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Surface Chlorophyll-a Concentrations" .
 
 <http://w3id.org/ad4gd/ev/ebv/entity/taxaOfEuropeanConcern> a ns1:Constraint ;
     skos:prefLabel "Taxa of European concern" ;
@@ -3659,20 +3599,82 @@
     skos:prefLabel "Coastal marine taxa of invasive concern within 1-5 km from the shore" ;
     ns1:constrains <http://w3id.org/ad4gd/ev/ebv/entity/invasiveAlienTaxa> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/taxonomicComposition> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/teaBagIndex> a skos:Concept,
         ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Taxonomic Composition" .
+    skos:prefLabel "Tea Bag Index" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/verticalVegetationVariability> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/topographicVariabilityAndTerrainStructure> a skos:Concept,
         ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Vertical Vegetation Variability" .
+    skos:prefLabel "Topographic Variability and Terrain Structure" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/wetlands> a skos:Concept,
-        ns1:Entity ;
+<http://w3id.org/ad4gd/ev/ebv/entity/totalAbundance> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Wetlands" .
+    skos:prefLabel "Total Abundance" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/totalAmount> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Total Amount" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/totalPlantBiomass> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Total Plant Biomass per Vegetation Strata" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/totalWetOrDryWeight> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Total Wet or Dry Weight Per Ecosystem Type" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/vegetationCover> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Vegetation Cover" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/vegetationCoverCanopyGapsAndPenetrationRatios> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Vegetation Cover, Canopy Gaps and Penetration Ratios" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/vegetationHeight> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Vegetation Height" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/vegetationHeightAndItsHorizontalVariability> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Vegetation Height and Its Horizontal Variability" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/widthAndLengthOfRiparianZone> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Width and Length of Riparian Zone" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/ebv/Species_populations> a <http://w3id.org/ad4gd/ev/EBV>,
         skos:Concept,
@@ -3700,40 +3702,103 @@
     skos:narrower <http://w3id.org/ad4gd/ev/ebv/CC_tax_TER_pollinatorInsects_TA> ;
     skos:prefLabel "Taxonomic/phylogenetic diversity" .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/HE> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/ProbabilityOfEndDate> a skos:Concept,
         ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "HE" .
+    skos:prefLabel "Probability of the End Date" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/HO> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/abundance> a skos:Concept,
         ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "HO" .
+    skos:prefLabel "Abundance" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/allelicRichness> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Allelic Richness" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/corals> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/amphibians> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Corals" .
+    skos:prefLabel "Amphibians" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/dayOfMaximumOfSeason> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Day of Maximum-of-Season" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/dayOfStartOfSeason> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Day of Start-of-Season" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/deadwood> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/animalDiseaseVectors> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Deadwood" .
+    skos:prefLabel "Animal Disease Vectors" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/aquaticFungi> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Aquatic Fungi" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/arthropods> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Arthropods" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/bats> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Bats" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/biomassOfLargeHerbivores> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Biomass of Large Herbivores" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/biomassRemoved> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Biomass Removed" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/birdHerbivor> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Bird Herbivor" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/breedingStagingAndWinteringSites> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "At breeding, staging and wintering sites" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/cropAndForestPests> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Crop and Forest Pests" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/decomposition> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Decomposition" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/duration> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Duration" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/ebv/entity/europeanTerrestrialLandAreas> a ns1:Constraint ;
     skos:prefLabel "European Terrestrial Land Areas" ;
@@ -3743,110 +3808,117 @@
     skos:prefLabel "European terrestrial land areas and EUNIS Forest Habitats" ;
     ns1:constrains <http://w3id.org/ad4gd/ev/ebv/entity/fireDisturbances> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/grossPrimaryProduction> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/grassland> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Grassland" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/insects> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Insects" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/lakesAndRiverCatchments> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Lakes and river catchments" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/macroinvertebrate> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Macroinvertebrate" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/mammalHerbivor> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Mammal Herbivor" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/migratoryButterflies> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Migratory Butterflies" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/observedLocationAndIntensity> a skos:Concept,
         ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Gross Primary Production" .
+    skos:prefLabel "Observed Location and Intensity" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/habitats> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/oysterReefHabitats> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Habitats" .
+    skos:prefLabel "Oyster Reef Habitats" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/invertebratesAndKeyPollinators> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Invertebrates and Key Pollinators" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/lengthOfSeason> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/probabilityOfStartDate> a skos:Concept,
         ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Length of Season" .
+    skos:prefLabel "Probability of the Start Date" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/lichens> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/seagrassHabitats> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Lichens" .
+    skos:prefLabel "Seagrass Habitats" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/migrationOfBirds> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Migration of Birds" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/netPimaryProduction> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/seasonalAmplitude> a skos:Concept,
         ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Net Pimary Production" .
+    skos:prefLabel "Seasonal Amplitude" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/netSecondaryProduction> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/standingOrLying> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Standing or Lying" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/surfaceChlorophyll-aConcentrations> a skos:Concept,
         ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Net Secondary Production" .
+    skos:prefLabel "Surface Chlorophyll-a Concentrations" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/nucleotideDiversity> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/taxonomicComposition> a skos:Concept,
         ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Nucleotide Diversity" .
+    skos:prefLabel "Taxonomic Composition" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/phytobenthos> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Phytobenthos" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/plankton> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Plankton" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/plants> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Plants" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/respiration> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/verticalVegetationVariability> a skos:Concept,
         ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Respiration" .
+    skos:prefLabel "Vertical Vegetation Variability" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/riversAndLakes> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/wetlands> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Rivers and Lakes" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/seasonAmplitude> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Season Amplitude" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/soilBiota> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Soil Biota" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/soilMicrobes> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Soil Microbes" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/summaryStatisticsOfDensities> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Summary Statistics of Densities" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/turtles> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Turtles" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/wetlandBirds> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Wetland Birds" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/zooplankton> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Zooplankton" .
+    skos:prefLabel "Wetlands" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/ebv/CC_com_FW_benthicInvertebrates_BPA> a <http://w3id.org/ad4gd/ev/EBV>,
         skos:Concept,
@@ -6497,55 +6569,206 @@
     ns1:hasObjectOfInterest <http://w3id.org/ad4gd/ev/ebv/entity/wildFruits> ;
     ns1:hasProperty <http://w3id.org/ad4gd/ev/ebv/entity/seasonalAmplitude> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/butterflies> a skos:Concept,
-        ns1:Entity ;
+<http://w3id.org/ad4gd/ev/ebv/entity/HE> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Butterflies" .
+    skos:prefLabel "HE" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/dragonflies> a skos:Concept,
-        ns1:Entity ;
+<http://w3id.org/ad4gd/ev/ebv/entity/HO> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Dragonflies" .
+    skos:prefLabel "HO" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/fireDisturbances> a skos:Concept,
-        ns1:Entity ;
+<http://w3id.org/ad4gd/ev/ebv/entity/allelicRichness> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Fire Disturbances" .
+    skos:prefLabel "Allelic Richness" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/flowering> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/corals> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Flowering" .
+    skos:prefLabel "Corals" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/dayOfMaximumOfSeason> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Day of Maximum-of-Season" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/dayOfStartOfSeason> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Day of Start-of-Season" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/deadwood> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Deadwood" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/grossPrimaryProduction> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Gross Primary Production" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/habitats> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Habitats" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/ebv/entity/highlyMigratory> a ns1:Constraint ;
     skos:prefLabel "Highly Migratory" ;
     ns1:constrains <http://w3id.org/ad4gd/ev/ebv/entity/fishes>,
         <http://w3id.org/ad4gd/ev/ebv/entity/mammals> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/humanAppropriation> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/invertebratesAndKeyPollinators> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Human Appropriation" .
+    skos:prefLabel "Invertebrates and Key Pollinators" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/invertebrates> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Invertebrates" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/leafSenescence> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Leaf Senescence" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/macrophytes> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Macrophytes" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/relativeAbundance> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/lengthOfSeason> a skos:Concept,
         ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Relative Abundance" .
+    skos:prefLabel "Length of Season" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/lichens> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Lichens" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/migrationOfBirds> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Migration of Birds" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/netPimaryProduction> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Net Pimary Production" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/netSecondaryProduction> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Net Secondary Production" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/nucleotideDiversity> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Nucleotide Diversity" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/phytobenthos> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Phytobenthos" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/plankton> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Plankton" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/plants> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Plants" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/respiration> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Respiration" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/riversAndLakes> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Rivers and Lakes" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/seasonAmplitude> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Season Amplitude" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/soilBiota> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Soil Biota" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/soilMicrobes> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Soil Microbes" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/summaryStatisticsOfDensities> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Summary Statistics of Densities" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/turtles> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Turtles" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/wetlandBirds> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Wetland Birds" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/zooplankton> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Zooplankton" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/ebv/Ecosystem_structure> a <http://w3id.org/ad4gd/ev/EBV>,
         skos:Concept,
@@ -6585,49 +6808,72 @@
     skos:prefLabel "Riparian" ;
     ns1:constrains <http://w3id.org/ad4gd/ev/ebv/entity/riparianHabitats> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/ecosystemHabitatTypes> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/butterflies> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Ecosystem Habitat Types" .
+    skos:prefLabel "Butterflies" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/inLakes> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/dragonflies> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "In lakes" .
+    skos:prefLabel "Dragonflies" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/phytoplankton> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/fireDisturbances> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Phytoplankton" .
+    skos:prefLabel "Fire Disturbances" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/reptiles> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/flowering> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Reptiles" .
+    skos:prefLabel "Flowering" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/selectedMarineTaxa> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/humanAppropriation> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Selected Marine Taxa" .
+    skos:prefLabel "Human Appropriation" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/selectedTaxa> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/invertebrates> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Selected Taxa" .
+    skos:prefLabel "Invertebrates" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/selectedTerrestrialTaxa> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/leafSenescence> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Selected Terrestrial Taxa" .
+    skos:prefLabel "Leaf Senescence" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/macrophytes> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Macrophytes" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/relativeAbundance> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Relative Abundance" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/ebv/entity/spring> a ns1:Constraint ;
     skos:prefLabel "Spring" ;
     ns1:constrains <http://w3id.org/ad4gd/ev/ebv/entity/springPhytoplanktonBlooms> .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/vegetation> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Vegetation" .
 
 <http://w3id.org/ad4gd/ev/ebv/CC_com_FW_aquaticFungi_FC> a <http://w3id.org/ad4gd/ev/EBV>,
         skos:Concept,
@@ -7093,26 +7339,9 @@
     ns1:hasObjectOfInterest <http://w3id.org/ad4gd/ev/ebv/entity/migrationOfBirds> ;
     ns1:hasProperty <http://w3id.org/ad4gd/ev/ebv/entity/dayOfDeparture> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/EUNISHabitats> a skos:Concept,
-        ns1:Constraint,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "EUNIS Habitats" ;
-    ns1:constrains <http://w3id.org/ad4gd/ev/ebv/entity/ecosystemHabitatTypes> .
-
 <http://w3id.org/ad4gd/ev/ebv/entity/algaeCyanobacteriaAndOtherMicroorganisms> a ns1:Constraint ;
     skos:prefLabel "Algae cyanobacteria and other microorganisms" ;
     ns1:constrains <http://w3id.org/ad4gd/ev/ebv/entity/ecosystemProductivity> .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/algalBlooms> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Algal Blooms" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/benthicInvertebrates> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Benthic Invertebrates" .
 
 <http://w3id.org/ad4gd/ev/ebv/entity/breedingWinteringAndPassageBirds%20> a ns1:Constraint ;
     skos:prefLabel "Breeding Wintering And Passage Birds" ;
@@ -7122,33 +7351,69 @@
     skos:prefLabel "Commercial and Recreational" ;
     ns1:constrains <http://w3id.org/ad4gd/ev/ebv/entity/mushrooms> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/dayOfDeparture> a skos:Concept,
-        ns1:Property ;
+<http://w3id.org/ad4gd/ev/ebv/entity/ecosystemHabitatTypes> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Day of Departure" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/ecologicalQualityRatio> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Ecological Quality Ratio (EQR)" .
+    skos:prefLabel "Ecosystem Habitat Types" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/ebv/entity/ecosystemsAndTransitionalWaters> a ns1:Constraint ;
     skos:prefLabel "Ecosystems and transitional waters" ;
     ns1:constrains <http://w3id.org/ad4gd/ev/ebv/entity/biomassProduction> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/riparianHabitats> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/inLakes> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Riparian Habitats" .
+    skos:prefLabel "In lakes" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/springPhytoplanktonBlooms> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/phytoplankton> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Spring Phytoplankton Blooms" .
+    skos:prefLabel "Phytoplankton" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/reptiles> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Reptiles" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/selectedMarineTaxa> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Selected Marine Taxa" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/selectedTaxa> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Selected Taxa" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/selectedTerrestrialTaxa> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Selected Terrestrial Taxa" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/ebv/entity/treesAndShrubs> a ns1:Constraint ;
     skos:prefLabel "Trees and Shrubs" ;
     ns1:constrains <http://w3id.org/ad4gd/ev/ebv/entity/wildFruits> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/vegetation> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Vegetation" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/ebv/Ecosystem_vertical_profile> a <http://w3id.org/ad4gd/ev/EBV>,
         skos:Concept,
@@ -7170,30 +7435,56 @@
         <http://w3id.org/ad4gd/ev/ebv/ES_vert_TER_vegetation_VVV> ;
     skos:prefLabel "Ecosystem vertical profile" .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/dayOfArrival> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/EUNISHabitats> a skos:Concept,
+        ns1:Constraint,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "EUNIS Habitats" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> ;
+    ns1:constrains <http://w3id.org/ad4gd/ev/ebv/entity/ecosystemHabitatTypes> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/algalBlooms> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Algal Blooms" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/benthicInvertebrates> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Benthic Invertebrates" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/dayOfDeparture> a skos:Concept,
         ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Day of Arrival" .
+    skos:prefLabel "Day of Departure" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/ecosystemProductivity> a skos:Concept,
-        ns1:Entity ;
+<http://w3id.org/ad4gd/ev/ebv/entity/ecologicalQualityRatio> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Ecosystem Productivity" .
+    skos:prefLabel "Ecological Quality Ratio (EQR)" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/landSurfaceVegetation> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/riparianHabitats> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Land Surface Vegetation" .
+    skos:prefLabel "Riparian Habitats" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/mushrooms> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/springPhytoplanktonBlooms> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Mushrooms" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/wildFruits> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Wild Fruits" .
+    skos:prefLabel "Spring Phytoplankton Blooms" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/ebv/EF_pro_FW_decomposition_REDM> a <http://w3id.org/ad4gd/ev/EBV>,
         skos:Concept,
@@ -7240,12 +7531,33 @@
         <http://w3id.org/ad4gd/ev/ebv/entity/plants>,
         <http://w3id.org/ad4gd/ev/ebv/entity/reptiles> .
 
+<http://w3id.org/ad4gd/ev/ebv/entity/dayOfArrival> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Day of Arrival" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/ecosystemProductivity> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Ecosystem Productivity" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
 <http://w3id.org/ad4gd/ev/ebv/entity/indicateInTheReviewAndAnalysisOfMemberStates2018ReportsDescriptor1> a ns1:Constraint ;
     skos:prefLabel "Indicated in the Review and analysis of Member States 2018 reports Descriptor 1" ;
     ns1:constrains <http://w3id.org/ad4gd/ev/ebv/entity/birds>,
         <http://w3id.org/ad4gd/ev/ebv/entity/fishes>,
         <http://w3id.org/ad4gd/ev/ebv/entity/mammals>,
         <http://w3id.org/ad4gd/ev/ebv/entity/turtles> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/landSurfaceVegetation> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Land Surface Vegetation" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/ebv/entity/migratory> a ns1:Constraint ;
     skos:prefLabel "Migratory" ;
@@ -7255,10 +7567,19 @@
         <http://w3id.org/ad4gd/ev/ebv/entity/migratoryButterflies>,
         <http://w3id.org/ad4gd/ev/ebv/entity/wetlandBirds> .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/plantsAndDeciduousTrees> a skos:Concept,
+<http://w3id.org/ad4gd/ev/ebv/entity/mushrooms> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Plants and Deciduous Trees" .
+    skos:prefLabel "Mushrooms" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/wildFruits> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Wild Fruits" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/ebv/Structural_complexity> a <http://w3id.org/ad4gd/ev/EBV>,
         skos:Concept,
@@ -7284,42 +7605,32 @@
         <http://w3id.org/ad4gd/ev/ebv/ES_str_FW_riparianHabitats_WLRZ> ;
     skos:prefLabel "Structural complexity" .
 
+<http://w3id.org/ad4gd/ev/ebv/entity/plantsAndDeciduousTrees> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Plants and Deciduous Trees" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
 <http://w3id.org/ad4gd/ev/ebv/entity/invasiveAlienTaxa> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Invasive Alien Taxa" .
+    skos:prefLabel "Invasive Alien Taxa" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/ebv/entity/modeledRelativeAbundance> a skos:Concept,
         ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Modeled Relative Abundance" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/biomass> a skos:Concept,
-        ns1:Entity,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Biomass" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/biomassProduction> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Biomass Production" .
+    skos:prefLabel "Modeled Relative Abundance" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/ebv/entity/categorizedAsThreatenedByTheEuropeanRedList> a ns1:Constraint ;
     skos:prefLabel "Categorized as threatened by the European Red List" ;
     ns1:constrains <http://w3id.org/ad4gd/ev/ebv/entity/selectedMarineTaxa>,
         <http://w3id.org/ad4gd/ev/ebv/entity/selectedTaxa>,
         <http://w3id.org/ad4gd/ev/ebv/entity/selectedTerrestrialTaxa> .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/estimatedCount> a skos:Concept,
-        ns1:Property ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Estimated Count" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/fructification> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Fructification" .
 
 <http://w3id.org/ad4gd/ev/ebv/Ecosystem_disturbances> a <http://w3id.org/ad4gd/ev/EBV>,
         skos:Concept,
@@ -7352,6 +7663,35 @@
         <http://w3id.org/ad4gd/ev/ebv/ES_edis_MA_algalBlooms_OLI>,
         <http://w3id.org/ad4gd/ev/ebv/ES_edis_MA_seabed_DD> ;
     skos:prefLabel "Ecosystem disturbances" .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/biomass> a skos:Concept,
+        ns1:Entity,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Biomass" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/biomassProduction> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Biomass Production" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/estimatedCount> a skos:Concept,
+        ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Estimated Count" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/fructification> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Fructification" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/ebv/Ecosystem_phenology> a <http://w3id.org/ad4gd/ev/EBV>,
         skos:Concept,
@@ -7421,21 +7761,6 @@
         <http://w3id.org/ad4gd/ev/ebv/GC_div_TER_selectedTaxa_ND> ;
     skos:prefLabel "Genetic diversity" .
 
-<http://w3id.org/ad4gd/ev/ebv/entity/birds> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Birds" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/fishes> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Fishes" .
-
-<http://w3id.org/ad4gd/ev/ebv/entity/mammals> a skos:Concept,
-        ns1:Entity ;
-    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Mammals" .
-
 <http://w3id.org/ad4gd/ev/ebv/Ecosystem_distribution> a <http://w3id.org/ad4gd/ev/EBV>,
         skos:Concept,
         ns1:VariableSet ;
@@ -7475,6 +7800,27 @@
         <http://w3id.org/ad4gd/ev/ebv/ES_edis_TER_ecosystemHabitatTypes_HWBA>,
         <http://w3id.org/ad4gd/ev/ebv/ES_edis_TER_ecosystemHabitatTypes_OCM> ;
     skos:prefLabel "Ecosystem distribution" .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/birds> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Birds" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/fishes> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Fishes" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
+
+<http://w3id.org/ad4gd/ev/ebv/entity/mammals> a skos:Concept,
+        ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
+    skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
+    skos:prefLabel "Mammals" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/ebv/Species_abundances> a <http://w3id.org/ad4gd/ev/EBV>,
         skos:Concept,
@@ -7584,8 +7930,10 @@
 
 <http://w3id.org/ad4gd/ev/ebv/entity/probabilityOfOccurrence> a skos:Concept,
         ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Probability of Occurrence" .
+    skos:prefLabel "Probability of Occurrence" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/ebv/Community_abundance> a <http://w3id.org/ad4gd/ev/EBV>,
         skos:Concept,
@@ -7659,8 +8007,10 @@
 
 <http://w3id.org/ad4gd/ev/ebv/entity/binaryPresenceAbsence> a skos:Concept,
         ns1:Property ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Binary Presence Absence" .
+    skos:prefLabel "Binary Presence Absence" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/ebv/Phenology> a <http://w3id.org/ad4gd/ev/EBV>,
         skos:Concept,
@@ -7840,18 +8190,24 @@
 
 <http://w3id.org/ad4gd/ev/ebv/entity/marine> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Marine" .
+    skos:prefLabel "Marine" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/ebv/entity/freshwater> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Freshwater" .
+    skos:prefLabel "Freshwater" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/ebv/entity/terrestrial> a skos:Concept,
         ns1:Entity ;
+    ns4:status <http://www.opengis.net/def/status/valid> ;
     skos:inScheme <http://w3id.org/ad4gd/ev/ebv> ;
-    skos:prefLabel "Terrestrial" .
+    skos:prefLabel "Terrestrial" ;
+    skos:topConceptOf <http://w3id.org/ad4gd/ev/ebv> .
 
 <http://w3id.org/ad4gd/ev/EBV> a owl:Class ;
     rdfs:label "Essential Biodiversity Variables - codelist class"@en ;
@@ -7875,11 +8231,181 @@
         <http://w3id.org/ad4gd/ev/ebv/Ecosystem_structure>,
         <http://w3id.org/ad4gd/ev/ebv/Genetic_composition>,
         <http://w3id.org/ad4gd/ev/ebv/Species_populations>,
-        <http://w3id.org/ad4gd/ev/ebv/Species_traits> ;
+        <http://w3id.org/ad4gd/ev/ebv/Species_traits>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/EUNISHabitats>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/HANPP>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/HANPPharv>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/HANPPluc>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/HE>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/HO>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/ProbabilityOfEndDate>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/abundance>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/algalBlooms>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/allelicRichness>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/amphibians>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/animalDiseaseVectors>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/aquaticFungi>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/arthropods>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/averageDisturbanceFrequency>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/averageDisturbanceSeverity>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/averageDisturbanceSize>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/averageWetOrDryWeight>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/bats>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/benthicInvertebrates>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/binaryPresenceAbsence>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/biomass>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/biomassOfLargeHerbivores>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/biomassPerArea>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/biomassProduction>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/biomassRemoved>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/birdHerbivor>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/birds>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/bloomIntensity>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/bloomingAmplitude>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/breedingStagingAndWinteringSites>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/butterflies>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/connectivityBetweenRiversLakesAndPonds>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/corals>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/cropAndForestPests>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/dayOfArrival>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/dayOfDeparture>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/dayOfEmergence>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/dayOfEndOfBlooming>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/dayOfEndOfSeason>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/dayOfMaximumOfSeason>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/dayOfStartOfBlooming>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/dayOfStartOfSeason>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/deadTreesPerUnitArea>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/deadwood>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/decomposition>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/degreeOfDisturbance>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/distanceToNearestNeighborPatch>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/diversity>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/diversityIndices>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/diversityOfFunctionalGroups>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/dragonflies>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/duration>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/ecologicalQualityRatio>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/ecosystemHabitatTypes>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/ecosystemProductivity>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/estimatedCanopyCover>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/estimatedCount>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/fireDisturbances>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/fishes>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/flowering>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/freshwater>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/fructification>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/functionalComposition>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/functionalDiversityIndices>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/graphRelatedIndices>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/grassland>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/grossPrimaryProduction>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/habitatWithinSpecificBufferArea>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/habitats>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/horizontalHeightVariability>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/humanAppropriation>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/inLakes>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/insects>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/invasiveAlienTaxa>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/invertebrates>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/invertebratesAndKeyPollinators>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/keyOvergroundSites>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/keyUndergroundSites>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/lakesAndRiverCatchments>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/landSurfaceVegetation>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/leafSenescence>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/lengthOfBloomingSeason>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/lengthOfSeason>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/lichens>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/macroalgae>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/macroinvertebrate>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/macrophytes>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/mammalHerbivor>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/mammals>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/marine>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/massOfSoilBacteriaArea>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/massOfSoilBacteriaDrySoil>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/microbialBasalRespiration>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/migrationOfBirds>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/migratoryButterflies>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/modeledCyanobacterialDensity>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/modeledDensity>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/modeledRelativeAbundance>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/mushrooms>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/netPimaryProduction>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/netSecondaryProduction>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/nucleotideDiversity>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/observedLocationAndIntensity>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/otherConnectivityMetrics>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/oysterReefHabitats>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/percentageOfCyanobacteria>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/percentageOfFreeFlowingRiverLength>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/phytobenthos>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/phytoplankton>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/plankton>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/plantMaterial>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/plants>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/plantsAndDeciduousTrees>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/pollinatorInsects>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/predictedNumber>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/presenceAndDominance>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/presenceNumberAndLocationOfArtificialBarriers>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/probabilityOfOccurrence>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/probabilityOfStartDate>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/rateExponentialDecayModel>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/relativeAbundance>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/reptiles>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/respiration>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/richness>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/riparianHabitats>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/riversAndLakes>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/seabed>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/seagrassHabitats>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/seasonAmplitude>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/seasonalAmplitude>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/selectedMarineTaxa>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/selectedTaxa>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/selectedTerrestrialTaxa>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/slopeOfBloomingUpPeriod>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/slopeOfTheGreeningUpPeriod>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/slopeOfTheSenescentPeriod%20>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/soilBiota>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/soilMicrobes>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/springPhytoplanktonBlooms>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/standingOrLying>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/summaryStatisticsOfDensities>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/surfaceChlorophyll-aConcentrations>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/taxonomicComposition>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/teaBagIndex>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/terrestrial>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/topographicVariabilityAndTerrainStructure>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/totalAbundance>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/totalAmount>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/totalPlantBiomass>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/totalWetOrDryWeight>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/turtles>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/vegetation>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/vegetationCover>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/vegetationCoverCanopyGapsAndPenetrationRatios>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/vegetationHeight>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/vegetationHeightAndItsHorizontalVariability>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/verticalVegetationVariability>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/wetlandBirds>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/wetlands>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/widthAndLengthOfRiparianZone>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/wildFruits>,
+        <http://w3id.org/ad4gd/ev/ebv/entity/zooplankton> ;
     skos:prefLabel "Essential Biodiversity Variables - codelist scheme"@en ;
     dcat:theme <http://w3id.org/ad4gd/ev/> .
 
-_:nec79034923e64e888d1a39e626dcedd1b1 a prov:Agent,
+_:Nef2f6c7f8b324c92b2fe2cee5c10b156 a prov:Agent,
+        schema:SoftwareApplication ;
+    rdfs:label "OGC-NA tools" ;
+    dcterms:hasVersion "0.4" ;
+    rdfs:comment "ogc.na.update_vocabs version 0.4" ;
+    rdfs:seeAlso <https://github.com/opengeospatial/ogc-na-tools> .
+
+_:nfbc50aa584184beab73aeac180625a48b1 a prov:Agent,
         schema:SoftwareApplication ;
     rdfs:label "OGC-NA tools" ;
     dcterms:hasVersion "0.4" ;
