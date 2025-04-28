@@ -1,0 +1,38 @@
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix : <urn:ogc:ad4gd/entailments> .
+@prefix swa: <http://topbraid.org/swa#> .
+@prefix tosh: <http://topbraid.org/tosh#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix iadopt: <https://w3id.org/iadopt/ont/> .
+
+:missingPropertyEntailments a sh:NodeShape ;
+  sh:targetClass iadopt:Property, iadopt:Entity ;
+  sh:rule [
+    a sh:SPARQLRule ;
+    sh:construct """
+        CONSTRUCT {
+          $this a skos:Concept; skos:inScheme <http://w3id.org/ad4gd/ev/ebv> .
+        } WHERE {
+          $this ?p ?o .
+        }
+    """ ;
+  ] ;
+#  sh:rule [
+#      a sh:TripleRule ;
+#      sh:subject sh:this ;
+#      sh:predicate rdf:type ;
+#      sh:object skos:ConceptScheme ;
+#  ] ;
+#  sh:rule [
+#      a sh:TripleRule ;
+#      sh:subject sh:this ;
+#      sh:predicate skos:inScheme ;
+#      sh:object <http://w3id.org/ad4gd/ev/ebv> ;
+#  ] ;
+.

@@ -1,0 +1,19 @@
+@prefix dcfg: <http://www.example.org/ogc/domain-cfg#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix profiles: <http://www.opengis.net/def/metamodel/profiles/> .
+
+_:ad4gd-pilot2 a dcat:Catalog;
+  dct:title "AD4GD Pilot 2 semantic catalog" ;
+  dcat:dataset _:propertiesEntailments ;
+  dcfg:hasProfileSource "sparql:http://defs-dev.opengis.net/fuseki/query" ;
+  dcfg:ignoreProfileArtifactErrors true ;
+.
+
+_:propertiesEntailments a dcat:Dataset, dcfg:DomainConfiguration ;
+  dct:description "Properties entailments" ;
+  dcfg:glob "ebv-iadopt.ttl" ;
+  dct:conformsTo profiles:skos_shared, profiles:skos_conceptscheme, profiles:skos_conceptscheme_ogc, profiles:vocprez_ogc ;
+.
+

@@ -1,0 +1,60 @@
+name: Push to RAINBOW
+
+on:
+  workflow_dispatch:
+    inputs:
+      downloadNewData:
+        description: Download latest ebv.ttl from AD4GD/GDIM repo
+        type: boolean
+        default: false
+  schedule:
+    - cron: '0 3 * * 6'
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - '**.ttl'
+      - .github/workflows/push-to-rainbow.yml
+
+jobs:
+  uplift:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install git+https://github.com/opengeospatial/ogc-na-tools.git
+      - name: Download latest data
+        if: ${{ inputs.downloadNewData || github.event_name == 'schedule' }}
+        run: wget "https://github.com/AD4GD/GDIM/raw/refs/heads/main/EVs/ebv.ttl" -O rainbow-data/ebv-iadopt.ttl
+      - name: Additional entailments
+        shell: python
+        run: |
+          from pyshacl import validate
+          from rdflib import Graph
+          g = Graph().parse('rainbow-data/ebv-iadopt.ttl')
+          s = Graph().parse('rainbow-data/entailments.shacl.ttl')
+          validate(g, shacl_graph=s, advanced=True, inplace=True)
+          g.serialize('rainbow-data/ebv-iadopt.ttl')
+      - name: Process files
+        env:
+          DB_USERNAME: ${{ secrets.UPLOAD_GRAPH_STORE_USERNAME }}
+          DB_PASSWORD: ${{ secrets.UPLOAD_GRAPH_STORE_PASSWORD }}
+        run: |
+          python -m ogc.na.update_vocabs rainbow-data/catalog.ttl --batch  -w rainbow-data \
+            --update --graph-store https://defs-dev.opengis.net/fuseki-hosted/data
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: |
+            - rainbow-data/entailed/
+            - rainbow-data/ebv-iadopt.ttl
