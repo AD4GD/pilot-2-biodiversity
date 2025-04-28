@@ -5,7 +5,7 @@ Graphab itself is a self-contained application, but a few libraries are required
 This tool can be run through the pre-defined Docker container. All large INPUT AND OUTPUT datasets (.tif and .gpkg) are not included in the image (see `.dockerignore`).
 However, these datasets are accessible from the build context through the `volumes` in `docker-compose.yaml`configuration.
 1. Build image: `docker-compose build` or `docker-compose build --no-cache --progress=plain`
-2. Run container w: `docker run -it -v $(pwd):/src graphab` (`-v` option is required to mount container with local directory and access ignored datasets)
+2. Run container: `docker run -it -v $(pwd):/src graphab` (`-v` option is required to mount container with local directory and access ignored datasets)
 
 To build container: `docker-compose up` \
 To reset image: `docker-compose down`
@@ -17,10 +17,10 @@ Processing happens through:
 3. [The configuration file(s)](config/cat_aggr_buf_390m_test), defining ecological parameters and commands scheduled to run for each case study. It is possible to save as many configuration files as user need (to run series of case studies), but they would have to specify the name of the configuration file in the beginning of the [Graphab job](graphab_job.sh). Once all conditions satisfied, the Graphab job can be executed through the command line: `.\graphab_job.sh`
 4. Python scripts to harmonise processing outputs, calculate stats, visualise trends, and also to access/read/upload data to [MinIO](https://minio-ad4gd-console.dashboard-siba.store/) cloud-based data object storage.
 
-Currently, all steps can be run as a single data pipeline via one command in Dockerfile:
+Currently, all steps can be run as a single data pipeline via one command in Dockerfile: \
 `CMD ["python3" , "main.py" , {case_study} , {habitat1,habitat2,habitat3}]`
 
-For example, to run processing for all habitats in Catalonian case study, CMD should be replaced with the following:
+For example, to run processing for all habitats in Catalonian case study, CMD should be replaced with the following: \
 `CMD ["python3" , "main.py" , "cat_aggr_buf_390m_test" , "forest,shrubland,woody,herbaceous,aquatic"]`
 
 **TO RUN THE FULL CYCLE WITHOUT DOCKERFILE** (if input data are prepared for each case study):
@@ -88,6 +88,8 @@ PROC_NUM=6
 The parameters listed above might be tweaked if Graphab is run on a HPC cluster.
 
 #### STATISTICS AND VISUALISATION
+
+**Logs** are saved to `logs/` directory for each processing block, and the performance of each block and total time spent on processing is written to `main.log`.
 
 Computed indices can be explored in CSVs in the output folder for each case study, `graphab/data/{case_study}/output`, for example `graphab/data/cat_aggr_buf_390m_test/output`:
 - `stats_glob.csv` describes all global connectivity metrics for case study, filtered by year, habitat and graph
