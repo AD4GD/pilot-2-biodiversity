@@ -13,7 +13,7 @@ To reset image: `docker-compose down`
 ### EXECUTION
 Processing happens through:
 1. The .jar application of Graphab (currently used version 3.0.1)
-2. [Wrapping job script](graphab_wrapper.sh) and (underlying job)[graphab_job_loop.sh], defining the commands which are relevant for local and regionals connectivity research
+2. [Wrapping job script](graphab_wrapper.sh) and [underlying job](graphab_job_loop.sh), defining the commands which are relevant for local and regionals connectivity research
 3. [The configuration file(s)](config/cat_aggr_buf_390m_test), defining ecological parameters and commands scheduled to run for each case study. It is possible to save as many configuration files as user need (to run series of case studies), but they would have to specify the name of the configuration file in the beginning of the [Graphab job](graphab_job.sh). Once all conditions satisfied, the Graphab job can be executed through the command line: `.\graphab_job.sh`
 4. Python scripts to harmonise processing outputs, calculate stats, visualise trends, and also to access/read/upload data to [MinIO](https://minio-ad4gd-console.dashboard-siba.store/) cloud-based data object storage.
 
@@ -26,13 +26,13 @@ For example, to run processing for all habitats in Catalonian case study, CMD sh
 **TO RUN THE FULL CYCLE WITHOUT DOCKERFILE** (if input data are prepared for each case study):
 1. In the container, run `nohup ./graphab_wrapper.sh {case_study}`. It will create connectivity outputs for the case study grouped by habitats (or so-called sub case studies).\
 Multiple names of case studies are supported (list them with comma), but it is generally not recommended to run this command with multiple case studies, as Graphab computations might take significant amount of time even for one case study. \
-Example: ``nohup ./graphab_wrapper.sh cat_aggr`
+Example: `nohup ./graphab_wrapper.sh cat_aggr`
 
 2. In the container, run `nohup python3 ./glob.py {case_study}` to harmonise global connectivity indices and create statistics in CSV, where `{case_study}` is the name of case study (multiple names are supported by listing with comma). \
 Example: `python3 ./glob.py cat_aggr` \
 *NOTE: We do not implement the argument to choose from the available habitats as this command is usually quickly executed for all habitats* \
 **TODO**: `python3 ./glob.py {case_study} --combine_case_studies"` to combine all stats from multiple case studies \
-3. In the container, run `nohup python3 ./join_gpkg2tif.py {case_study}` to translate the part of outputs with global indices to GeoTIFF format. It will create one-band GeoTIFF files for each index computed previously, for all case studies specified (and for all habitats). Multiple names of case studies are supported (list them with comma).
+3. In the container, run `nohup python3 ./join_gpkg2tif.py {case_study}` to translate the part of outputs with global indices to GeoTIFF format. It will create one-band GeoTIFF files for each index computed previously, for all case studies specified (and for all habitats). Multiple names of case studies are supported (list them with comma). \
 Example: `nohup python3 ./join_gpkg2tif.py cat_aggr` \
 *NOTE: We do not implement the argument to choose from the available habitats as this command is usually quickly executed for all habitats* 
 
@@ -42,16 +42,16 @@ Example: `nohup python3 ./postproc.py cat_aggr` \
 
 **PENDING:** \
 **TODO** - to clean and rerun 'cat_aggr' \
-**TODO** - in 'cat_aggr' run corridors with 0 beta value for 'herbaceous' \
+**TODO** - in 'cat_aggr' run corridors with 0 beta value for 'herbaceous'
 
 **NOTE:** if you need to create impedance dataset based on the reclassification table with LULC values and corresponding values, use another [stand-alone script](impedance_csv2tif.py):
 `nohup python3 ./impedance_csv2tif.py {case_study} {habitat1},{habitat2},{habitat3}`. \
 It supports multiple habitats, for example:
-`nohup python3 ./impedance_csv2tif.py cat_aggr_30m forest,herbaceous,woody,aquatic` \
+`nohup python3 ./impedance_csv2tif.py cat_aggr_30m forest,herbaceous,woody,aquatic`
 
 To interactively browse through the processing, attach `& tail -f nohup.out` to your command, for example: \
 `nohup python3 ./impedance_csv2tif.py cat_aggr_30m forest,herbaceous,woody,aquatic & tail -f nohup.out` \
-nohup processes cannot be stopped through Ctrl+C in command line (only by killing process)  \
+nohup processes cannot be stopped through Ctrl+C in command line (only by killing process)
 
 Examples: \
 `nohup python3 ./join_gpkg2tif.py cat_aggr_buf_390m & tail -f nohup_2.out`\
