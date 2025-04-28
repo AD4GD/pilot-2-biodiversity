@@ -1,5 +1,11 @@
 services:
-  graphab:
+  graphab-preprocessor:
     build: .
+    image: graphab:latest # image name
+    container_name: graphab
     volumes:
-      - ./output:/app/output
+      - ./:/src
+    environment:
+      MINIO_API_URL: "${MINIO_API_URL}"
+      MINIO_ACCESS_KEY: "${MINIO_ACCESS_KEY}"
+      MINIO_SECRET_KEY: "${MINIO_SECRET_KEY}"

@@ -1,0 +1,55 @@
+# CONFIGURED FOR CATALONIA/AGGREGATED (7 types)
+graphab_jar: "graphab-3.0.1.jar" # jar with Graphab software
+years: 1987 # Default: all. Otherwise, state years for analysis to filter processing, eg: ("1997" "2007")
+
+sub: 
+  enabled: True # True if considered sub case studies.
+  sub_case_study: "herbaceous" # name of sub case study, eg 'forest' (if computed for habitats) or 'turtle' (if computed for species)
+  # shared: True # Default: yes (if LULC datasets are the same across all over sub case studies)
+
+# other parameters
+# mapping of habitats with LULC codes
+habitat_aquatic: &aquatic "1"
+habitat_herbaceous: &herbaceous "3"
+habitat_woody: &woody "4"
+habitat_shrubland: &shrubland "5"
+habitat_forest: &forest "6"
+
+# to choose habitat to compute connectivity
+habitat: *herbaceous
+
+# PROCESSING PARAMETERS
+commands: # list of predefined Graphab jobs
+  - "proj"
+  - "habitat_linkset"
+  - "glob_iic"
+  - "glob_nc"
+  - "glob_pc"
+  - "glob_ec"
+  - "loc_if"
+  - "loc_cf"
+  - "loc_bc"
+  - "show"
+# available commands: "proj", "habitat_linkset", "show", "glob_iic", "glob_nc", "glob_pc", "glob_ec", "loc_if", "loc_cf", "loc_bc", "corridors_by_beta", "corridors_by_metric"
+
+nodata: 0
+minarea: 30 # Catalonia: 30. Albera: 0.3. 
+maxdist: 2355 # Catalonia: 2355. Albera: 550. The same as maxdist.
+graph_threshold: 2355 # Catalonia: 2355. Albera: 550. The same as maxdist.
+seq:
+  enabled: False # if user would like to run calculations with steps of distance 
+  d_seq: "150:200:550" # meaningfule if enabled: True. Meaning: range of values - (150-550, step 200)
+maxdist_corr: 2355 # to calculate corridors. Default: 2355, the same as maxdist and graph_threshold
+merge: True # Default: True. If True, compound habitats (>=2 LULC types) are merged before computation
+p: 0.05 # probability. Default: 0.05
+beta: 1 # beta-value . Default: 1
+beta_corridor:
+  - "0"
+  - "0.5"
+# beta-value to compute corridors. Default: 0. corridor_val_i: "bc_d2355_p0.05_beta1_thresh_2355.0_cost_2355" # Local index (calculated before) which is applied to calculate the maximum value from the corridors. Default: BC. Other values: any local metric or 'exp'
+
+# PERFORMANCE
+xms: "10G" # initial heap size for Java to run the job
+xmx: "20G" # maximum heap size for Java (recommended maximum RAM-1GB)
+proc_num: 6 # Default: 5. Number of processors used to compute corridors
+con8: False # Default: False. If True, it takes extra time to compute

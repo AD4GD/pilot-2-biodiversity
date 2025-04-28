@@ -1,0 +1,236 @@
+<Project>
+  <name>con_2012_lulc_cat_aggr_buf_390m_2012</name>
+  <version>3.0.1</version>
+  <codes>
+    <int>1</int>
+    <int>2</int>
+    <int>3</int>
+    <int>4</int>
+    <int>5</int>
+    <int>6</int>
+    <int>7</int>
+  </codes>
+  <noData>0.0</noData>
+  <resolution>390.0</resolution>
+  <grid2space>
+    <m00>390.0</m00>
+    <m01>0.0</m01>
+    <m02>259755.0</m02>
+    <m10>0.0</m10>
+    <m11>-390.0</m11>
+    <m12>4748385.0</m12>
+  </grid2space>
+  <space2grid>
+    <m00>0.002564102564102564</m00>
+    <m01>0.0</m01>
+    <m02>-666.0384615384615</m02>
+    <m10>0.0</m10>
+    <m11>-0.002564102564102564</m11>
+    <m12>12175.346153846154</m12>
+  </space2grid>
+  <habitats>
+    <entry>
+      <string>aquatic</string>
+      <Habitat>
+        <idHab>0</idHab>
+        <name>aquatic</name>
+        <capacityParams>
+          <calcArea>true</calcArea>
+          <exp>1.0</exp>
+          <maxCost>0.0</maxCost>
+          <weightCost>false</weightCost>
+        </capacityParams>
+        <patchCodes>
+          <int>1</int>
+        </patchCodes>
+        <con8>false</con8>
+        <minArea>300000.0</minArea>
+        <maxSize>0.0</maxSize>
+      </Habitat>
+    </entry>
+  </habitats>
+  <linksets>
+    <entry>
+      <string>cost_2355</string>
+      <CostLinkset>
+        <name>cost_2355</name>
+        <habitat class="Habitat" reference="../../../../habitats/entry/Habitat"/>
+        <topology>PLANAR</topology>
+        <typeDist>COST</typeDist>
+        <inter>false</inter>
+        <distMax>2355.0</distMax>
+        <realPaths>true</realPaths>
+        <coefSlope>0.0</coefSlope>
+        <extCostFile>/src/data/cat_aggr_buf_390m_test/input/aquatic_impedance/impedance_lulc_cat_aggr_buf_390m_2012.tif</extCostFile>
+        <removeCrossPatch>false</removeCrossPatch>
+      </CostLinkset>
+    </entry>
+  </linksets>
+  <graphs>
+    <entry>
+      <string>thresh_2355.0_cost_2355</string>
+      <Graph>
+        <name>thresh_2355.0_cost_2355</name>
+        <intraPatchDist>true</intraPatchDist>
+        <metrics>
+          <entry>
+            <string>bc_d2355_p0.05_beta1</string>
+            <org.thema.graphab.metric.local.LocalMetricResult>
+              <name>bc_d2355_p0.05_beta1</name>
+              <metric class="org.thema.graphab.metric.local.BChLocalMetric">
+                <alphaParam>
+                  <hasBeta>true</hasBeta>
+                  <alpha>0.0012720731522522255</alpha>
+                  <d>2355.0</d>
+                  <p>0.05</p>
+                  <beta>1.0</beta>
+                  <maxD>Infinity</maxD>
+                  <minP>0.0</minP>
+                </alphaParam>
+              </metric>
+              <graph class="Graph" reference="../../../.."/>
+              <method>LOCAL</method>
+              <attrNames>
+                <string>bc_d2355_p0.05_beta1_thresh_2355.0_cost_2355</string>
+              </attrNames>
+            </org.thema.graphab.metric.local.LocalMetricResult>
+          </entry>
+          <entry>
+            <string>cf_beta1</string>
+            <org.thema.graphab.metric.local.LocalMetricResult>
+              <name>cf_beta1</name>
+              <metric class="org.thema.graphab.metric.local.CFLocalMetric">
+                <beta>1.0</beta>
+              </metric>
+              <graph class="Graph" reference="../../../.."/>
+              <method>LOCAL</method>
+              <attrNames>
+                <string>cf_beta1_thresh_2355.0_cost_2355</string>
+              </attrNames>
+            </org.thema.graphab.metric.local.LocalMetricResult>
+          </entry>
+          <entry>
+            <string>ec_d2355_p0.05</string>
+            <org.thema.graphab.metric.global.GlobalMetricResult>
+              <name>ec_d2355_p0.05</name>
+              <metric class="org.thema.graphab.metric.global.EChMetric">
+                <alphaParam>
+                  <hasBeta>false</hasBeta>
+                  <alpha>0.0012720731522522255</alpha>
+                  <d>2355.0</d>
+                  <p>0.05</p>
+                  <beta>1.0</beta>
+                  <maxD>Infinity</maxD>
+                  <minP>0.0</minP>
+                </alphaParam>
+                <result>
+                  <double>8.768962398853198E7</double>
+                </result>
+              </metric>
+              <graph class="Graph" reference="../../../.."/>
+              <method>GLOBAL</method>
+              <result reference="../metric/result"/>
+            </org.thema.graphab.metric.global.GlobalMetricResult>
+          </entry>
+          <entry>
+            <string>f_d2355_p0.05_beta1</string>
+            <org.thema.graphab.metric.local.LocalMetricResult>
+              <name>f_d2355_p0.05_beta1</name>
+              <metric class="org.thema.graphab.metric.local.FhLocalMetric">
+                <alphaParam>
+                  <hasBeta>true</hasBeta>
+                  <alpha>0.0012720731522522255</alpha>
+                  <d>2355.0</d>
+                  <p>0.05</p>
+                  <beta>1.0</beta>
+                  <maxD>Infinity</maxD>
+                  <minP>0.0</minP>
+                </alphaParam>
+              </metric>
+              <graph class="Graph" reference="../../../.."/>
+              <method>LOCAL</method>
+              <attrNames>
+                <string>f_d2355_p0.05_beta1_thresh_2355.0_cost_2355</string>
+              </attrNames>
+            </org.thema.graphab.metric.local.LocalMetricResult>
+          </entry>
+          <entry>
+            <string>iic</string>
+            <org.thema.graphab.metric.global.GlobalMetricResult>
+              <name>iic</name>
+              <metric class="org.thema.graphab.metric.global.IICMetric"/>
+              <graph class="Graph" reference="../../../.."/>
+              <method>GLOBAL</method>
+              <result>
+                <double>9.893956436264846E-7</double>
+              </result>
+            </org.thema.graphab.metric.global.GlobalMetricResult>
+          </entry>
+          <entry>
+            <string>nc</string>
+            <org.thema.graphab.metric.global.GlobalMetricResult>
+              <name>nc</name>
+              <metric class="org.thema.graphab.metric.global.NCMetric"/>
+              <graph class="Graph" reference="../../../.."/>
+              <method>GLOBAL</method>
+              <result>
+                <double>2.0</double>
+              </result>
+            </org.thema.graphab.metric.global.GlobalMetricResult>
+          </entry>
+          <entry>
+            <string>pc_d2355_p0.05</string>
+            <org.thema.graphab.metric.global.GlobalMetricResult>
+              <name>pc_d2355_p0.05</name>
+              <metric class="org.thema.graphab.metric.global.PCMetric">
+                <alphaParam>
+                  <hasBeta>false</hasBeta>
+                  <alpha>0.0012720731522522255</alpha>
+                  <d>2355.0</d>
+                  <p>0.05</p>
+                  <beta>1.0</beta>
+                  <maxD>Infinity</maxD>
+                  <minP>0.0</minP>
+                </alphaParam>
+              </metric>
+              <graph class="Graph" reference="../../../.."/>
+              <method>GLOBAL</method>
+              <result>
+                <double>1.5786887549386416E-6</double>
+              </result>
+            </org.thema.graphab.metric.global.GlobalMetricResult>
+          </entry>
+        </metrics>
+        <linkset class="CostLinkset" reference="../../../../linksets/entry/CostLinkset"/>
+        <threshold>2355.0</threshold>
+      </Graph>
+    </entry>
+  </graphs>
+  <zone class="java.awt.geom.Rectangle2D$Double">
+    <x>260145.0</x>
+    <y>4488645.0</y>
+    <width>269100.0</width>
+    <height>259350.0</height>
+  </zone>
+  <wktCRS>PROJCS[&quot;ETRS89 / UTM zone 31N&quot;, 
+  GEOGCS[&quot;ETRS89&quot;, 
+    DATUM[&quot;European Terrestrial Reference System 1989&quot;, 
+      SPHEROID[&quot;GRS 1980&quot;, 6378137.0, 298.257222101, AUTHORITY[&quot;EPSG&quot;,&quot;7019&quot;]], 
+      TOWGS84[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
+      AUTHORITY[&quot;EPSG&quot;,&quot;6258&quot;]], 
+    PRIMEM[&quot;Greenwich&quot;, 0.0, AUTHORITY[&quot;EPSG&quot;,&quot;8901&quot;]], 
+    UNIT[&quot;degree&quot;, 0.017453292519943295], 
+    AXIS[&quot;Geodetic longitude&quot;, EAST], 
+    AXIS[&quot;Geodetic latitude&quot;, NORTH], 
+    AUTHORITY[&quot;EPSG&quot;,&quot;4258&quot;]], 
+  PROJECTION[&quot;Transverse_Mercator&quot;, AUTHORITY[&quot;EPSG&quot;,&quot;9807&quot;]], 
+  PARAMETER[&quot;central_meridian&quot;, 3.0], 
+  PARAMETER[&quot;latitude_of_origin&quot;, 0.0], 
+  PARAMETER[&quot;scale_factor&quot;, 0.9996], 
+  PARAMETER[&quot;false_easting&quot;, 500000.0], 
+  PARAMETER[&quot;false_northing&quot;, 0.0], 
+  UNIT[&quot;m&quot;, 1.0], 
+  AXIS[&quot;Easting&quot;, EAST], 
+  AXIS[&quot;Northing&quot;, NORTH], 
+  AUTHORITY[&quot;EPSG&quot;,&quot;25831&quot;]]</wktCRS>
+</Project>

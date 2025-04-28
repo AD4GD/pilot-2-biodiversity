@@ -1,0 +1,15 @@
+﻿lulc,impedance,type,impedance_rounded,edge_effect,vector_refine
+1,4,Aquatic environments,4,0,1
+2,1000,"Urban, industrial and road areas (infrastructures, roads, trains, etc)",1000,1,1
+3,3,Herbaceous crops,3,0,0
+4,1,Woody crops,1,0,0
+5,3.2,Meadows and shrublands,3,0,0
+6,3.4,Forests,3,0,0
+7,5.7,Denuded areas,6,0,0
+101,2,Protected-Aquatic environments,2,0,1
+102,500,"Protected-Urban, industrial and road areas (infrastructures, roads, trains, etc)",500,1,1
+103,1.5,Protected-Herbaceous crops,2,0,0
+104,0.5,Protected-Woody crops,1,0,0
+105,1.6,Protected-Meadows and shrublands,2,0,0
+106,1.7,Protected-Forests,2,0,0
+107,2.85,Protected-Denuded areas,3,0,0

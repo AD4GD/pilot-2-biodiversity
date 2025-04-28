@@ -1,0 +1,33 @@
+Graph	d	p	beta	metric_val	year	metric	case_study
+thresh_2355.0_cost_2355	2355.0	0.05	1.0	0.0220051303383174	2012	PC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355	2355.0	0.05	1.0	10352897702.06981	2012	EC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355				3.0	2012	NC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355				0.0142242821624624	2012	IIC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355	2355.0	0.05	1.0	10193868558.694485	2002	EC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355				0.0146287367882989	2002	IIC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355				3.0	2002	NC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355	2355.0	0.05	1.0	0.0213342882536775	2002	PC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355	2355.0	0.05	1.0	0.0221119742463992	2007	PC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355				3.0	2007	NC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355	2355.0	0.05	1.0	10378001043.605114	2007	EC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355				0.0145317338991924	2007	IIC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355	2355.0	0.05	1.0	0.0215096056207231	1997	PC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355				3.0	1997	NC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355	2355.0	0.05	1.0	10235667601.206585	1997	EC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355				0.01404899958214	1997	IIC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355				0.016743683271866	2022	IIC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355				4.0	2022	NC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355	2355.0	0.05	1.0	0.0262691798788944	2022	PC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355	2355.0	0.05	1.0	11311578330.960688	2022	EC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355				3.0	1992	NC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355	2355.0	0.05	1.0	0.0226106866064821	1992	PC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355	2355.0	0.05	1.0	10494380953.778778	1992	EC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355				0.0153263509498027	1992	IIC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355				0.0150990780588461	1987	IIC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355				3.0	1987	NC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355	2355.0	0.05	1.0	0.0215085378536205	1987	PC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355	2355.0	0.05	1.0	10235413541.579208	1987	EC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355				0.0164039452072666	2017	IIC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355	2355.0	0.05	1.0	0.0243582621464399	2017	PC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355				3.0	2017	NC	cat_aggr_buf_390m_test
+thresh_2355.0_cost_2355	2355.0	0.05	1.0	10892387927.284184	2017	EC	cat_aggr_buf_390m_test

@@ -1,27 +1,38 @@
 # syntax=docker/dockerfile:1
-FROM amazoncorretto:latest as base
-WORKDIR /app
+FROM ghcr.io/osgeo/gdal:ubuntu-small-latest AS base
+# alternative if small docker image does not work:
+# FROM ghcr.io/osgeo/gdal:ubuntu-full-latest AS base
 
-# to install the necessary packages
-RUN sudo apt-get install openmpi-bin libopenmpi-dev
+# specify working directory
+WORKDIR /src
 
-COPY graphab-2.8.6.jar graphab-2.8.6.jar 
+# install dependencies and Java
+RUN apt-get update && apt-get install -y \
+    openjdk-11-jre \
+    bash \
+    python3 \
+    python3-pip \
+    python3-venv
 
-# to create folders with input data
-RUN mkdir /app/input
-RUN mkdir /app/input/lulc/
-RUN mkdir /app/input/impedance/ 
+RUN apt-get update --fix-missing
+RUN apt-get install --fix-missing -y python3 python3-pip python3-venv
 
-# to copy the content of folders with input data
-COPY input/lulc/*.tif /app/input/lulc/
-COPY input/impedance/*.tif /app/input/impedance/ 
+# download and install yq (latest)
+RUN curl -sSL https://github.com/mikefarah/yq/releases/download/v4.15.1/yq_linux_amd64 -o /usr/bin/yq \
+    && chmod +x /usr/bin/yq
 
-# to copy the first script (non-MPI mode) into the container
-COPY loop_lulc_mpi.sh /app/loop_lulc_mpi.sh
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 
-# to make bash file with commands executable
-RUN chmod +x /app/loop_lulc_mpi.sh
+# copy to container
+COPY requirements.txt .
+# install packages from requirements
+RUN pip install -r requirements.txt
 
-# to set the entry point with all commands
-ENTRYPOINT ["bash","/app/loop_lulc_mpi.sh"]
+COPY . .
 
+# to keep container alive
+CMD ["python3" , "main.py" , "cat_aggr_buf_390m_test" , "forest,shrubland,woody,herbaceous,aquatic"]
+
+# set the entrypoint - just open bash
+# ENTRYPOINT ["/bin/bash"]

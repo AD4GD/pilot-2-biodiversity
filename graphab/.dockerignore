@@ -1,0 +1,71 @@
+# .dockerignore
+
+**/*.tif
+**/*.gpkg
+.git
+
+myenv/
+__pycache__/
+archive/
+
+#websocat
+.websocat
+websocat_instructions.txt
+
+nohup*
+
+archive/
+graph_out/
+
+# ignore archive
+archive/
+
+# ignore cache
+cache/
+
+*kubectl*
+
+# MISC
+
+.Thrash*/
+.Thrash-0/
+.virtual_documents/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+myenv/
+
+# Byte-compiled / optimized / DLL files
+pycache/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Notebook Checkpoints
+.ipynb_checkpoints/
+

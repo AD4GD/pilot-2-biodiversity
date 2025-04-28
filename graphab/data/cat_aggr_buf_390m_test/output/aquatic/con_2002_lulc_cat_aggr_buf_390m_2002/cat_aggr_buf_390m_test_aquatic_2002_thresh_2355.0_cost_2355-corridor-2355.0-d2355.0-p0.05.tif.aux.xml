@@ -1,0 +1,15 @@
+<PAMDataset>
+  <Metadata>
+    <MDI key="TIFFTAG_IMAGEDESCRIPTION">INDEX:2355-corridor-2355.0-d2355.0-p0.05; TIMESTAMP:2002-12-31 23:59:59</MDI>
+  </Metadata>
+  <PAMRasterBand band="1">
+    <NoDataValue>-9.99900000000000E+03</NoDataValue>
+    <Metadata>
+      <MDI key="STATISTICS_MAXIMUM">0.9982026219368</MDI>
+      <MDI key="STATISTICS_MEAN">0.29673594759333</MDI>
+      <MDI key="STATISTICS_MINIMUM">0</MDI>
+      <MDI key="STATISTICS_STDDEV">0.33785794919199</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">100</MDI>
+    </Metadata>
+  </PAMRasterBand>
+</PAMDataset>
