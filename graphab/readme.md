@@ -77,6 +77,7 @@ If you already defined the case study, mapping of habitat names in the configura
 Changes in these parameters haven't lead to any significant performance improvement yet, but they reduce the chances of 'Java heap space' error.
 - `PROC_NUM` parameter can be chosen empirically for your commands. For example, on 8-CPU machine, `PROC_NUM=7` for case study of Catalonia is facing `Java heap space`, whereas 6 or 5 is usually fine for these commands.
 For the details, see the [Graphab forum](https://thema.univ-fcomte.fr/flarum/d/15-error-javalangoutofmemoryerror-java-heap-space).
+
 **NOTE**: `XMS`, `XMX` and `PROC_NUM` parameters must be specified in the `.env` file, for example:
 > XMS=10G \
 XMX=20G \
@@ -85,6 +86,22 @@ PROC_NUM=6
 - `con8` option is disabled as it is computes connectivity to 8 neigbouring pixels and overloads the computation.
 - `mpi` parameter is disabled (can be used only on computer clusters supporting Java for OpenMPI).
 The parameters listed above might be tweaked if Graphab is run on a HPC cluster.
+
+#### STATISTICS AND VISUALISATION
+
+Computed indices can be explored in CSVs in the output folder for each case study, `graphab/data/{case_study}/output`, for example `graphab/data/cat_aggr_buf_390m_test/output`:
+- `stats_glob.csv` describes all global connectivity metrics for case study, filtered by year, habitat and graph
+- `stats_loc.csv` describes all local connectivity metrics for case study, filtered by year, habitat and graph (computed via raster statistics)
+- `ext_stats_loc.csv` describes EXTERNAL local connectivity metrics for case study, filtered by year, habitat and graph (computed via raster statistics). In this case, EXTERNAL outputs are computed in MiraMon software
+
+Visualisations can be explored for each statistic set:
+- **Global internal (Graphab) indices**
+![stats_internal_glob](data/cat_aggr_buf_390m_test/output/stats_glob_plot.png)
+- **Local internal (Graphab) indices**
+![stats_internal_loc](data/cat_aggr_buf_390m_test/output/stats_loc_plot.png)
+- **Local external (MiraMon) indices**
+![stats_external_loc](data/cat_aggr_buf_390m_test/output/ext_stats_loc_plot.png)
+
 
 **Status of case studies in `data\`:**
 
