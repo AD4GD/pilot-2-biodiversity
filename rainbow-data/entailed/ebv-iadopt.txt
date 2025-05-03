@@ -1,8 +1,8 @@
-=== vocprez (http://www.opengis.net/def/metamodel/profiles/vocprez_ogc) ===
+=== skos_ogc (http://www.opengis.net/def/metamodel/profiles/skos_conceptscheme_ogc) ===
 Validation Report
 Conforms: True
 
-=== skos_ogc (http://www.opengis.net/def/metamodel/profiles/skos_conceptscheme_ogc) ===
+=== skos_shared (http://www.opengis.net/def/metamodel/profiles/skos_shared) ===
 Validation Report
 Conforms: True
 
@@ -10,7 +10,7 @@ Conforms: True
 Validation Report
 Conforms: True
 
-=== skos_shared (http://www.opengis.net/def/metamodel/profiles/skos_shared) ===
+=== vocprez (http://www.opengis.net/def/metamodel/profiles/vocprez_ogc) ===
 Validation Report
 Conforms: True
 
