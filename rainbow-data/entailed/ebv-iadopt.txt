@@ -1,8 +1,4 @@
-=== skos_shared (http://www.opengis.net/def/metamodel/profiles/skos_shared) ===
-Validation Report
-Conforms: True
-
-=== skos_ogc (http://www.opengis.net/def/metamodel/profiles/skos_conceptscheme_ogc) ===
+=== conceptscheme (http://www.opengis.net/def/metamodel/profiles/skos_conceptscheme) ===
 Validation Report
 Conforms: True
 
@@ -10,7 +6,14 @@ Conforms: True
 Validation Report
 Conforms: True
 
-=== conceptscheme (http://www.opengis.net/def/metamodel/profiles/skos_conceptscheme) ===
+=== skos_shared (http://www.opengis.net/def/metamodel/profiles/skos_shared) ===
+Validation Report
+Conforms: True
+
+# Failed artifacts
+http://defs-dev.opengis.net/def/metamodel/profiles/skos_shared?_profile=shacl&_mediatype=text/turtle
+
+=== skos_ogc (http://www.opengis.net/def/metamodel/profiles/skos_conceptscheme_ogc) ===
 Validation Report
 Conforms: True
 
