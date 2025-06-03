@@ -30,9 +30,12 @@ Data flow within the Data4Land tool can be also explored on the overarching diag
 
 ### Usage and command references
 
-The Data4Land tool should be run within the container environment. To create the container, run:
+The Data4Land tool should be run within the container environment. To create the container, run in the `src/`:
 `docker-compose up`
 It will build the container with the necessary requirements.
+
+To assess the running container, use:
+`docker exec -it container_ID /bin/bash`
 
 Inside the created container environment, use the following prompt structure:
 `main.py [OPTIONS] COMMAND [ARGS]...`
@@ -83,11 +86,11 @@ python main.py process-osm --config-dir ./config --api ohsome --verbose --skip-f
 **Description**: processes and merges fetched OpenStreetMap data into output LULC dataset.  
 **Example usage**:  
 ```bash
-python main.py enrich-lulc --config-dir ./config --verbose --save-osm-stressors
+python main.py enrich-lulc --config-dir ./config --api ohsome --verbose --save-osm-stressors
 ```
 **Arguments**:
 - config_dir (str): Directory containing the configuration file. Aliases: "--config_dir".
-- api_type (str): API to use for fetching OSM data. Choose from 'overpass' or 'ohsome' or leave blank if none were used.Aliases: "--api", "-a".
+- api_type (str): API to use for fetching OSM data. Choose from 'overpass' or 'ohsome' or leave blank if none were used. Aliases: "--api", "-a".
 - threads (int): Number of threads to use for processing (default is 4). Aliases: "--threads", "-t".
 - verbose (bool): Verbose mode. Enable, if you wish to see explicitly all the steps in processing. Aliases: "--verbose", "-v".
 - save_osm_stressors (bool): Save OSM stressors to file. Aliases: "--save-osm-stressors", "-s".

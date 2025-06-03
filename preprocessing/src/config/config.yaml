@@ -5,7 +5,7 @@
 # land-use/land-cover (GeoTIFF)
 lulc: 'lulc_albera_ext_concat_{year}.tif' # ESA dataset: 'lulc_esa_{year}.tif'. NE Catalonia: 'lulc_ext_concat_upd_{year}.tif'
 # yearstamp of raster dataset to be enriched with vector data. This can also be a list of years (e.g. [2017, 2018, 2019])
-year: 2017
+year: [2012, 2017, 2022]
 # LULC codes of corresponding vector data (all parameters are optional)
 lulc_codes:
     lulc_road: 4 # corresponding LULC code ('built area'). ESA dataset: 7.  NE Catalonia: 4
@@ -16,7 +16,7 @@ lulc_codes:
 # landscape impedance based on LULC dataset
 impedance_tif: 'impedance_lulc_albera_ext_concat_{year}.tif' # added 'impedance_' prefix. For ESA dataset: 'impedance_lulc_esa_{year}.tif'.  NE Catalonia: 'impedance_lulc_ext_concat_upd_{year}.tif'
 # input auxiliary csv data (reclassification table)
-impedance: 'lulc_descr_albera.csv' # to fetch table with LULC types mapping with impedance values. For ESA dataset: 'lulc_descr_esa.csv'. NE Catalonia: 'lulc_descr_albera.csv'
+impedance: 'reclassification_turtle.csv' # to fetch table with LULC types mapping with impedance values. For ESA dataset: 'lulc_descr_esa.csv'. NE Catalonia: 'lulc_descr_albera.csv'
 
 # vector data
 osm_data: 'osm_merged_{year}.gpkg' # derived from Open Street Map
@@ -39,23 +39,22 @@ overpass_waterbodies:   ['way[natural=water]',
 # second filter has been added to catch other water features at all timestamps 
 # third and fourth filters were added to catch other water features at older timestamps 
 # it is more reliable to query nodes, ways and relations altogether ('nwr') to fetch the complete polygon spatial features 
-overpass_vineyards: ['way[landuse=vineyard]']
-# to include vineyards and orchards
+overpass_vineyards: ['way[landuse=vineyard]'] # 3rd command crashes if this query deleted
 
 # ohsome filter queries
 ohsome_roads: type:way and (highway in (motorway, motorway_link, trunk, trunk_link, primary, primary_link, secondary, secondary_link, tertiary, tertiary_link)) and (tunnel!=*) and (bridge!=*)
 ohsome_railways: type:way and (railway in (rail, light_rail, narrow_gauge, tram, preserved)) and (tunnel!=*) and (bridge!=*)
 ohsome_waterways: type:way and (waterway in (river, canal, flowline, tidal_channel)) and (tunnel!=*) and (bridge!=*)
 ohsome_waterbodies: natural=water or (water in (cenote, lagoon, lake, oxbow, rapids, river, stream, stream_pool, canal, harbour, pond, reservoir, wastewater, tidal, natural)) or (landuse=reservoir) or (waterway=riverbank)
-ohsome_vineyards: landuse=vineyard
+ohsome_vineyards: landuse=vineyard # 3rd command crashes if this query deleted
 
 user_vector: null # derived from other sources and provided by users ('null' by default)
 
 ## PATHS TO DIRECTORIES
 # recommended to leave as default
-case_study_dir: 'data/case_study_albera' # prefix (directory name) for the case study's input and output files
+case_study_dir: 'data/albera_buf_edge_upd' # prefix (directory name) for the case study's input and output files#
 # when case studies share the same LULC file, but different impedance files (e.g. 'turtle' and 'bird') we can use the parameter below to get each impedance file
-subcase_study: '' # LEAVE EMPTY if there is no sub-case study. Otherwise, specify the sub-case study name (e.g. 'turtle')
+subcase_study: '' # LEAVE EMPTY if there is no sub-case study. Otherwise, specify the sub-case study name (e.g. 'forest' or 'turtle')
 lulc_dir: 'data/shared/input/lulc'
 vector_dir: 'input/vector'
 impedance_dir: 'input/impedance'

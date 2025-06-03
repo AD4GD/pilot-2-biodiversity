@@ -3,6 +3,8 @@ FROM ghcr.io/osgeo/gdal:ubuntu-small-latest AS base
 # alternative if small docker image does not work:
 # FROM ghcr.io/osgeo/gdal:ubuntu-full-latest AS base
 WORKDIR /app
+# Declare /src as a persistent volume
+VOLUME ["/src"]
 
 RUN apt-get update --fix-missing
 RUN apt-get install --fix-missing -y python3-pip python3.12-venv 

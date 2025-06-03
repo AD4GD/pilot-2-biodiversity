@@ -32,6 +32,8 @@ class LULCEnrichmentWrapper():
             osm_api_type (str): type of OSM API to use (overpass or ohsome) if user vector is not provided
             verbose (bool): verbose output
         """
+        print(f"[DEBUG] Constructor args: {working_dir=}, {config_path=}, {osm_api_type=}, {threads=}, {verbose=}")
+    
         self.config = load_yaml(config_path)
         self.verbose = verbose
         self.working_dir = working_dir
@@ -72,7 +74,6 @@ class LULCEnrichmentWrapper():
         """
         self.vp.buffer_features('railways', self.vp.vector_railways_buffered, self.vp.lulc_crs)
         self.vp.buffer_features('roads', self.vp.vector_roads_buffered, self.vp.lulc_crs)
-
         # check the buffered vector files
         files_to_validate = [self.vp.vector_roads_buffered, self.vp.vector_railways_buffered]
         self.vp.check_vector_geometry_validity(files_to_validate)
@@ -89,7 +90,6 @@ class LULCEnrichmentWrapper():
         
         ## rasterize vector layers
         self.rasters_temp = self.rasterize_vector_layers(year, save_osm_stressors)
-
         # merge rasters
         lulc_upd = os.path.normpath(os.path.join(self.working_dir,self.output_dir,f'lulc_{year}_upd.tif'))
         # TODO - to inherit the initial filename of input raster
@@ -99,7 +99,6 @@ class LULCEnrichmentWrapper():
             self.check_raster_dimensions([self.lulc_filepaths[year], *self.rasters_temp])
         # NOTE below is an example of what we will have in the list 
         # self.rasters_temp: /data/data/output/waterbodies_2017.tif /data/data/output/waterways_2017.tif /data/data/output/roads_2017.vrt /data/data/output/railways_2017.tif
-
         # overwrite rasters over input dataset in the following order: waterbodies, waterways, roads, railways
         # NOTE: HARDCODED NODATA VALUE as output LULC contains only positive integer values, so 0 is the best choice
         output_data, output_ds, nodata_value = self.overwrite_raster(self.lulc_filepaths[year], *self.rasters_temp, nodata_value=0)
@@ -299,6 +298,9 @@ class LULCEnrichmentWrapper():
                 # extract the road types from the config file that match the road types. list(map(str.strip())) will delete extra spaces
                 road_types = list(map(str.strip, self.config.get('ohsome_roads', "").split("(")[2].split(")")[0].split(",")))
                 print(f"Road types found in the configuration file: {road_types}")
+            else:
+                print(self.osm_api_type)
+                print(f"Road types found in the configuration file: {road_types}")
 
         #group attributes by first suffix (e.g. primary, secondary, tertiary) split by '_'
         if groupby_roads:
@@ -334,7 +336,6 @@ class LULCEnrichmentWrapper():
         waterways = os.path.join(self.stressors_dir,f'waterways_{year}.tif')
         vineyards = os.path.join(self.stressors_dir,f'vineyards_{year}.tif')
         rasters_temp = [vineyards, waterbodies, waterways, roads, railways] # Order is important for next steps
-        
         # rasterize roads and railways from buffered geometries
         osm_impedance_stressor_types = self.rasterize_vector_roads(year, os.path.dirname(roads), self.lp.raster_metadata, self.vp.vector_roads_buffered, burn_value=self.lp.lulc_codes["lulc_road"], groupby_roads=True)
         self.rasterize_vector_layer(self.lp.raster_metadata,self.vp.vector_railways_buffered, railways, nodata_value=0, burn_value=self.lp.lulc_codes["lulc_railway"])
@@ -525,7 +526,8 @@ class LULCEnrichmentWrapper():
     
 if __name__ == "__main__":
     config_path = os.path.join(os.getcwd(),"config", "config.yaml")
-    lew = LULCEnrichmentWrapper(os.getcwd(),config_path, osm_api_type="overpass", threads=4, verbose=True)
+    lew = LULCEnrichmentWrapper(working_dir=os.getcwd(),config_path=config_path, osm_api_type="overpass", threads=4, verbose=True)
+
     # prepare and merge LULC and OSM data
     lew.initialise_data_processors(lew.years[0])
     #buffer vector roads and railways
