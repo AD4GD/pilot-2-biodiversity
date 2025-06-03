@@ -11,7 +11,7 @@ class ImpedanceProcessor():
     It computes the proximity raster for each stressor and calculates the edge effect based on the proximity data and the configuration parameters.
     """
 
-    def __init__(self, max_result:float,cumul_result:float, current_dir:str, output_dir:str, config_impedance:dict, yaml_stressor:str, stressor_raster:str, driver:gdal.Driver, mem_driver:gdal.Driver, impedance_ds:gdal.Dataset, impedance_max:float, verbose:bool) -> None:
+    def __init__(self, max_result:float,cumul_result:float, current_dir:str, output_dir:str, year:int, config_impedance:dict, yaml_stressor:str, stressor_raster:str, driver:gdal.Driver, mem_driver:gdal.Driver, impedance_ds:gdal.Dataset, impedance_max:float, verbose:bool) -> None:
         """
         Initialize the Impedance class with the configuration file paths and other parameters.
 
@@ -20,6 +20,7 @@ class ImpedanceProcessor():
             cumul_result (float):  **NOT IMPLEMENTED YET** The cumulative result for the impedance calculation.
             current_dir (str): The parent directory
             output_dir (str): The output directory
+            year (int): The year to use for the impedance datasets.
             config_impedance (dict): The impedance configuration file.
             yaml_stressor (str): The YAML alias for the stressor.
             stressor_raster (str): The path to the stressor raster dataset.
@@ -33,6 +34,7 @@ class ImpedanceProcessor():
         self.cumul_result = cumul_result
         self.current_dir = current_dir
         self.output_dir = output_dir
+        self.year = year
         self.config_impedance = config_impedance
         self.yaml_stressor = yaml_stressor
         self.stressor_raster = stressor_raster
@@ -134,6 +136,7 @@ class ImpedanceProcessor():
         vrt_ds.FlushCache()
         output_ds.FlushCache()
 
+        print(proximity_data)
         return proximity_data
     
     def find_param(self, stressor_dict, search_key):
@@ -267,7 +270,7 @@ class ImpedanceProcessor():
             print(f"The shape of maximum result is the same as the shape of initial impedance array shape: {impedance_array_shape} and {max_result_shape}.") # debug
 
         # write the maximum result to the output raster's first band
-        max_output_path = os.path.join(self.output_dir, 'max_result.tif') # TODO - to cast filename to config.yaml: 'impedance_lulc_ukceh_25m_{year}_upd.tif' 
+        max_output_path = os.path.join(self.output_dir, f'max_result_{self.year}.tif') # TODO - to cast filename to config.yaml: 'impedance_lulc_ukceh_25m_{year}_upd.tif' 
         max_out_result = self.driver.Create(max_output_path, self.impedance_ds.RasterXSize,  self.impedance_ds.RasterYSize, 1, gdal.GDT_Int32, ['COMPRESS=LZW'])
         # set geotransform and projection for export
         max_out_result.SetGeoTransform(self.geotransform)

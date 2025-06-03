@@ -28,6 +28,7 @@ cache/
 src/data/*/output/
 src/data/input/*/vector/
 src/data/input/*/protected_areas/
+*.tif.aux.xml
 
 # ignore shared inputs for pa and osm and outputs
 src/data/input/*/osm_data/

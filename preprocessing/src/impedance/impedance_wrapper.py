@@ -157,11 +157,12 @@ class ImpedanceWrapper():
         return impedance_stressors
     
 
-    def calculate_impedance(self, impedance_stressors:dict, impedance_ds:gdal.Dataset, impedance_max:float) -> str:
+    def calculate_impedance(self, year:int, impedance_stressors:dict, impedance_ds:gdal.Dataset, impedance_max:float) -> str:
         """
         Calculate the impedance for the stressors and generate the maximum result raster.
 
         Args:
+            year (int): The year to use for the impedance dataset.
             impedance_stressors (dict): The dictionary of stressors, mapping stressor raster path to YAML alias.
             impedance_ds (gdal.Dataset): The impedance raster dataset.
             impedance_max (float): The maximum value of the impedance dataset.
@@ -175,7 +176,7 @@ class ImpedanceWrapper():
         driver = gdal.GetDriverByName('GTiff') # has already been defined above
         mem_driver = gdal.GetDriverByName('MEM')
         impedance_processor = None # initialize the impedance processor to use after the loop
-
+ 
         for yaml_stressor, stressor_raster in impedance_stressors.items():
             # read the raster
             print(f"Processing: {stressor_raster}") # debug
@@ -186,6 +187,7 @@ class ImpedanceWrapper():
                 cumul_result=cumul_result,
                 current_dir=self.current_dir,
                 output_dir=self.impedance_res_dir,
+                year=year,
                 config_impedance=self.config_impedance,
                 yaml_stressor=yaml_stressor,
                 stressor_raster=stressor_raster,
@@ -243,7 +245,7 @@ if __name__ == "__main__":
         impedance_ds, impedance_max = iw.get_impedance_max_value(year)
 
         #3.0 Calculate impedance
-        max_result_tif = iw.calculate_impedance(impedance_stressors,impedance_ds,impedance_max)
+        max_result_tif = iw.calculate_impedance(year,impedance_stressors,impedance_ds,impedance_max)
 
     # # delete temporary impedance stressors.yaml
     # os.remove(stressor_yaml_path)

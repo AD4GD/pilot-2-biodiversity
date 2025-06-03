@@ -343,7 +343,7 @@ def recalc_impedance(
         impedance_ds, impedance_max = iw.get_impedance_max_value(year)
 
         # 3.0 Calculate impedance
-        max_result_tif = iw.calculate_impedance(impedance_stressors,impedance_ds,impedance_max)
+        max_result_tif = iw.calculate_impedance(year,impedance_stressors,impedance_ds,impedance_max)
         if verbose:
             typer.secho(f"max_result_tif saved to: {max_result_tif}", fg=typer.colors.GREEN)
 
