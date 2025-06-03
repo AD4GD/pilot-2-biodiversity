@@ -2,6 +2,7 @@ import warnings
 from osgeo import gdal
 import numpy as np
 import os
+import subprocess
 # local imports
 from utils import find_stressor_params
 
@@ -46,12 +47,16 @@ class ImpedanceProcessor():
         self.ds = gdal.Open(stressor_raster)
         self.verbose = verbose #TODO: implement verbose mode
 
-    def handle_no_data(self) -> tuple[int, tuple[float,float], str]:
+    def handle_no_data(self) -> tuple[int, tuple[float,float], str, int]:
         """
         Handle the no data values in the input raster dataset.
 
         Returns:
-            tuple: Tuple containing the no data value, the geotransform, and the projection of the input raster dataset.
+            tuple: Tuple containing for the input raster dataset:
+            the no data value, the geotransform, the projection, and the unique value (if only one unique value exists).
+
+        Raises:
+        ValueError: If more than one unique value (aside from NoData value) is found in the dataset.
         """
 
         self.input_band = self.ds.GetRasterBand(1)
@@ -68,15 +73,26 @@ class ImpedanceProcessor():
         max_value = np.max(data)
         print(f"Range of values in the data: {min_value} to {max_value}")
 
+        # extract unique values from the dataset (ignoring nodata value)
+        self.unique_val = np.unique(data[data != self.nodata_value])
+        print(f"Unique values (excluding NoData): {self.unique_val}")
+        # raise an error if there are more than one unique value
+        if len(self.unique_val) > 1:
+            raise ValueError(f"Error: The dataset contains more than one unique value (excluding NoData). Unique values found: {self.unique_val}")
+        if len(self.unique_val) == 0 or self.unique_val[0] is None:
+            self.unique_val = 0 # NOTE: no stressor features found
+        else:
+            self.unique_val = int(self.unique_val[0])
+
         no_data_count = np.sum(data == self.nodata_value) # supposed to be non-zero
         print (f"No data count: {no_data_count}")
 
         # get the geo-transform (affine transformation parameters)
         self.geotransform = self.ds.GetGeoTransform()
         self.projection = self.ds.GetProjection()
-        return self.nodata_value, self.geotransform, self.projection
+        return self.nodata_value, self.unique_val, self.geotransform, self.projection
 
-    def compute_proximity(self):
+    def compute_proximity(self, out_nodata:int):
         """
         Compute the proximity raster for the stressor raster dataset.
 
@@ -85,7 +101,7 @@ class ImpedanceProcessor():
         """
         output_ds = self.mem_driver.Create('', self.impedance_ds.RasterXSize, self.impedance_ds.RasterYSize, 1, gdal.GDT_Int32) # Int64 might not support .SetNoDataValue()
         # NOTE: it is not possible to specify no data value directly in gdal_create
-
+        
         # set geotransform parameters from input file
         if self.geotransform:
             output_ds.SetGeoTransform(self.geotransform)
@@ -93,17 +109,27 @@ class ImpedanceProcessor():
             output_ds.SetProjection(self.projection)
 
         output_band = output_ds.GetRasterBand(1)
+        output_band.SetNoDataValue(out_nodata)
         
-        try:
-            gdal.ComputeProximity(self.input_band, output_band, ['DISTUNITS=GEO', f'NODATA={self.nodata_value}']) 
+        # NOTE:DEBUG
+        #print(f"NODATA: {self.nodata_value}")
+        #print(f"UNIQUE VAL: {self.unique_val}")
+        
+        try: # gdalpy syntax
+            gdal.ComputeProximity(self.input_band, output_band, ['DISTUNITS=GEO', f'VALUES={self.unique_val}', f'NODATA={self.nodata_value}']) 
         except RuntimeError as e:
             print(f"Error computing proximity for {self.stressor_raster}: {str(e)}")
+
+        # debug: export proximity raster to GeoTIFF
+        tiff_output = f'{os.path.basename(self.stressor_raster).replace(".tif", "")}_dist.tif'
+        dist_tiff_output = os.path.normpath(os.path.join(self.current_dir, self.output_dir ,tiff_output))
+        print(f"Distance path: {dist_tiff_output}") # debug
 
         # 3.1 read proximity data as a NumPy array for validation/debugging
         proximity_data = output_band.ReadAsArray()
         output_nodata_value = output_band.GetNoDataValue()
         print(f"NoData value of output raster is {output_nodata_value}")
-        # print(proximity_data) # debug: 0 for all pixels of last raster
+        # print(proximity_data) # NOTE: debug: 0 for all pixels of last raster
 
         output_nodata_count = np.sum(proximity_data == output_nodata_value)
         print(f"Output no data count is {output_nodata_count}") # supposed to be 0
@@ -112,7 +138,7 @@ class ImpedanceProcessor():
         # warn if no data values are detected
         if output_nodata_count > 0:
             warnings.warn(f"No data values have been detected in the proximity raster for {self.stressor_raster}. Check the validity of the input vector dataset.")
-
+        
         # create a VRT file as a reference to the proximity raster in memory
         vrt_output_path = os.path.join(self.output_dir, f'{os.path.basename(self.stressor_raster).replace(".tif", "")}_dist.vrt')
         vrt_options = gdal.BuildVRTOptions(resampleAlg='nearest')
@@ -120,11 +146,8 @@ class ImpedanceProcessor():
         # build VRT from the in-memory proximity dataset
         vrt_ds = gdal.BuildVRT(vrt_output_path, [output_ds], options=vrt_options)
 
-        # debug: export proximity raster to GeoTIFF
-        tiff_output = f'{os.path.basename(self.stressor_raster).replace(".tif", "")}_dist.tif'
-        dist_tiff_output = os.path.normpath(os.path.join(self.current_dir, self.output_dir ,tiff_output))
-        print(f"Distance path: {dist_tiff_output}") # debug
         gdal.Translate(dist_tiff_output, vrt_ds, format="GTiff", outputType=gdal.GDT_Int32, creationOptions=["COMPRESS=LZW"])
+
         # debug
         if os.path.exists(dist_tiff_output):
             print(f"File successfully created: {dist_tiff_output}")
@@ -136,7 +159,7 @@ class ImpedanceProcessor():
         vrt_ds.FlushCache()
         output_ds.FlushCache()
 
-        print(proximity_data)
+        print(proximity_data) # NOTE: DEBUG
         return proximity_data
     
     def find_param(self, stressor_dict, search_key):
@@ -192,18 +215,22 @@ class ImpedanceProcessor():
         )
 
         # calculate impedance now
-        if decline_type == 'exp_decline':
-            result = self.impedance_max * np.exp(-proximity_data / lambda_decay) # impedance_max value has already been extracted through a separate function
-            print(f"Decline type is {decline_type}. Expression to calculate edge effect: {self.impedance_max} * exp(- proximity_data / {lambda_decay})") # debug
-        elif decline_type == 'prop_decline':  # proportional decay 
-            result = np.maximum(self.impedance_max - k_value * proximity_data, 0)
-            print(f"Decline type is {decline_type}. Expression to calculate edge effect: max({self.impedance_max} - {k_value} * proximity_data, 0)") # debugt
+        if self.unique_val == 0: # if no stressor features observed in the area
+            result = np.full(proximity_data.shape, self.nodata_value, dtype=np.int32)
+        else:
+            if decline_type == 'exp_decline':
+                result = self.impedance_max * np.exp(-proximity_data / lambda_decay) # impedance_max value has already been extracted through a separate function
+                print(f"Decline type is {decline_type}. Expression to calculate edge effect: {self.impedance_max} * exp(- proximity_data / {lambda_decay})") # debug
+            elif decline_type == 'prop_decline':  # proportional decay 
+                result = np.maximum(self.impedance_max - k_value * proximity_data, 0)
+                print(f"Decline type is {decline_type}. Expression to calculate edge effect: max({self.impedance_max} - {k_value} * proximity_data, 0)") # debugt
 
-        # set values < 0 to no data value
-        result[result <= 0] = self.nodata_value
+            # set values < 0 to no data value
+            result[result <= 0] = self.nodata_value
+        
         result = np.ma.masked_equal(result, self.nodata_value)
 
-        # combine the results: keep the maximum value for each pixel throutgh iterations (keep the larger impedance)
+        # combine the results: keep the maximum value for each pixel through iterations (keep the larger impedance)
         if self.max_result is None:
             self.max_result = result.copy()  # initialize with the first raster's result
         else:
@@ -254,11 +281,15 @@ class ImpedanceProcessor():
         """
         impedance_band = self.impedance_ds.GetRasterBand(1)
         impedance_array = impedance_band.ReadAsArray()
+        initial_nodata_val = impedance_band.GetNoDataValue()
+        nodata_mask = (impedance_array == initial_nodata_val) # NOTE - if NODATA vals in input and output impedance are different, that will mask all no data vals
 
         #let's choose the maximum value from initial impedance dataset and edge effect calculated previously:
         self.max_result = np.maximum(self.max_result, impedance_array)
         #then, apply the maximum value of initial impedance dataset as a cap to the maximum result (impedance can't be higher than in the initial impedance dataset):
         self.max_result[self.max_result > self.impedance_max] = self.impedance_max
+        # apply the nodata mask AFTER capping
+        self.max_result[nodata_mask] = self.nodata_value
 
         # DEBUG: ensure the size of the final result matches initial impedance dataset. In theory, they should be identical, but rasterised OSM datasets can have larger spatial extent than input LULC or impedance datasets.
         impedance_array_shape = impedance_array.shape # shape of input impedance dataset

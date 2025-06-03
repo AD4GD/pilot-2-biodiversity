@@ -52,19 +52,20 @@ class ImpedanceConfigProcessor():
 
         return self.config_impedance
     
-    def process_stressors(self, current_dir:str, stressor_dir:str) -> dict:
+    def process_stressors(self, current_dir:str, stressor_dir:str, config_dir:str) -> dict:
         """
         Process the stressors for lulc and osm data and update the configuration file with the stressors and default decay parameters.
 
         Args:
             current_dir (str): The parent directory
             stressor_dir (str): The output directory of the stressors
+            config_dir (str): The directory with configurations
         Returns:
             dict: The dictionary of stressors with the stressor type as the key and the path to the raster file as the value.
         """
    
         # process the LULC stressors
-        lip = LULCImpedanceProcessor(self.config_impedance,self.config, self.params_placeholder, self.impedance_stressors, self.year, current_dir, stressor_dir)
+        lip = LULCImpedanceProcessor(self.config_impedance,self.config, self.params_placeholder, self.impedance_stressors, self.year, current_dir, stressor_dir, config_dir)
         self.impedance_stressors, self.config_impedance = lip.update_impedance_config()
         
         # process the OSM stressors

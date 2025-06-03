@@ -303,6 +303,7 @@ def recalc_impedance(
     for year in iw.years:
         # 1. Process the impedance configuration (initial setup + lulc & osm stressors)
         # e.g. impedance_stressors = {'primary': '/data/data/output/roads_primary_2018.tif'}
+        print(f"Processing year: {year}")
         impedance_stressors = iw.process_impedance_config(year)
 
     # 2. Prompt user to update the configuration file
@@ -343,7 +344,8 @@ def recalc_impedance(
         impedance_ds, impedance_max = iw.get_impedance_max_value(year)
 
         # 3.0 Calculate impedance
-        max_result_tif = iw.calculate_impedance(year,impedance_stressors,impedance_ds,impedance_max)
+        out_nodata = -9999
+        max_result_tif = iw.calculate_impedance(year,impedance_stressors,impedance_ds,impedance_max,out_nodata)
         if verbose:
             typer.secho(f"max_result_tif saved to: {max_result_tif}", fg=typer.colors.GREEN)
 

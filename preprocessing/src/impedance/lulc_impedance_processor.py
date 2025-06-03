@@ -16,7 +16,7 @@ class LULCImpedanceProcessor(ImpedanceConfigurationHandler):
     It creates a masked raster file for each LULC code and updates the impedance configuration file with the LULC stressors.
     """
 
-    def __init__(self, config_impedance:dict, config:dict, params_placeholder:dict, impedance_stressors:dict, year:int, current_dir:str,output_dir:str) -> None:
+    def __init__(self, config_impedance:dict, config:dict, params_placeholder:dict, impedance_stressors:dict, year:int, current_dir:str,output_dir:str,config_dir:str) -> None:
         """
         Initialize the Impedance class with the configuration file paths and other parameters.
 
@@ -28,8 +28,10 @@ class LULCImpedanceProcessor(ImpedanceConfigurationHandler):
             year (int): The year for which the edge effect is calculated.
             current_dir (str): The parent directory
             output_dir (str): The output directory
+            config_dir (str): The path to the configurations
         """
         super().__init__(config, config_impedance, params_placeholder, impedance_stressors, year,current_dir,output_dir)
+        self.config_dir = config_dir
         # additional directories
         self.lulc_dir = self.config.get('lulc_dir')
         if self.config["subcase_study"]:
@@ -146,7 +148,8 @@ class LULCImpedanceProcessor(ImpedanceConfigurationHandler):
 
                 # 5. after processing all LULC codes, save the updated YAML configuration
                 self.config_impedance['initial_lulc'] = self.initial_lulc
-                with open('config_impedance.yaml', 'w') as yaml_file:
+                config_path = os.path.join(self.config_dir, 'config_impedance.yaml')
+                with open(config_path, 'w') as yaml_file:
                     yaml.dump(self.config_impedance, yaml_file, default_flow_style=False)
                     print("Updated YAML configuration saved to config_impedance.yaml")
 

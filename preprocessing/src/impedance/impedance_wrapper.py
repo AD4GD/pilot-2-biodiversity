@@ -34,7 +34,8 @@ class ImpedanceWrapper():
         """
     
         # load the configuration files
-        self.config = load_yaml(config_path)
+        self.config_path = config_path
+        self.config = load_yaml(self.config_path)
         self.config_impedance_path = config_impedance_path
         self.config_impedance = load_yaml(self.config_impedance_path)
         self.verbose = verbose
@@ -148,16 +149,18 @@ class ImpedanceWrapper():
         # initialize the dictionary for stressors, which contains mapping stressor raster path to YAML alias
         impedance_stressors = {} 
 
+        config_dir = os.path.dirname(self.config_path)
+
         icp = ImpedanceConfigProcessor(year=year, params_placeholder=self.params_placeholder, config=self.config, config_impedance=self.config_impedance, verbose=self.verbose)
         icp.setup_config_impedance()
-        impedance_stressors, self.config_impedance = icp.process_stressors(self.current_dir, self.stressor_dir)
+        impedance_stressors, self.config_impedance = icp.process_stressors(self.current_dir, self.stressor_dir, config_dir)
         # save the updated configuration file
         save_yaml(self.config_impedance, self.config_impedance_path)
 
         return impedance_stressors
     
 
-    def calculate_impedance(self, year:int, impedance_stressors:dict, impedance_ds:gdal.Dataset, impedance_max:float) -> str:
+    def calculate_impedance(self, year:int, impedance_stressors:dict, impedance_ds:gdal.Dataset, impedance_max:float, out_nodata:int) -> str:
         """
         Calculate the impedance for the stressors and generate the maximum result raster.
 
@@ -166,6 +169,7 @@ class ImpedanceWrapper():
             impedance_stressors (dict): The dictionary of stressors, mapping stressor raster path to YAML alias.
             impedance_ds (gdal.Dataset): The impedance raster dataset.
             impedance_max (float): The maximum value of the impedance dataset.
+            out_nodata (int): The output nodata value for intermediate dist/edge datasets.
         
         Returns:
             str: The path to the maximum result raster GeoTIFF file.
@@ -202,7 +206,7 @@ class ImpedanceWrapper():
                 continue
             else:
                 impedance_processor.handle_no_data()
-                proximity_data = impedance_processor.compute_proximity()
+                proximity_data = impedance_processor.compute_proximity(out_nodata)
                 max_result = impedance_processor.calculate_edge_effect(proximity_data)
                 # print(f"Maximum result: {max_result}") # debug
         
