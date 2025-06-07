@@ -31,8 +31,14 @@ Data flow within the Data4Land tool can be also explored on the overarching diag
 ### Usage and command references
 
 The Data4Land tool should be run within the container environment. To create the container, run in the `src/`:
-`docker-compose up`
+`docker-compose build`
 It will build the container with the necessary requirements.
+
+If you face problems when building the Docker image, replace the second line of `Dockerfile`:
+`FROM ghcr.io/osgeo/gdal:ubuntu-small-latest AS base` with `FROM ghcr.io/osgeo/gdal:ubuntu-full-latest AS base`
+
+Then, to access the container:
+`docker-compose up`
 
 To assess the running container, use:
 `docker exec -it container_ID /bin/bash`
@@ -111,6 +117,8 @@ python main.py recalc-impedance --config-dir ./config --verbose --del-stressors
 - k_value (int): K-value for impedance calculation (if decline type is proportional). Aliases: "--k-value", "-k".
 - record_time (bool): Record the execution time. Aliases: "--record-time", "-t".
 
+**NOTE:** if you would like to not consider some of the stressors, created by the previous command, open `config/stressors.yaml` and delete stressors, for example `tertiary` if you think that such small roads are not relevant for your case study.
+
 ### Examples
 
 To test if your instance of Data4Land is configured correctly, execute the test command:
@@ -142,7 +150,7 @@ In v.2.0.0, user can specify whether they would like to use [Overpass Turbo](htt
 
 **3d**:
 ```bash
-python main.py enrich-lulc --config-dir ./config --verbose --save-osm-stressors
+python main.py enrich-lulc --config-dir ./config --api ohsome --verbose --save-osm-stressors
 ```
 This component enriches the input land-use/land-cover (LULC) dataset with the fetched OSM data.
 If user would like to execute the 4th component later on, they should enable `--save-osm-stressors` to use these intermediate GeoTIFF outputs (biodiversity stressors) in the recalculation of landscape impedance. However, the enabled parameter will require additional time to process the stressors.

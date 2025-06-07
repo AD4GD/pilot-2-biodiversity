@@ -239,7 +239,7 @@ def enrich_lulc(
             # 1.2 buffer vector data
             lew.buffer_vector_roads_and_railways()
             # 2. rasterize vector data
-            lew.merge_lulc_osm_data(year, save_osm_stressors, cog_compress)
+            output_data=lew.merge_lulc_osm_data(year, save_osm_stressors, cog_compress)
 
     except Exception as e:
         err_console.print(f"Error: {e}")
@@ -373,7 +373,6 @@ def init(firstname: str, surname: str, formal: bool = False):
     else:
         typer.echo(f"Hello {firstname} {surname}")
     # err_console.print("This is an error message")
-
 
 if __name__ == "__main__":
     app()
