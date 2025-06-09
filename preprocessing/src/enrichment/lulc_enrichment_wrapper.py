@@ -349,7 +349,7 @@ class LULCEnrichmentWrapper():
             'vineyards': (vineyards, self.lp.lulc_codes["lulc_vineyard"])
         }
         with multiprocessing.Pool(self.max_threads) as pool:
-            rasters_temp = pool.starmap(self.rasterize_vector_layer, [(self.lp.raster_metadata, self.vp.vector_refine, output_path ,0, lulc_code, layer_name) for layer_name,(output_path,lulc_code) in process_layers.items()])
+            pool.starmap(self.rasterize_vector_layer, [(self.lp.raster_metadata, self.vp.vector_refine, output_path ,0, lulc_code, layer_name) for layer_name,(output_path,lulc_code) in process_layers.items()])
 
         # write osm_stressors to file
         if save_osm_stressors == True:
