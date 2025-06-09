@@ -3,9 +3,9 @@
 ## INPUT DATASETS
 
 # land-use/land-cover (GeoTIFF)
-lulc: 'lulc_albera_ext_concat_{year}.tif' # ESA dataset: 'lulc_esa_{year}.tif'. NE Catalonia: 'lulc_ext_concat_upd_{year}.tif'
+lulc: 'lulc_cat_ext_390m_{year}.tif' # ESA dataset: 'lulc_esa_{year}.tif'. NE Catalonia: 'lulc_ext_concat_upd_{year}.tif'
 # yearstamp of raster dataset to be enriched with vector data. This can also be a list of years (e.g. [2012, 2017, 2022])
-year: 2022
+year: [2012, 2017, 2022]
 # LULC codes of corresponding vector data (all parameters are optional)
 lulc_codes:
     lulc_road: 4 # corresponding LULC code ('built area'). ESA dataset: 7.  NE Catalonia: 4
@@ -14,7 +14,7 @@ lulc_codes:
     lulc_vineyard: 22 # ESA dataset: 3.  NE Catalonia: 3
     
 # landscape impedance based on LULC dataset
-impedance_tif: 'impedance_lulc_albera_ext_concat_{year}.tif' # added 'impedance_' prefix. For ESA dataset: 'impedance_lulc_esa_{year}.tif'.  NE Catalonia: 'impedance_lulc_ext_concat_upd_{year}.tif'
+impedance_tif: 'impedance_lulc_cat_ext_390m_{year}.tif' # added 'impedance_' prefix. For ESA dataset: 'impedance_lulc_esa_{year}.tif'.  NE Catalonia: 'impedance_lulc_ext_concat_upd_{year}.tif'
 # input auxiliary csv data (reclassification table)
 impedance: 'reclassification_turtle.csv' # to fetch table with LULC types mapping with impedance values. For ESA dataset: 'lulc_descr_esa.csv'. NE Catalonia: 'lulc_descr_albera.csv'
 
@@ -51,8 +51,8 @@ ohsome_vineyards: landuse=vineyard # 3rd command crashes if this query deleted
 user_vector: null # derived from other sources and provided by users ('null' by default)
 
 ## PATHS TO DIRECTORIES
-# recommended to leave as default
-case_study_dir: 'data/albera_buf_edge_upd' # prefix (directory name) for the case study's input and output files#
+# recommended to leave as default 
+case_study_dir: 'data/cat_ext_390m_edge_upd' # prefix (directory name) for the case study's input and output files#
 # when case studies share the same LULC file, but different impedance files (e.g. 'turtle' and 'bird') we can use the parameter below to get each impedance file
 subcase_study: 'turtle' # LEAVE EMPTY if there is no sub-case study. Otherwise, specify the sub-case study name (e.g. 'forest' or 'turtle')
 lulc_dir: 'data/shared/input/lulc'

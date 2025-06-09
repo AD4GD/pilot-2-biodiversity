@@ -8,6 +8,7 @@ import os
 from osgeo import ogr, gdal
 import multiprocessing
 from typer import prompt
+import csv
 
 # local modules
 from utils import load_yaml,extract_attribute_values_from_gpkg,get_lulc_template,read_years_from_config
@@ -40,6 +41,8 @@ class LULCEnrichmentWrapper():
         self.case_study_dir = self.config.get('case_study_dir')
         self.vector_dir = os.path.join(self.working_dir,self.case_study_dir,self.config.get('vector_dir'))
         self.output_dir = os.path.join(self.working_dir,self.case_study_dir,"output")
+        self.reclass_table = os.path.join(self.working_dir,self.case_study_dir,"input",self.config.get('subcase_study'),"_impedance",self.config.get('impedance'))
+        print(f"SELF RECLASS TABLE IS: {self.reclass_table}")
         # make a new stressors directory to store the outputs if it doesn't exist
         self.stressors_dir = os.path.join(self.working_dir,self.case_study_dir,self.config.get('stressors_dir'))
         if not os.path.exists(self.stressors_dir):
@@ -94,6 +97,8 @@ class LULCEnrichmentWrapper():
         lulc_upd = os.path.normpath(os.path.join(self.working_dir,self.output_dir,f'lulc_{year}_upd.tif'))
         # TODO - to inherit the initial filename of input raster
         
+        print(f"SELF RASTERS TEMP: {self.rasters_temp}")
+
         if self.verbose:
             print(f"Enriched land-use/land-cover dataset(s) will be fetched to {lulc_upd}")
             self.check_raster_dimensions([self.lulc_filepaths[year], *self.rasters_temp])
@@ -106,6 +111,8 @@ class LULCEnrichmentWrapper():
         self.write_raster(output_data, output_ds, lulc_upd, nodata_value, cog_compress)
         # TODO - output dataset is not being assigned correctly nodatavalue - it is byte, but inherits 0 as nodatavalue from OSM stressors and -9999 from LULC stressors
 
+        return lulc_upd
+        
     def merge_tiffs_into_vrt(self, tiffs:list, output_path:str):
         """
         Merge multiple raster datasets into a single VRT file.
@@ -148,7 +155,6 @@ class LULCEnrichmentWrapper():
             else:
                 raise ValueError(f"Unable to open raster file: {raster_path}")
             print(f"Dimensions of {os.path.basename(raster_path)}: {width} x {height}")
-
 
     def write_raster(self, output_data:any, output_ds:any, output_raster:str, nodata_value:int, cog_compress:bool):
         """
@@ -524,14 +530,86 @@ class LULCEnrichmentWrapper():
         
         return base_data, base_ds, nodata_value
     
+    """
+    # function to write new impedance datasets based on enriched LULCs
+    def update_impedance_noedge(self, upd_lulc:str, input_impedance:str, upd_impedance:str, reclass_table:str, out_nodata:int):
+        reclass_dict = {}
+
+        with open(reclass_table, 'r', encoding='utf-8-sig') as csvfile:
+            reader = csv.DictReader(csvfile)
+            reclass_list = list(reader)
+            has_decimal_values = any('.' in row['impedance'] for row in reclass_list)
+            data_type = 'Float32' if has_decimal_values else 'Int32'
+
+        for row in reclass_list:
+            try:
+                if not row['type'] or row['type'].strip().lower() in {'null', 'none'}:
+                    continue
+                impedance_str = row['impedance'].strip()
+                impedance = (
+                    float(impedance_str) if has_decimal_values else int(impedance_str)
+                    if impedance_str else 666
+                )
+                reclass_dict[int(row['lulc'])] = impedance
+            except ValueError:
+                print(f"Invalid data format in reclassification table: {row}")
+
+        nodata_value = float(out_nodata) if has_decimal_values else out_nodata
+
+        dataset = gdal.Open(upd_lulc)
+        if dataset is None:
+            print("Could not open input raster.")
+            return
+
+        cols, rows = dataset.RasterXSize, dataset.RasterYSize
+        driver = gdal.GetDriverByName("GTiff")
+        output_dataset = driver.Create(upd_impedance, cols, rows, 1, gdal.GDT_Float32 if has_decimal_values else gdal.GDT_Int32)
+        output_dataset.SetProjection(dataset.GetProjection())
+        output_dataset.SetGeoTransform(dataset.GetGeoTransform())
+
+        input_band = dataset.GetRasterBand(1)
+        input_nodata = input_band.GetNoDataValue()
+        if input_nodata is not None:
+            reclass_dict[int(input_nodata)] = nodata_value
+            print(f"Mapped input NoData value {input_nodata} to output NoData {nodata_value}")
+        else:
+            print("Input raster has no nodata value defined.")
+
+        print(f"Mapping dictionary used to classify impedance is: {reclass_dict}")
+
+        input_data = input_band.ReadAsArray()
+    
+        unique_values = np.unique(input_data)
+        missing_values = [val for val in unique_values if val not in reclass_dict]
+        print(f"Missing values are: {missing_values}")
+
+        output_data = np.where(
+            np.isin(input_data, list(reclass_dict.keys())), 
+            np.vectorize(reclass_dict.get, otypes=[float if has_decimal_values else int])(input_data), 
+            float(out_nodata) if has_decimal_values else out_nodata
+        )
+
+        output_band = output_dataset.GetRasterBand(1)
+        output_band.SetNoDataValue(nodata_value)
+        output_band.WriteArray(output_data)
+
+        dataset = None
+        output_dataset = None
+
+        return data_type, has_decimal_values
+    """
 if __name__ == "__main__":
     config_path = os.path.join(os.getcwd(),"config", "config.yaml")
     lew = LULCEnrichmentWrapper(working_dir=os.getcwd(),config_path=config_path, osm_api_type="overpass", threads=4, verbose=True)
+
+    reclass_table = os.path.join(os.getcwd(),"config", "config.yaml")
 
     # prepare and merge LULC and OSM data
     lew.initialise_data_processors(lew.years[0])
     #buffer vector roads and railways
     lew.buffer_vector_roads_and_railways()
     # merge LULC and OSM data
-    lew.merge_lulc_osm_data(lew.years[0], save_osm_stressors=True, cog_compress=False)
+    lulc_upd = lew.merge_lulc_osm_data(lew.years[0], save_osm_stressors=True, cog_compress=False)
+    # create updated impedance datasets (WITHOUT EDGE EFFECT)
+    """lew.update_impedance_noedge(lulc_upd, input_impedance, upd_impedance, self.reclass_table, out_nodata)"""
     print("LULC and OSM data processing complete.")
