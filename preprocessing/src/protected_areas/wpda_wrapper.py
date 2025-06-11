@@ -94,14 +94,16 @@ class WDPAWrapper():
         # print(f"GeoPackage file created: {gpkg}")
         return gpkg
     
-    def rasterize_protected_areas(self, merged_gpkg:str, lulc_dir:str, pa_to_yearly_rasters:bool) -> None:
+    def rasterize_protected_areas(self, merged_gpkg:str, lulc_dir:str, lulc_template:str ,pa_to_yearly_rasters:bool) -> None:
         """
         Rasterize the protected areas by year of establishment.
 
         Args:
             merged_gpkg (str): The file name to the merged GeoPackage file.
             lulc_dir (str): The path to the directory containing the LULC raster data.
+            lulc_template (str): The template for the LULC raster data.
             pa_to_yearly_rasters (bool): Rasterize the protected areas by year of establishment
+
         Returns:
             None
         """
@@ -109,13 +111,11 @@ class WDPAWrapper():
         raster_output_dir = os.path.join(self.pa_output_dir, "pa_rasters")
         os.makedirs(raster_output_dir, exist_ok=True)
 
-        case_study = self.config['case_study_dir'].split('/')[-1]
-
-        rp = PARasterizer(merged_gpkg, lulc_dir, case_study, raster_output_dir)
+        rp = PARasterizer(merged_gpkg, lulc_dir, lulc_template, raster_output_dir)
         rp.reproject_pa_data(rp.lulc_metadata.crs_info["epsg"],filter_by_year=pa_to_yearly_rasters)
         rp.rasterize_pa_geopackage(rp.lulc_metadata, pa_to_yearly_rasters, keep_intermediate_gpkg=False)
 
-    def sum_lulc_pa_rasters(self,input_path:str, output_path:str, lulc_dir:str, use_yearly_pa_rasters:bool) -> None:
+    def sum_lulc_pa_rasters(self,input_path:str, output_path:str, lulc_dir:str, lulc_template:str, use_yearly_pa_rasters:bool) -> None:
         """
         Sum the LULC and PA raster data.
 
@@ -123,11 +123,12 @@ class WDPAWrapper():
             input_path (str): The path to the input directory.
             output_path (str): The path to the output directory.
             lulc_dir (str): The path to the directory containing the LULC raster data.
+            lulc_template (str): The template name for LULC raster data in a given case study.
             use_yearly_pa_rasters (bool): Use yearly PA rasters
         Returns:
             None
         """
-        lprs = LulcPaRasterSum(input_path,output_path,lulc_dir,use_yearly_pa_rasters,lulc_with_null_path="lulc_temp", pa_path="pa_rasters", lulc_upd_compr_path="lulc_pa")
+        lprs = LulcPaRasterSum(input_path, output_path, lulc_dir, lulc_template, use_yearly_pa_rasters, lulc_with_null_path="lulc_temp", pa_path="pa_rasters", lulc_upd_compr_path="lulc_pa")
         lprs.assign_no_data_values()
         lprs.combine_pa_lulc()
 
@@ -177,8 +178,11 @@ if __name__ == "__main__":
     print(f"Country protected areas to fetch: {country_codes}")
     merged_gpkg = case_study + "_merged_pa.gpkg"
     merged_gpkg = wp.protected_area_to_merged_geopackage(country_codes, merged_gpkg, skip_fetch=True)
+
     lulc_dir = wp.config.get("lulc_dir")
-    wp.rasterize_protected_areas(merged_gpkg, lulc_dir, pa_to_yearly_rasters=False)
+    lulc_template = wp.config['lulc']
+
+    wp.rasterize_protected_areas(merged_gpkg, lulc_dir,lulc_template.split('_{year}.tif')[0], pa_to_yearly_rasters=False)
 
     # delete the merged GeoPackage file
     os.remove(merged_gpkg)
@@ -186,7 +190,9 @@ if __name__ == "__main__":
     wp.sum_lulc_pa_rasters(
         input_path=os.path.join(working_dir, case_study_dir, "input"),
         output_path=os.path.join(working_dir, case_study_dir, "output"),
-        lulc_dir=lulc_dir
+        lulc_dir=lulc_dir,
+        lulc_template = lulc_template,
+        use_yearly_pa_rasters=False
     )
     wp.reclassify_raster_with_impedance()
     wp.compute_affinity(os.path.join(working_dir, case_study_dir, "output", "affinity"))

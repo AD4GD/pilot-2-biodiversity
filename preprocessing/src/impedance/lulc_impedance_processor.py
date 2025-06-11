@@ -30,7 +30,7 @@ class LULCImpedanceProcessor(ImpedanceConfigurationHandler):
             output_dir (str): The output directory
             config_dir (str): The path to the configurations
         """
-        super().__init__(config, config_impedance, params_placeholder, impedance_stressors, year,current_dir,output_dir)
+        super().__init__(config, config_impedance, params_placeholder, impedance_stressors, year, current_dir, output_dir)
         self.config_dir = config_dir
         # additional directories
         self.lulc_dir = self.config.get('lulc_dir')

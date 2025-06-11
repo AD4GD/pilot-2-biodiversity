@@ -115,6 +115,13 @@ vector:
       prop_decline:
         k_value: 0
       types: null
+    tertiary:
+      decline_type: exp_decline
+      exp_decline:
+        lambda_decay: 130
+      prop_decline:
+        k_value: 0
+      types: null
     trunk:
       decline_type: exp_decline
       exp_decline:

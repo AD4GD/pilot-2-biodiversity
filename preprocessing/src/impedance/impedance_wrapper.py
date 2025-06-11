@@ -4,6 +4,8 @@ import os
 from utils import load_yaml, save_yaml, get_max_from_tif, find_stressor_params, read_years_from_config
 from impedance.impedance_processor import ImpedanceProcessor
 from impedance.impedance_config_processor import ImpedanceConfigProcessor
+import numpy as np
+import csv
 
 #TODO use verbose flag to print debug messages
 class ImpedanceWrapper():
@@ -111,28 +113,99 @@ class ImpedanceWrapper():
             else:
                 self.config_impedance = validation_config
                 return "exit"
+            
+    def reclassify_lulc2impedance(self, input_raster, impedance_raster, reclass_table, out_nodata):
+        """
+        Creates impedance raster - reclassifies input raster (LULC) based on table mapping between LULC codes and impedance values
 
-    def get_impedance_max_value(self, year:int) -> tuple[gdal.Dataset, float]:
+        Args:
+            input_raster: Path to input LULC raster.
+            impedance_raster: Path to output impedance raster.
+            reclass_table: CSV table with mapping between LULC codes and impedance values
+            out_nodata: nodata value assigned to the output impedance_raster
+
+        Returns:
+            str: Path to the output impedance raster.
+        """
+        reclass_dict = {}
+
+        with open(reclass_table, 'r', encoding='utf-8-sig') as csvfile:
+            reader = csv.DictReader(csvfile)
+            reclass_list = list(reader)
+            has_decimal_values = any('.' in row['impedance'] for row in reclass_list)
+            data_type = 'Float32' if has_decimal_values else 'Int32'
+
+        for row in reclass_list:
+            try:
+                if not row['type'] or row['type'].strip().lower() in {'null', 'none'}:
+                    continue
+                impedance_str = row['impedance'].strip()
+                impedance = (
+                    float(impedance_str) if has_decimal_values else int(impedance_str)
+                    if impedance_str else 666
+                )
+                reclass_dict[int(row['lulc'])] = impedance
+            except ValueError:
+                Exception(f"Invalid data format in reclassification table: {row}")
+
+        nodata_value = float(out_nodata) if has_decimal_values else out_nodata
+        
+        dataset = gdal.Open(input_raster)
+        if dataset is None:
+            Exception("Could not open input raster.")
+
+        cols, rows = dataset.RasterXSize, dataset.RasterYSize
+        driver = gdal.GetDriverByName("GTiff")
+        output_dataset = driver.Create(impedance_raster, cols, rows, 1, gdal.GDT_Float32 if has_decimal_values else gdal.GDT_Int32)
+        output_dataset.SetProjection(dataset.GetProjection())
+        output_dataset.SetGeoTransform(dataset.GetGeoTransform())
+
+        input_band = dataset.GetRasterBand(1)
+        input_nodata = input_band.GetNoDataValue()
+        if input_nodata is not None:
+            reclass_dict[int(input_nodata)] = nodata_value
+
+        print(f"Mapping dictionary used to classify impedance is: {reclass_dict}")
+
+        input_data = input_band.ReadAsArray()
+        
+        unique_values = np.unique(input_data)
+        missing_values = [val for val in unique_values if val not in reclass_dict]
+        print(f"Missing values in the dictionary are: {missing_values}")
+
+        output_data = np.where(
+            np.isin(input_data, list(reclass_dict.keys())), 
+            np.vectorize(reclass_dict.get, otypes=[float if has_decimal_values else int])(input_data), 
+            float(out_nodata) if has_decimal_values else out_nodata
+        )
+
+        output_band = output_dataset.GetRasterBand(1)
+        output_band.SetNoDataValue(nodata_value)
+        output_band.WriteArray(output_data)
+
+        dataset = None
+        output_dataset = None
+
+        return impedance_raster
+
+    def get_impedance_max_value(self, impedance_tif_path:str) -> tuple[gdal.Dataset, float]:
         """
         Get the maximum value from the impedance raster dataset.
         
         Args:
-            year (int): The year to use for the impedance dataset.
+            impedance_tif_path (str): The path to the impedance raster GeoTIFF dataset.
 
         Returns:
             tuple: Tuple containing the impedance dataset and the maximum value of the impedance dataset.
         """
-        impedance_tif_template = self.config.get('impedance_tif')
-        impedance_tif = impedance_tif_template.format(year=year) # substitute year from the configuration file
-        impedance_tif = os.path.normpath(os.path.join(self.current_dir,self.impedance_dir,impedance_tif))
         
-        if impedance_tif is not None:
-            impedance_ds = gdal.Open(impedance_tif) # open raster impedance dataset
+        if impedance_tif_path is not None:
+            impedance_ds = gdal.Open(impedance_tif_path) # open raster impedance dataset
             impedance_max = get_max_from_tif(impedance_ds) # call function from above
-            print (f"Impedance raster GeoTIFF dataset used is {impedance_tif}") # debug
+            print (f"Impedance raster GeoTIFF dataset used is {impedance_tif_path}") # debug
             print (f"Maximum value of impedance dataset: {impedance_max}") # debug
         else:
-            raise FileNotFoundError(f"Impedance raster GeoTIFF dataset '{impedance_tif}' is not found! Please check the configuration file.") # stop execution
+            raise FileNotFoundError(f"Impedance raster GeoTIFF dataset '{impedance_tif_path}' is not found! Please check the configuration file.") # stop execution
         
         return impedance_ds, impedance_max
     
@@ -230,11 +303,13 @@ if __name__ == "__main__":
         verbose = True
     )
 
+    impedance_stressors = {}
     for year in iw.years:
         print(f"Processing year: {year}")
         # 1. Process the impedance configuration (initial setup + lulc & osm stressors)
         # e.g. impedance_stressors = {'primary': '/data/data/output/roads_primary_2018.tif'}
-        impedance_stressors = iw.process_impedance_config(year)
+        # update the impedance_stressors dictionary with the stressors for the current year
+        impedance_stressors.update(iw.process_impedance_config(year))
 
     # 2. Prompt user to update the configuration file
     print("Please check/update the configuration file for impedance dataset (config_impedance.yaml):")
@@ -245,11 +320,29 @@ if __name__ == "__main__":
         raise ValueError("The configuration file is not valid. Please update the configuration file.")
     
     for year in iw.years:
-        # 3.  Get the maximum value of the impedance raster dataset
-        impedance_ds, impedance_max = iw.get_impedance_max_value(year)
+        # 3.0 set the output path for the new impedance raster dataset 
+        impedance_tif_template = str(iw.config.get('impedance_tif'))
+        impedance_tif_path = impedance_tif_template.format(year=year) # substitute year from the configuration file
+        impedance_tif_path = impedance_tif_path.replace(".tif", "_upd.tif")
+        #impedance_tif_path = os.path.normpath(os.path.join(iw.impedance_res_dir , impedance_tif_path))
+        impedance_tif_path = os.path.normpath(os.path.join(iw.impedance_dir,impedance_tif_path))
+
+        lulc_upd = os.path.join(iw.config.get('case_study_dir'), "output", str(iw.config.get('lulc').format(year=year)).replace('.tif', "_upd.tif"))
+        out_nodata = -9999
+        
+        # 3.1 Reclassify LULC raster to impedance raster
+        impedance_tif = iw.reclassify_lulc2impedance(
+            input_raster= lulc_upd,
+            impedance_raster= impedance_tif_path,
+            reclass_table= os.path.join(iw.impedance_dir, iw.config.get('impedance')),
+            out_nodata= out_nodata
+        )
+         
+        # 3.2  Get the maximum value of the impedance raster dataset
+        impedance_ds, impedance_max = iw.get_impedance_max_value(impedance_tif_path=impedance_tif)
 
         #3.0 Calculate impedance
-        max_result_tif = iw.calculate_impedance(year,impedance_stressors,impedance_ds,impedance_max)
+        max_result_tif = iw.calculate_impedance(year,impedance_stressors,impedance_ds,impedance_max, out_nodata)
 
     # # delete temporary impedance stressors.yaml
     # os.remove(stressor_yaml_path)

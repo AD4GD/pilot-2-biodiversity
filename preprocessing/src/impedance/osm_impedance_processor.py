@@ -101,7 +101,7 @@ class OSMImpedanceProcessor(ImpedanceConfigurationHandler):
                 if osm_stressor_feature_subtypes is not None:
                     # update the types in the vector for the current osm_stressor
                     vector[osm_stressor_feature]['types'] = True # Update types with True
-                    # loop through each subtype in the dynamic variable
+                    # loop through each subtype and only add in a placeholder if it does not exist
                     for stressor_subtype in osm_stressor_feature_subtypes:
                         # write params_placeholder to vector for each type
                         vector[osm_stressor_feature][stressor_subtype] = copy.deepcopy(self.params_placeholder)
@@ -109,6 +109,16 @@ class OSMImpedanceProcessor(ImpedanceConfigurationHandler):
                     # update the types in the vector for the current osm_stressor
                     vector[osm_stressor_feature]['types'] = None # update types with empty value
                     vector[osm_stressor_feature] = copy.deepcopy(self.params_placeholder)
+
+            # else check the subtypes only if the osm_stressor_feature already exists
+            elif osm_stressor_feature_subtypes is not None: # check subtypes
+                # if the osm_stressor_feature already exists, update its types
+                vector[osm_stressor_feature]['types'] = True
+                # loop through each subtype and only add in a placeholder if it does not exist
+                for stressor_subtype in osm_stressor_feature_subtypes:
+                    if stressor_subtype not in vector[osm_stressor_feature]:
+                        # write params_placeholder to vector for each type
+                        vector[osm_stressor_feature][stressor_subtype] = copy.deepcopy(self.params_placeholder)
                 
         # update the 'vector' section back into the main config_impedance
         self.config_impedance['vector'] = vector

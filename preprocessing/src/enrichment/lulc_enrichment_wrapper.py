@@ -94,9 +94,9 @@ class LULCEnrichmentWrapper():
         ## rasterize vector layers
         self.rasters_temp = self.rasterize_vector_layers(year, save_osm_stressors)
         # merge rasters
-        lulc_upd = os.path.normpath(os.path.join(self.working_dir,self.output_dir,f'lulc_{year}_upd.tif'))
-        # TODO - to inherit the initial filename of input raster
         
+        lulc_upd = os.path.normpath(os.path.join(self.working_dir, self.output_dir, os.path.basename(self.lulc_filepaths[year]).replace('.tif', "_upd.tif")))
+
         print(f"SELF RASTERS TEMP: {self.rasters_temp}")
 
         if self.verbose:

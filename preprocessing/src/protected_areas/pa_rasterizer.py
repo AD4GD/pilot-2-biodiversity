@@ -14,20 +14,20 @@ class PARasterizer:
     This class is responsible for filtering protected areas based on the year of establishment and rasterizing them.
     """
 
-    def __init__(self, gpkg_filepath:str, input_dir:str, case_study:str, output_dir:str) -> None:
+    def __init__(self, gpkg_filepath:str, input_dir:str, lulc_template:str, output_dir:str) -> None:
         """
         Initialize the PARasterizer class.
 
         Args:
             gpkg_filepath (str): The path to the GeoPackage file containing all the protected areas.
             input_dir (str): The path to the directory containing the LULC files.
-            case_study (str): The name of case study, which is contained within the LULC filenames in input_dir.
+            lulc_template (str): The template name of the LULC files to be used for filtering.
             output_dir (str): The path to the output directory.
         """
 
         self.input_folder = input_dir
         self.output_dir = output_dir
-        self.case_study = case_study
+        self.lulc_template = lulc_template
         # create output directory if it does not exist
         os.makedirs(output_dir, exist_ok=True)
 
@@ -60,9 +60,9 @@ class PARasterizer:
         # extract raster metadata
         tiff_files = [f for f in os.listdir(input_dir) if f.endswith('.tif')]
         if tiff_files:
-            matching_files = [f for f in tiff_files if self.case_study in f]
+            matching_files = [f for f in tiff_files if self.lulc_template in f]
             if not matching_files:
-                raise ValueError(f"No LULC files found containing case study '{self.case_study}' in the input folder.")
+                raise ValueError(f"No LULC files found containing case study '{self.lulc_template}' in the input folder.")
             # FOR CASE STUDY: choose the first TIFF file (it shouldn't matter which LULC file to extract extent because they must have the same extent)
             file_path = os.path.join(input_dir, matching_files[0])  
             self.lulc_metadata = RasterMetadata.from_raster(raster_path=file_path)
@@ -193,7 +193,7 @@ class PARasterizer:
             keep_intermediate_gpkg (bool): Keep intermediate GeoPackage files (default is False).
         
         """
-        # if rasterize_all_years is True, rasterize all subsets of protected areas by the year of establishment
+        # if pa_to_yearly_rasters  is True, rasterize all subsets of protected areas by the year of establishment
         if pa_to_yearly_rasters:
             # list all subsets of protected areas by the year of establishment (input files)
             pa_years = [f for f in os.listdir(self.output_dir) if f.endswith('.gpkg')]
@@ -218,7 +218,7 @@ class PARasterizer:
                     os.remove(pas_yearstamp_path)
                     rprint(f"[yellow] Intermediate GeoPackage {reprojected_pa} has been removed. [/yellow]")
 
-        # if rasterize_all_years is False, rasterize the one reprojected pa file.
+        # if pa_to_yearly_rasters  is False, rasterize the one reprojected pa file.
         else:
             # rasterize the one reprojected pa file.
             reprojected_pa = os.path.join(self.output_dir, "pa_multi_year.gpkg") # (input file)

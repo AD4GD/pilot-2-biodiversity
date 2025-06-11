@@ -8,6 +8,7 @@ class LulcPaRasterSum():
         input_path:str,
         output_path:str,
         lulc_dir:str,
+        lulc_template:str,
         use_yearly_pa_rasters:bool,
         lulc_with_null_path:str,
         pa_path:str, 
@@ -20,6 +21,7 @@ class LulcPaRasterSum():
             input_path (str): The path to the input directory.
             output_path (str): The path to the output directory.
             lulc_dir (str): The path to the LULC raster data directory.
+            lulc_template (str): The template lulc file (to filter files for only this case study)
             use_yearly_pa_rasters (bool): Use yearly PA rasters.
             lulc_with_zeros_path (str): The path to the LULC raster data with zeros.
             lulc_upd_compr_path (str): The path to the combined LULC and PA raster data.
@@ -28,6 +30,7 @@ class LulcPaRasterSum():
         """
         
         self.lulc_dir = lulc_dir
+        self.lulc_template = lulc_template
         self.use_yearly_pa_rasters = use_yearly_pa_rasters
         self.lulc_with_null_path = self.make_directory_if_not_exists(os.path.join(input_path,"protected_areas", lulc_with_null_path))
 
@@ -54,14 +57,17 @@ class LulcPaRasterSum():
         """
         # loop through the files
         for file in os.listdir(self.lulc_dir):
-            # get the file path
-            file_path = os.path.join(self.lulc_dir, file)
-            output_path = os.path.join(self.lulc_with_null_path, file.replace(".tif", "_temp.tif"))
-            gdal_command = f"""
-            gdal_translate -a_nodata none -co COMPRESS=LZW -co TILED=YES {file_path} {output_path}
-            """
-            subprocess.run(gdal_command, shell=True)
-            print(f"[green] No data values assigned complete for file: {file} [green]")
+            if self.lulc_template.split("_{year}.tif")[0] not in file.split("_{year}.tif")[0]:
+                continue
+            else:
+                # get the file path
+                file_path = os.path.join(self.lulc_dir, file)
+                output_path = os.path.join(self.lulc_with_null_path, file.replace(".tif", "_temp.tif"))
+                gdal_command = f"""
+                gdal_translate -a_nodata none -co COMPRESS=LZW -co TILED=YES {file_path} {output_path}
+                """
+                subprocess.run(gdal_command, shell=True)
+                print(f"[green] No data values assigned complete for file: {file} [green]")
 
     def combine_pa_lulc(self, keep_temp_files:bool=False):
         """
@@ -108,13 +114,14 @@ if __name__ == "__main__":
     config = load_yaml("config/config.yaml")
     case_study_dir = str(config.get("case_study_dir"))
     case_study = case_study_dir.split("/")[-1]
-    
-    lulc_file = './data/shared/input/lulc/lulc_albera_ext_concat_{year}.tif'.format(year=2017)
+    lulc_template = config.get("lulc")
+
     lprs = LulcPaRasterSum(
         input_path=os.path.join(working_dir, case_study_dir, "input"),
         output_path=os.path.join(working_dir, case_study_dir, "output"),
         lulc_dir=config.get("lulc_dir"),
-        use_yearly_pa_rasters=True,
+        lulc_template = config.get("lulc"),
+        use_yearly_pa_rasters=False,
         lulc_with_null_path="lulc_temp",
         pa_path="pa_rasters",
         lulc_upd_compr_path="lulc_pa"

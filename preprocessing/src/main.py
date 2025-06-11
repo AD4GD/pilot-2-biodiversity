@@ -56,7 +56,7 @@ def process_wdpa(
     
     Args:
         config_dir (str): Directory containing the configuration file.
-        use_yearly_pa_raster (bool): Use less than or equal to PA year of establishment when TRUE, else use all years.
+        use_yearly_pa_raster (bool): Use less than or equal to PA year of establishment when TRUE, else use all years to enrich LULC data.
         auto_confirm (bool): Auto confirm all prompts.
         skip_fetch (bool): Skip fetching protected areas data from the API if the data already exists in the shared input directory.
         delete_intermediate_files (bool): Delete intermediate GPKG files
@@ -100,7 +100,8 @@ def process_wdpa(
         # # STEP 3.0: Rasterize the merged GeoPackage file
         print("Rasterizing the merged GeoPackage file...")
         lulc_dir = wp.config.get("lulc_dir")
-        wp.rasterize_protected_areas(merged_gpkg, lulc_dir, use_yearly_pa_raster)
+        lulc_template = wp.config['lulc']
+        wp.rasterize_protected_areas(merged_gpkg, lulc_dir,lulc_template.split('_{year}.tif')[0], pa_to_yearly_rasters=use_yearly_pa_raster)
 
         if delete_intermediate_files:
             os.remove(merged_gpkg)
@@ -112,6 +113,7 @@ def process_wdpa(
             input_path=os.path.join(working_dir, case_study_dir, "input"),
             output_path=os.path.join(working_dir, case_study_dir, "output"),
             lulc_dir=wp.config.get("lulc_dir"),
+            lulc_template=lulc_template,
             use_yearly_pa_rasters= use_yearly_pa_raster
         )
 
@@ -300,51 +302,74 @@ def recalc_impedance(
             # replace the years list with the selected year
             iw.years = [int(year)]
 
+    impedance_stressors = {}
+
     for year in iw.years:
         # 1. Process the impedance configuration (initial setup + lulc & osm stressors)
         # e.g. impedance_stressors = {'primary': '/data/data/output/roads_primary_2018.tif'}
         print(f"Processing year: {year}")
-        impedance_stressors = iw.process_impedance_config(year)
+        single_year_impedance_stressors = iw.process_impedance_config(year)
 
-    # 2. Prompt user to update the configuration file
-    
-    # print the impedance stressors to the user in a table
-    print_table("Impedance stressors", impedance_stressors)
+        # 2. Prompt user to update the configuration file
+        
+        # print the impedance stressors to the user in a table
+        print_table(f"Impedance stressors for year {year}: ", single_year_impedance_stressors)
 
-    message = typer.style(
-    "Please check/update the configuration file for impedance dataset (config_impedance.yaml).\n"
-    "To confirm your configuration of ecological parameters for these biodiversity stressors TYPE",
-    fg=typer.colors.YELLOW
-    )
+        message = typer.style(
+        "Please check/update the configuration file for impedance dataset (config_impedance.yaml).\n"
+        "To confirm your configuration of ecological parameters for these biodiversity stressors TYPE",
+        fg=typer.colors.YELLOW
+        )
 
-    confirm = typer.confirm(message) 
+        confirm = typer.confirm(message) 
 
-    if not confirm:
-        err_console.print("Exiting...")
-        raise typer.Exit(code=1)
+        if not confirm:
+            err_console.print("Exiting...")
+            raise typer.Exit(code=1)
 
-    # 2.1. validate impedance configuration
-    err_msg = ""
-    while err_msg != "exit":
-        err_msg = iw.validate_impedance_config(impedance_stressors)
-    
-        if err_msg != "exit":
-            #print warning message
-            print(f"""[bold yellow]The following errors was found in the configuration file:[/bold yellow]\n[bold red]{err_msg}[/bold red]""")
-            message = print("Please update your impedance configuration file then TYPE")
+        # 2.1. validate impedance configuration
+        err_msg = ""
+        while err_msg != "exit":
+            err_msg = iw.validate_impedance_config(single_year_impedance_stressors)
+        
+            if err_msg != "exit":
+                #print warning message
+                print(f"""[bold yellow]The following errors was found in the configuration file:[/bold yellow]\n[bold red]{err_msg}[/bold red]""")
+                message = print("Please update your impedance configuration file then TYPE")
 
-            confirm = typer.confirm(message) 
+                confirm = typer.confirm(message) 
 
-            if not confirm:
-                err_console.print("Exiting...")
-                raise typer.Exit(code=1)
+                if not confirm:
+                    err_console.print("Exiting...")
+                    raise typer.Exit(code=1)
+                
+        # 2.2. update the impedance_stressors dictionary with the single year impedance stressors
+        impedance_stressors.update(single_year_impedance_stressors)
 
     for year in iw.years:
-        # 3.  Get the maximum value of the impedance raster dataset
-        impedance_ds, impedance_max = iw.get_impedance_max_value(year)
+        # 3.0 set the output path for the new impedance raster dataset 
+        impedance_tif_template = str(iw.config.get('impedance_tif'))
+        impedance_tif_path = impedance_tif_template.format(year=year) # substitute year from the configuration file
+        impedance_tif_path = impedance_tif_path.replace(".tif", "_intermediate_recalc.tif") # replace .tif with recalc.tif
+        #impedance_tif_path = os.path.normpath(os.path.join(iw.impedance_res_dir , impedance_tif_path))
+        impedance_tif_path = os.path.normpath(os.path.join(iw.impedance_dir,impedance_tif_path))
 
-        # 3.0 Calculate impedance
+        lulc_upd = os.path.join(iw.config.get('case_study_dir'), "output", str(iw.config.get('lulc').format(year=year)).replace('.tif', "_upd.tif"))
         out_nodata = -9999
+        
+        # 3.1 Reclassify LULC raster to impedance raster
+        impedance_tif = iw.reclassify_lulc2impedance(
+            input_raster= lulc_upd,
+            impedance_raster= impedance_tif_path,
+            reclass_table= os.path.join(iw.impedance_dir, iw.config.get('impedance')),
+            out_nodata= out_nodata
+        )
+         
+        # 3.2  Get the maximum value of the impedance raster dataset
+        impedance_ds, impedance_max = iw.get_impedance_max_value(impedance_tif_path=impedance_tif)
+
+        # 3.3 Calculate impedance
+        out_nodata = out_nodata
         max_result_tif = iw.calculate_impedance(year,impedance_stressors,impedance_ds,impedance_max,out_nodata)
         if verbose:
             typer.secho(f"max_result_tif saved to: {max_result_tif}", fg=typer.colors.GREEN)
@@ -369,7 +394,7 @@ def init(firstname: str, surname: str, formal: bool = False):
     typer run main.py test name surname --formal
     """
     if formal:
-        typer.secho(f"Hello Mr. {firstname} {surname}", fg=typer.colors.GREEN, bg=typer.colors.YELLOW)
+        typer.secho(f"Hello Dr. {firstname} {surname}", fg=typer.colors.GREEN, bg=typer.colors.YELLOW)
     else:
         typer.echo(f"Hello {firstname} {surname}")
     # err_console.print("This is an error message")
