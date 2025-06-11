@@ -18,6 +18,7 @@ class PAProcessor:
             "type": "FeatureCollection",
             "features": []
         }
+        self.unique_ids = set()  # to keep track of unique IDs in the feature collection
 
     def add_PA_to_feature_collection(self, protected_areas:list[dict], exclude_redundant_ids:bool=True) -> dict:
         """
@@ -58,6 +59,12 @@ class PAProcessor:
                     
                 # format to YYYY-MM-DD
                 date_str = date.strftime('%Y-%m-%d')
+
+            # check if this is a unique id
+            if pa['id'] in self.unique_ids:
+                continue
+            else:
+                self.unique_ids.add(pa['id'])
               
             # extract geometry
             geometry = pa.get('geojson', {}).get('geometry')
@@ -101,7 +108,7 @@ class PAProcessor:
             self.feature_collection["features"].append(feature) 
 
         return self.feature_collection
-
+    
     def save_to_file(self, file_path:str) -> str:
         """
         Saves a country feature collection to a single GeoJSON file.
