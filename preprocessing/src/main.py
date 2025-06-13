@@ -110,11 +110,11 @@ def process_wdpa(
         # # STEP 4.0: Raster calculation
         print("Summing LULC and PA rasters...")
         wp.sum_lulc_pa_rasters(
-            input_path=os.path.join(working_dir, case_study_dir, "input"),
-            output_path=os.path.join(working_dir, case_study_dir, "output"),
+            output_path=os.path.join(working_dir,wp.config["lulc_pa_dir"]),
             lulc_dir=wp.config.get("lulc_dir"),
-            lulc_template=lulc_template,
-            use_yearly_pa_rasters= use_yearly_pa_raster
+            lulc_template = wp.config.get("lulc"),
+            pa_path=os.path.join(working_dir, case_study_dir, "output","protected_areas","pa_rasters"),
+            use_yearly_pa_rasters=False,
         )
 
         # # STEP 5.0: Reclassify input raster with impedance values
@@ -137,6 +137,7 @@ def process_wdpa(
 @app.command("process-osm")
 def process_osm(
     config_dir: Annotated[str, typer.Option(..., help="Directory with the configuration file")] = "./config",
+    use_lulc_pa: Annotated[bool, typer.Option("--use-lulc-pa", "-l", help="Use LULC PA sum rasters")] = False,
     api_type: Annotated[str, typer.Option("--api", "-a", help="API to use for fetching OSM data. Choose from 'overpass' or 'ohsome)")] = "ohsome",
     skip_fetch: Annotated[bool, typer.Option("--skip-fetch", "-s", help="Skip fetching OSM data. Overwrites existing data if FALSE")] = False,
     delete_intermediate_files: Annotated[bool, typer.Option("--del-temp", "-dt", help="Delete intermediate GeoJSON & GPKG files")] = False,
@@ -145,10 +146,11 @@ def process_osm(
     ):
     """
     Check if config exists. Fetches and translates Open Street Map data.
-    Example usage: python main.py process-osm --config-dir ./config --api ohsome --verbose --del-temp --record-time
+    Example usage: python main.py process-osm --config-dir ./config --use-lulc-pa --api ohsome --verbose --del-temp --record-time --skip-fetch
 
     Args:
         config_dir (str): Directory containing the configuration file.
+        use_lulc_pa (bool): Use LULC PA sum rasters instead of original LULC rasters.
         api_type (str): API to use for fetching OSM data. Choose from 'overpass' or 'ohsome
         skip_fetch (bool): Skip fetching OSM data. Overwrites existing data if FALSE.
         delete_intermediate_files (bool): Delete intermediate GeoJSON & GPKG files.
@@ -165,7 +167,7 @@ def process_osm(
     check_file_exists(config_path)
     try:
         working_dir = os.getcwd()
-        osm = OSMWrapper(working_dir, config_path, api_type, verbose)
+        osm = OSMWrapper(working_dir, config_path, use_lulc_pa, api_type, verbose)
 
         # STEP 1: Fetch OSM data
         if not skip_fetch:
@@ -199,6 +201,8 @@ def process_osm(
 @app.command("enrich-lulc")
 def enrich_lulc(
     config_dir: Annotated[str, typer.Option(..., help="Directory with the configuration file")] = "./config",
+    use_lulc_pa: Annotated[bool, typer.Option("--use-lulc-pa", "-l", help="Use LULC PA sum rasters")] = False,
+    nodata_value: Annotated[int, typer.Option("--nodata-value", "-n", help="NoData value for the output rasters. Default is lulc no data value")] = None,
     api_type: Annotated[str, typer.Option("--api", "-a", help="API to use for fetching OSM data. Choose from 'overpass' or 'ohsome)")] = None,
     threads: Annotated[int, typer.Option("--threads", "-t", help="Number of threads to use for processing")] = 4,
     cog_compress: Annotated[bool, typer.Option("--cog-compress", "-c", help="Compress the output GeoTIFF files using Cloud Optimized GeoTIFF (COG)")] = False,
@@ -208,10 +212,11 @@ def enrich_lulc(
     ):
     """
     Check if config exists. Processes and merges fetched data into output LULC dataset.
-    Example usage: python main.py enrich-lulc --config-dir ./config --api ohsome --threads 4 --cog-compress --save-osm-stressors --verbose --record-time
+    Example usage: python main.py enrich-lulc --config-dir ./config --use-lulc-pa --api ohsome --threads 4 --cog-compress --save-osm-stressors --verbose --record-time --no-data-value 0
 
     Args:
         config_dir (str): Directory containing the configuration file.
+        use_lulc_pa (bool): Use LULC PA sum rasters instead of original LULC rasters
         api_type (str): API to use for fetching OSM data. Choose from 'overpass' or 'ohsome' or leave blank if none were used.
         threads (int): Number of threads to use for processing (default is 4).
         verbose (bool): Verbose mode.
@@ -226,7 +231,7 @@ def enrich_lulc(
     check_file_exists(config_path)
     print(os.getcwd())
     try:
-        lew = LULCEnrichmentWrapper(os.getcwd(),config_path,api_type,threads, verbose)
+        lew = LULCEnrichmentWrapper(os.getcwd(),config_path,api_type,threads,use_lulc_pa ,verbose)
 
         # prompt user to use all years or a specific year
         if len(lew.years) > 1:
@@ -241,7 +246,7 @@ def enrich_lulc(
             # 1.2 buffer vector data
             lew.buffer_vector_roads_and_railways()
             # 2. rasterize vector data
-            output_data=lew.merge_lulc_osm_data(year, save_osm_stressors, cog_compress)
+            output_data=lew.merge_lulc_osm_data(year, nodata_value ,save_osm_stressors, cog_compress)
 
     except Exception as e:
         err_console.print(f"Error: {e}")
@@ -255,6 +260,7 @@ def enrich_lulc(
 @app.command("recalc-impedance")
 def recalc_impedance(
     config_dir: Annotated[str, typer.Option(..., help="Path to the configuration file")] = "./config",
+    use_lulc_pa: Annotated[bool, typer.Option("--use-lulc-pa", "-l", help="Use LULC PA sum rasters")] = False,
     verbose: Annotated[bool, typer.Option("--verbose", "-v", help="Verbose mode")] = False,
     del_stressors: Annotated[bool, typer.Option("--del-stressors", "-s", help="Delete OSM stressors")] = False,
     decline_type: Annotated[str, typer.Option("--decline-type", "-dt", help="Type of decline to use for impedance calculation. Use either 'exp_decline' OR 'prop_decline'")] = "exp_decline",
@@ -264,10 +270,11 @@ def recalc_impedance(
     ):
     """
     Check if config exists. Recalculates landscape impedance data for follow-up commputations.
-    Example usage: python main.py recalc-impedance --config-dir ./config --verbose --del-stressors
+    Example usage: python main.py recalc-impedance --config-dir ./config --use-lulc-pa --verbose --del-stressors
 
     Args:
         config_dir (str): The path to the configuration directory.
+        use_lulc_pa (bool): Use LULC PA sum rasters instead of original LULC rasters
         verbose (bool): Verbose mode
         del_stressors (bool): Delete OSM stressors (intermediate GeoTIFF files).
         decline_type (str): Type of decline to use for impedance calculation. Use either exp_decline OR prop_decline.
@@ -308,7 +315,7 @@ def recalc_impedance(
         # 1. Process the impedance configuration (initial setup + lulc & osm stressors)
         # e.g. impedance_stressors = {'primary': '/data/data/output/roads_primary_2018.tif'}
         print(f"Processing year: {year}")
-        single_year_impedance_stressors = iw.process_impedance_config(year)
+        single_year_impedance_stressors = iw.process_impedance_config(year,use_lulc_pa)
 
         # 2. Prompt user to update the configuration file
         
@@ -350,27 +357,38 @@ def recalc_impedance(
         # 3.0 set the output path for the new impedance raster dataset 
         impedance_tif_template = str(iw.config.get('impedance_tif'))
         impedance_tif_path = impedance_tif_template.format(year=year) # substitute year from the configuration file
-        impedance_tif_path = impedance_tif_path.replace(".tif", "_intermediate_recalc.tif") # replace .tif with recalc.tif
+        original_impedance_tiff = os.path.normpath(os.path.join(iw.impedance_dir,impedance_tif_path))
+        
+        impedance_tif_path = impedance_tif_path.replace(".tif", "_upd.tif")
         #impedance_tif_path = os.path.normpath(os.path.join(iw.impedance_res_dir , impedance_tif_path))
         impedance_tif_path = os.path.normpath(os.path.join(iw.impedance_dir,impedance_tif_path))
 
-        lulc_upd = os.path.join(iw.config.get('case_study_dir'), "output", str(iw.config.get('lulc').format(year=year)).replace('.tif', "_upd.tif"))
-        out_nodata = -9999
+        lulc_template = str(iw.config.get('lulc'))
+        if lulc_template is None or lulc_template == "":
+            raise Exception("lulc in config is null/empty or does not exist")
+        elif use_lulc_pa:
+            lulc_template = lulc_template.replace("{year}.tif","pa_{year}_upd.tif").format(year = year)
+        else:
+            lulc_template = lulc_template.replace('.tif', "_upd.tif").format(year=year)
+        lulc_upd = os.path.join(iw.config.get('case_study_dir'), "output", lulc_template)
         
-        # 3.1 Reclassify LULC raster to impedance raster
+        # 3.1 get nodata from original impedance raster
+        from utils import get_nodata_from_raster
+        nodata_value = get_nodata_from_raster(original_impedance_tiff)
+
+        # 3.2 Reclassify LULC raster to impedance raster
         impedance_tif = iw.reclassify_lulc2impedance(
             input_raster= lulc_upd,
             impedance_raster= impedance_tif_path,
             reclass_table= os.path.join(iw.impedance_dir, iw.config.get('impedance')),
-            out_nodata= out_nodata
+            out_nodata_overwrite=nodata_value
         )
          
-        # 3.2  Get the maximum value of the impedance raster dataset
+        # 4  Get the maximum value of the impedance raster dataset
         impedance_ds, impedance_max = iw.get_impedance_max_value(impedance_tif_path=impedance_tif)
 
-        # 3.3 Calculate impedance
-        out_nodata = out_nodata
-        max_result_tif = iw.calculate_impedance(year,impedance_stressors,impedance_ds,impedance_max,out_nodata)
+        # 5 Calculate impedance
+        max_result_tif = iw.calculate_impedance(year,impedance_stressors,impedance_ds,impedance_max,nodata_value)
         if verbose:
             typer.secho(f"max_result_tif saved to: {max_result_tif}", fg=typer.colors.GREEN)
 

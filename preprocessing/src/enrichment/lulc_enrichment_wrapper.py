@@ -11,7 +11,7 @@ from typer import prompt
 import csv
 
 # local modules
-from utils import load_yaml,extract_attribute_values_from_gpkg,get_lulc_template,read_years_from_config
+from utils import load_yaml,extract_attribute_values_from_gpkg,get_lulc_using_template,read_years_from_config
 from raster_metadata import RasterMetadata
 from .lulc_data_processor import LULCDataPreprocessor
 from .vector_data_processor import VectorDataPreprocessor
@@ -23,7 +23,7 @@ class LULCEnrichmentWrapper():
     then rasterizes vector data and merges both rasters into a single raster dataset.
     """
     
-    def __init__(self, working_dir:str, config_path:str, osm_api_type:str, threads:int, verbose:bool) -> None:
+    def __init__(self, working_dir:str, config_path:str, osm_api_type:str, threads:int,use_lulc_pa: bool, verbose:bool) -> None:
         """
         Initializes the LULC enrichment processor.
 
@@ -48,11 +48,16 @@ class LULCEnrichmentWrapper():
         if not os.path.exists(self.stressors_dir):
             os.makedirs(self.stressors_dir)
 
-        self.lulc_dir = self.config.get('lulc_dir')
+        self.use_lulc_pa = use_lulc_pa
+        if self.use_lulc_pa:
+            self.lulc_dir = self.config.get('lulc_pa_dir')
+        else:
+            self.lulc_dir = self.config.get('lulc_dir')
+
         self.years = read_years_from_config(self.config)
 
         # create a dict of LULC files for each year
-        self.lulc_filepaths = {year:get_lulc_template(self.config, year) for year in self.years}
+        self.lulc_filepaths = {year:get_lulc_using_template(self.config, get_lulc_pa=use_lulc_pa, year=year) for year in self.years}
 
         self.osm_api_type = osm_api_type
         self.max_threads = threads
@@ -81,20 +86,26 @@ class LULCEnrichmentWrapper():
         files_to_validate = [self.vp.vector_roads_buffered, self.vp.vector_railways_buffered]
         self.vp.check_vector_geometry_validity(files_to_validate)
 
-    def merge_lulc_osm_data(self, year:int, save_osm_stressors:bool, cog_compress:bool):
+    def merge_lulc_osm_data(self, year:int, nodata_value:int, save_osm_stressors:bool, cog_compress:bool, ):
         """
         Merges the LULC and OSM data into a single raster dataset.
 
         Args:
             year (int): year of the data to process
+            nodata_value (int): no data value for the output raster
             save_osm_stressors (bool): flag to save the OSM stressors to a file for impedance recalculation
             cog_compress (bool): flag to compress the output raster as a Cloud Optimised Geotiff
         """
         
-        ## rasterize vector layers
+        # step 1: rasterize vector layers
         self.rasters_temp = self.rasterize_vector_layers(year, save_osm_stressors)
-        # merge rasters
-        
+
+        # step 1.1: sum with PA
+        # if self.use_lulc_pa:
+            
+
+
+        # step 2 merging rasters
         lulc_upd = os.path.normpath(os.path.join(self.working_dir, self.output_dir, os.path.basename(self.lulc_filepaths[year]).replace('.tif', "_upd.tif")))
 
         print(f"SELF RASTERS TEMP: {self.rasters_temp}")
@@ -105,13 +116,51 @@ class LULCEnrichmentWrapper():
         # NOTE below is an example of what we will have in the list 
         # self.rasters_temp: /data/data/output/waterbodies_2017.tif /data/data/output/waterways_2017.tif /data/data/output/roads_2017.vrt /data/data/output/railways_2017.tif
         # overwrite rasters over input dataset in the following order: waterbodies, waterways, roads, railways
+        
+        
         # NOTE: HARDCODED NODATA VALUE as output LULC contains only positive integer values, so 0 is the best choice
-        output_data, output_ds, nodata_value = self.overwrite_raster(self.lulc_filepaths[year], *self.rasters_temp, nodata_value=0)
+        output_data, output_ds, nodata_value = self.overwrite_raster(self.lulc_filepaths[year], *self.rasters_temp, nodata_value=nodata_value)
         print(f"FOR WRITING UPDATED LULC RASTER: {output_data, output_ds, nodata_value}")
         self.write_raster(output_data, output_ds, lulc_upd, nodata_value, cog_compress)
         # TODO - output dataset is not being assigned correctly nodatavalue - it is byte, but inherits 0 as nodatavalue from OSM stressors and -9999 from LULC stressors
 
         return lulc_upd
+    
+    # def sum_raster_with_raster(self, base_raster:str, sum_raster:str, output_raster:str, nodata_value:int):
+    #     """
+    #     Sums two raster datasets and saves the result to a new raster dataset.
+    #     (Used to sum PA raster with any other raster)
+    #     """
+        
+    #     # from raster_sum import RasterSum
+    #     # # create a RasterSum object
+    #     # rs = RasterSum(
+    #     #     input_path=os.path.dirname(base_raster),
+    #     #     output_path=os.path.dirname(output_raster),
+    #     #     lulc_template=self.config.get('lulc'),
+    #     #     working_dir=self.working_dir,
+    #     #     case_study_dir=self.case_study_dir,
+    #     #     config=self.config,
+    #     #     verbose=self.verbose
+    #     # )
+
+    #     output_raster =
+    #     gdal_command = " ".join([
+    #         "gdal_calc.py --overwrite --calc 'A+B' --format GTiff",
+    #         "--type Int32 --NoDataValue=-2147483647",
+    #         f"-A {os.path.join(self.lulc_with_null_path, lulc_file_with_null)}",
+    #         f"--A_band 1 -B {pa_file}",
+    #         f"--outfile {lulc_pa_sum_file}",
+    #         "--co COMPRESS=LZW --co TILED=YES"
+    #     ])
+    #     """
+    #     gdal command: gdal_calc.py --overwrite --calc 'A+B' --format GTiff --type Int32 --NoDataValue=-2147483647 -A 
+    #     /src/data/case_study_albera/input/lulc_temp/lulc_albera_ext_concat_2022_temp.tif --A_band 1 -B 
+    #     /src/data/case_study_albera/output/protected_areas/pa_rasters/pa_multi_year.tif --outfile /src/data/shared/input/lulc_pa/lulc_albera_ext_concat_pa_2022.tif --co 
+    #     COMPRESS=LZW --co TILED=YES 
+    #     """
+
+
         
     def merge_tiffs_into_vrt(self, tiffs:list, output_path:str):
         """
@@ -506,8 +555,8 @@ class LULCEnrichmentWrapper():
         base_data = base_band.ReadAsArray().astype(np.float32)
         
         # get nodata value for the input raster
-        if nodata_value is None:  # if nodata value is not defined, set 0 as a default
-            nodata_value = 0
+        if nodata_value is None:  # if nodata value is not defined, get it from the band
+            nodata_value = base_band.GetNoDataValue()
         base_data[base_data == nodata_value] = np.nan  # replace nodata value with nan for processing
         print(f"Nodata value of the input raster dataset: {nodata_value}")
         
@@ -522,8 +571,14 @@ class LULCEnrichmentWrapper():
             data[data == current_nodata] = np.nan  # replace nodata with nan for processing
             
             # overwrite values in base_data where current raster has valid data
-            mask = ~np.isnan(data)
-            base_data[mask] = data[mask]
+            
+            # create a mask for valid data in the current raster
+            valid_mask = ~np.isnan(data) #& ~np.isnan(base_data)  # both base_data and data should not be NaN
+            
+            # replace values in base_data with the current raster data where valid_mask is True and base_data > 100 add 100 to the current raster data
+            base_data[valid_mask] = np.where(base_data[valid_mask] > 100, data[valid_mask] + 100, data[valid_mask])
+
+            
         
         # after processing, replace NaNs with the nodata value before saving
         base_data[np.isnan(base_data)] = nodata_value
@@ -600,7 +655,7 @@ class LULCEnrichmentWrapper():
     """
 if __name__ == "__main__":
     config_path = os.path.join(os.getcwd(),"config", "config.yaml")
-    lew = LULCEnrichmentWrapper(working_dir=os.getcwd(),config_path=config_path, osm_api_type="overpass", threads=4, verbose=True)
+    lew = LULCEnrichmentWrapper(working_dir=os.getcwd(),config_path=config_path, osm_api_type="overpass", threads=4, use_lulc_pa=True, verbose=True)
 
     reclass_table = os.path.join(os.getcwd(),"config", "config.yaml")
 
@@ -609,7 +664,7 @@ if __name__ == "__main__":
     #buffer vector roads and railways
     lew.buffer_vector_roads_and_railways()
     # merge LULC and OSM data
-    lulc_upd = lew.merge_lulc_osm_data(lew.years[0], save_osm_stressors=True, cog_compress=False)
+    lulc_upd = lew.merge_lulc_osm_data(lew.years[0], nodata_value=None ,save_osm_stressors=True, cog_compress=False)
     # create updated impedance datasets (WITHOUT EDGE EFFECT)
     """lew.update_impedance_noedge(lulc_upd, input_impedance, upd_impedance, self.reclass_table, out_nodata)"""
     print("LULC and OSM data processing complete.")

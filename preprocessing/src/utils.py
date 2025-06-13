@@ -1,4 +1,4 @@
-from osgeo import ogr
+from osgeo import ogr,gdal
 import yaml
 import os
 
@@ -112,24 +112,33 @@ def find_stressor_params(config_dict: dict, search_key: str):
     return None  # return None if not found
 
 
-def get_lulc_template(config:dict, year:int) -> str:
+def get_lulc_using_template(config:dict, get_lulc_pa:bool, year:int) -> str:
     """
     Gets the LULC template from the configuration file and returns the path to the LULC raster dataset for the input year.
 
     Args:
         config (dict): The configuration dictionary.
+        get_lulc_pa (bool): If True, returns the path to the LULC PA sum raster dataset, otherwise returns the path to the LULC raster dataset.
         year (int): The year for which the LULC template is required.
-    
+        
     Returns:
-        lulc (str): The relative (from the working directory) filepath to the LULC raster dataset for the input year.
+        lulc_filepath (str): The relative filepath (from the working directory) to the LULC raster dataset for the input year.
     """
     
-    lulc_template = config.get('lulc', None)
-    if lulc_template is None:
-        raise("LULC template is null or not found in the configuration file.")
+    lulc_filepath = ""
+    lulc_template = str(config.get('lulc', None))
+    if lulc_template is None or lulc_template == "":
+        raise Exception("LULC template is null or not found in the configuration file.")
     else:
-        # NOTE: For now we are using the first year in the list of years
-        return os.path.normpath(os.path.join(config['lulc_dir'], lulc_template.format(year=year)))
+        if get_lulc_pa:
+            lulc_template = lulc_template.replace("{year}.tif", "pa_{year}.tif")
+            lulc_filepath = os.path.normpath(os.path.join(config["lulc_pa_dir"],lulc_template.format(year=year)))
+        else:
+            lulc_filepath = os.path.normpath(os.path.join(config['lulc_dir'], lulc_template.format(year=year)))
+    # check if the file exists
+    if not os.path.exists(lulc_filepath):
+        raise FileNotFoundError(f"LULC file for year {year} not found at path: {lulc_filepath}")
+    return lulc_filepath
     
 def read_years_from_config(config:dict) -> list[int]:
     """
@@ -150,3 +159,19 @@ def read_years_from_config(config:dict) -> list[int]:
     else:
         # cast to list
         return [int(year) for year in years]
+    
+def get_nodata_from_raster(raster_path: str) -> int:
+    """
+    Get the nodata value from the raster dataset.
+    """
+    # open the impedance raster to get the nodata value
+    dataset = gdal.Open(raster_path)
+    if dataset is None:
+        raise Exception("Could not open impedance raster to get nodata value.")
+    input_band = dataset.GetRasterBand(1)
+    out_nodata = input_band.GetNoDataValue()
+    print(f"Using nodata value from the impedance raster: {out_nodata}")
+    if out_nodata is None:
+        out_nodata = 0
+        print(f"No nodata value found in the impedance raster. Using default value: 0")
+    return out_nodata

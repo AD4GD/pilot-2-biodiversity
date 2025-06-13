@@ -5,37 +5,29 @@ from rich import print
 class LulcPaRasterSum():
 
     def __init__(self, 
-        input_path:str,
         output_path:str,
         lulc_dir:str,
         lulc_template:str,
-        use_yearly_pa_rasters:bool,
-        lulc_with_null_path:str,
         pa_path:str, 
-        lulc_upd_compr_path:str
+        use_yearly_pa_rasters:bool,
     ):
         """
         Initialize the combine_rasters class
 
         Args:
-            input_path (str): The path to the input directory.
-            output_path (str): The path to the output directory.
+            output_path (str): The path to the output directory to store the combined LULC and PA rasters.
             lulc_dir (str): The path to the LULC raster data directory.
             lulc_template (str): The template lulc file (to filter files for only this case study)
-            use_yearly_pa_rasters (bool): Use yearly PA rasters.
-            lulc_with_zeros_path (str): The path to the LULC raster data with zeros.
-            lulc_upd_compr_path (str): The path to the combined LULC and PA raster data.
             pa_path (str): The path to the PA raster data.
-
+            use_yearly_pa_rasters (bool): Use yearly PA rasters.
         """
         
         self.lulc_dir = lulc_dir
         self.lulc_template = lulc_template
+        self.lulc_upd = lulc_template.replace("{year}.tif", "pa_{year}.tif")
         self.use_yearly_pa_rasters = use_yearly_pa_rasters
-        self.lulc_with_null_path = self.make_directory_if_not_exists(os.path.join(input_path,"protected_areas", lulc_with_null_path))
-
-        self.lulc_upd_compr_path = self.make_directory_if_not_exists(os.path.join(output_path, "protected_areas", lulc_upd_compr_path))
-        self.pa_path = self.make_directory_if_not_exists(os.path.join(output_path,"protected_areas", pa_path))
+        self.output_path = self.make_directory_if_not_exists(os.path.join(output_path))
+        self.pa_path = self.make_directory_if_not_exists(pa_path)
 
     def make_directory_if_not_exists(self, path:str):
         """
@@ -51,23 +43,29 @@ class LulcPaRasterSum():
             os.makedirs(path)
         return path
     
-    def assign_no_data_values(self):
+    def assign_no_data_to_pa_raster(self, year:int):
         """
-        Reassign no data values to the LULC raster data as temporary files
+        Reassign no data values to the PA raster data as temporary files
+
+        Args:
+            year (int): The year of PA data for which to assign no data values
+        Returns:
+            str: The path to the temporary PA raster file with no data values assigned
         """
-        # loop through the files
-        for file in os.listdir(self.lulc_dir):
-            if self.lulc_template.split("_{year}.tif")[0] not in file.split("_{year}.tif")[0]:
-                continue
-            else:
-                # get the file path
-                file_path = os.path.join(self.lulc_dir, file)
-                output_path = os.path.join(self.lulc_with_null_path, file.replace(".tif", "_temp.tif"))
-                gdal_command = f"""
-                gdal_translate -a_nodata none -co COMPRESS=LZW -co TILED=YES {file_path} {output_path}
-                """
-                subprocess.run(gdal_command, shell=True)
-                print(f"[green] No data values assigned complete for file: {file} [green]")
+        if self.use_yearly_pa_rasters:
+            # check if matching year pa file exists
+            pa_file = os.path.join(self.pa_path, f"pa_{year}.tif")
+        else:
+            pa_file = os.path.join(self.pa_path, "pa_multi_year.tif")
+
+        # make a temp pa_file with null no data values
+        temp_pa_file = os.path.join(self.pa_path, f"pa_{year}_temp.tif")
+        gdal_command = f"""
+        gdal_translate -a_nodata none -co COMPRESS=LZW -co TILED=YES {pa_file} {temp_pa_file}
+        """
+        subprocess.run(gdal_command, shell=True)
+
+        return temp_pa_file
 
     def combine_pa_lulc(self, keep_temp_files:bool=False):
         """
@@ -79,20 +77,34 @@ class LulcPaRasterSum():
         Returns:
             None
         """
-        null_assgined_lulc_files = os.listdir(self.lulc_with_null_path)
-        for lulc_file_with_null in null_assgined_lulc_files:
-            year = lulc_file_with_null.split("_")[-2].split(".")[0]
-            if self.use_yearly_pa_rasters:
-                # check if matching year pa file exists
-                pa_file = os.path.join(self.pa_path, f"pa_{year}.tif")
+        lulc_files = os.listdir(self.lulc_dir)
+        # filter files for the case study
+        lulc_files = [f for f in lulc_files if self.lulc_template.split("_{year}.tif")[0] in f.split("_{year}.tif")[0]]
+        
+        for lulc_file in lulc_files:
+            # get PA file for the year or use multi-year PA file
+            year = lulc_file.split("_")[-1].split(".")[0]
+            pa_file = self.assign_no_data_to_pa_raster(year)
+
+            # get no data values assigned to the lulc file
+            lulc_file = os.path.join(self.lulc_dir, lulc_file)
+            if not os.path.exists(lulc_file):
+                raise FileNotFoundError(f"LULC file for year {year} does not exist: {lulc_file}")
+            
+            # get no_data of lulc file
+            gdal_command = f"gdalinfo {lulc_file} | grep 'NoData Value'"
+            result = subprocess.run(gdal_command, shell=True, capture_output=True, text=True)
+            if result.returncode != 0:
+                raise RuntimeError(f"Failed to get NoData Value from LULC file: {lulc_file}")
             else:
-                pa_file = os.path.join(self.pa_path, "pa_multi_year.tif")
+                no_data_value = result.stdout.split(":")[-1].split("=")[-1].strip()
+
             if os.path.exists(pa_file):
-                lulc_pa_sum_file = os.path.join(self.lulc_upd_compr_path, f"lulc_{year}_pa.tif")
+                lulc_pa_sum_file = os.path.join(self.output_path, self.lulc_upd.format(year=year))
                 gdal_command = " ".join([
                     "gdal_calc.py --overwrite --calc 'A+B' --format GTiff",
-                    "--type Int32 --NoDataValue=-2147483647",
-                    f"-A {os.path.join(self.lulc_with_null_path, lulc_file_with_null)}",
+                    f"--NoDataValue {no_data_value} --type Int32",
+                    f"-A {lulc_file}",
                     f"--A_band 1 -B {pa_file}",
                     f"--outfile {lulc_pa_sum_file}",
                     "--co COMPRESS=LZW --co TILED=YES"
@@ -102,9 +114,9 @@ class LulcPaRasterSum():
             else:
                 raise FileNotFoundError(f"PA file for year {year} does not exist")
             
-        # remove the temp files directory
-        if keep_temp_files == False:
-            subprocess.run(f"rm -rf {self.lulc_with_null_path}", shell=True)
+            # remove the temp files
+            if keep_temp_files == False:
+                subprocess.run(f"rm -rf {pa_file}", shell=True)
 
 
 # Example usage
@@ -117,15 +129,11 @@ if __name__ == "__main__":
     lulc_template = config.get("lulc")
 
     lprs = LulcPaRasterSum(
-        input_path=os.path.join(working_dir, case_study_dir, "input"),
-        output_path=os.path.join(working_dir, case_study_dir, "output"),
+        output_path=os.path.join(working_dir,config["lulc_pa_dir"]),
         lulc_dir=config.get("lulc_dir"),
         lulc_template = config.get("lulc"),
+        pa_path=os.path.join(working_dir, case_study_dir, "output","protected_areas","pa_rasters"),
         use_yearly_pa_rasters=False,
-        lulc_with_null_path="lulc_temp",
-        pa_path="pa_rasters",
-        lulc_upd_compr_path="lulc_pa"
     )
-    lprs.assign_no_data_values()
 
     lprs.combine_pa_lulc()

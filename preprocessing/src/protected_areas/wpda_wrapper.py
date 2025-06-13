@@ -115,21 +115,28 @@ class WDPAWrapper():
         rp.reproject_pa_data(rp.lulc_metadata.crs_info["epsg"],filter_by_year=pa_to_yearly_rasters)
         rp.rasterize_pa_geopackage(rp.lulc_metadata, pa_to_yearly_rasters, keep_intermediate_gpkg=False)
 
-    def sum_lulc_pa_rasters(self,input_path:str, output_path:str, lulc_dir:str, lulc_template:str, use_yearly_pa_rasters:bool) -> None:
+    def sum_lulc_pa_rasters(self, output_path:str, lulc_dir:str, lulc_template:str, pa_path:str ,use_yearly_pa_rasters:bool) -> None:
         """
         Sum the LULC and PA raster data.
 
         Args:
-            input_path (str): The path to the input directory.
-            output_path (str): The path to the output directory.
+            output_path (str): The path to the directory where the output data will be saved.
             lulc_dir (str): The path to the directory containing the LULC raster data.
-            lulc_template (str): The template name for LULC raster data in a given case study.
-            use_yearly_pa_rasters (bool): Use yearly PA rasters
+            lulc_template (str): The template for the LULC raster data.
+            pa_path (str): The path to the directory containing the PA raster data.
+            use_yearly_pa_rasters (bool): Use yearly PA rasters instead of multi-year rasters.
         Returns:
             None
         """
-        lprs = LulcPaRasterSum(input_path, output_path, lulc_dir, lulc_template, use_yearly_pa_rasters, lulc_with_null_path="lulc_temp", pa_path="pa_rasters", lulc_upd_compr_path="lulc_pa")
-        lprs.assign_no_data_values()
+
+        lprs = LulcPaRasterSum(
+            output_path=output_path,
+            lulc_dir=lulc_dir,
+            lulc_template=lulc_template,
+            pa_path=pa_path,
+            use_yearly_pa_rasters=use_yearly_pa_rasters
+        )
+        # lprs.assign_no_data_values()
         lprs.combine_pa_lulc()
 
     def compute_affinity(self, affinity_dir:str='affinity') -> None:
@@ -192,6 +199,7 @@ if __name__ == "__main__":
         output_path=os.path.join(working_dir, case_study_dir, "output"),
         lulc_dir=lulc_dir,
         lulc_template = lulc_template,
+        lulc_upd_path = os.path.join(working_dir,wp.config["lulc_pa_dir"]),
         use_yearly_pa_rasters=False
     )
     wp.reclassify_raster_with_impedance()

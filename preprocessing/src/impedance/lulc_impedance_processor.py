@@ -7,7 +7,7 @@ import copy
 from osgeo import gdal
 from typing import Iterator
 # local imports
-from utils import get_lulc_template
+from utils import get_lulc_using_template
 from impedance.interfaces.impedance_config_handler import ImpedanceConfigurationHandler
 
 class LULCImpedanceProcessor(ImpedanceConfigurationHandler): 
@@ -39,7 +39,7 @@ class LULCImpedanceProcessor(ImpedanceConfigurationHandler):
         else:
             self.impedance_dir = os.path.join(current_dir, self.config["case_study_dir"], self.config['impedance_dir'])
   
-    def update_impedance_config(self):
+    def update_impedance_config(self, use_lulc_pa:bool):
         """
         Sequentially calls the methods to update the impedance configuration file with stressors and default decay parameters.
         - Updates the impedance configuration file with stressors and default decay parameters
@@ -51,7 +51,7 @@ class LULCImpedanceProcessor(ImpedanceConfigurationHandler):
             config_impedance (dict): The updated configuration file with the LULC stressors added.
         """
         # define the path to the LULC raster dataset
-        self.lulc_path = os.path.normpath(os.path.join(get_lulc_template(self.config,self.year)))
+        self.lulc_path = os.path.normpath(os.path.join(get_lulc_using_template(self.config,use_lulc_pa,self.year)))
         self.lulc_properties = self.get_lulc_raster_properties(self.lulc_path)
         self.impedance_stressors = self.extract_lulc_stressors(self.year)
         return self.impedance_stressors, self.config_impedance

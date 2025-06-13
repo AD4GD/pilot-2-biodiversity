@@ -12,7 +12,7 @@ class ImpedanceProcessor():
     It computes the proximity raster for each stressor and calculates the edge effect based on the proximity data and the configuration parameters.
     """
 
-    def __init__(self, max_result:float,cumul_result:float, current_dir:str, output_dir:str, year:int, config_impedance:dict, yaml_stressor:str, stressor_raster:str, driver:gdal.Driver, mem_driver:gdal.Driver, impedance_ds:gdal.Dataset, impedance_max:float, verbose:bool) -> None:
+    def __init__(self, max_result:float,cumul_result:float, current_dir:str, output_dir:str, year:int, config_impedance:dict, yaml_stressor:str, stressor_raster:str, driver:gdal.Driver, mem_driver:gdal.Driver, impedance_ds:gdal.Dataset, impedance_max:float,nodata_value:int, verbose:bool) -> None:
         """
         Initialize the Impedance class with the configuration file paths and other parameters.
 
@@ -43,6 +43,11 @@ class ImpedanceProcessor():
         self.mem_driver = mem_driver
         self.impedance_ds = impedance_ds
         self.impedance_max = impedance_max
+        self.nodata_value = nodata_value # no data value for the input raster dataset
+        print(f"Original no data value for input impedance dataset is {self.nodata_value}") # debug
+        if self.nodata_value is None:
+            raise ValueError("No data value is not defined for the input raster dataset. Please check the configuration file or the input raster dataset.")
+        
         # open the input raster dataset
         self.ds = gdal.Open(stressor_raster)
         self.verbose = verbose #TODO: implement verbose mode
@@ -60,13 +65,7 @@ class ImpedanceProcessor():
         """
 
         self.input_band = self.ds.GetRasterBand(1)
-        self.nodata_value = self.input_band.GetNoDataValue()
-        print(f"Original no data value for input dataset is {self.nodata_value}") # debug
-        if self.nodata_value is None:
-            self.nodata_value = -9999  
-            self.input_band.SetNoDataValue(self.nodata_value)
-        print(f"No data value for input dataset is {self.nodata_value}") # debug
-
+        stressor_nodata_value = self.input_band.GetNoDataValue()
         data = self.input_band.ReadAsArray()
         # debug
         min_value = np.min(data)
@@ -74,7 +73,7 @@ class ImpedanceProcessor():
         print(f"Range of values in the data: {min_value} to {max_value}")
 
         # extract unique values from the dataset (ignoring nodata value)
-        self.unique_val = np.unique(data[data != self.nodata_value])
+        self.unique_val = np.unique(data[data != stressor_nodata_value])
         print(f"Unique values (excluding NoData): {self.unique_val}")
         # raise an error if there are more than one unique value
         if len(self.unique_val) > 1:
@@ -84,13 +83,13 @@ class ImpedanceProcessor():
         else:
             self.unique_val = int(self.unique_val[0])
 
-        no_data_count = np.sum(data == self.nodata_value) # supposed to be non-zero
+        no_data_count = np.sum(data == stressor_nodata_value) # supposed to be non-zero
         print (f"No data count: {no_data_count}")
 
         # get the geo-transform (affine transformation parameters)
         self.geotransform = self.ds.GetGeoTransform()
         self.projection = self.ds.GetProjection()
-        return self.nodata_value, self.unique_val, self.geotransform, self.projection
+        return stressor_nodata_value, self.unique_val, self.geotransform, self.projection
 
     def compute_proximity(self, out_nodata:int):
         """

@@ -23,9 +23,14 @@ class UpdateLandImpedance():
 
         # read input folder for LULC data
         self.lulc_dir = self.config.get('lulc_dir')
-        self.lulc_pa_dir = os.path.join(working_dir,self.config.get("case_study_dir"), "output", "protected_areas", "lulc_pa")
-        # read impedance_dir as the output folder
+        self.lulc_pa_dir = os.path.join(working_dir,"data", "shared", "input", "lulc_pa")
+        self.lulc_template = self.config.get('lulc', None)
 
+        #TODO move to config validator
+        # if self.lulc_template is None or self.lulc_template == "":
+        #     raise ValueError("LULC template is null or not found in the configuration file.")
+
+        # read impedance_dir as the output folder
         if self.config["subcase_study"]:
             self.impedance_dir = os.path.join(working_dir, self.config["case_study_dir"], self.config['impedance_dir'].split('/')[0], self.config["subcase_study"] + "_" + self.config['impedance_dir'].split('/')[-1])
         else:
@@ -34,6 +39,7 @@ class UpdateLandImpedance():
         # read flag on reclassification table (lulc-impedance) from configuration file (true or false)
         # TODO - explicitly specify in CLI process-wdpa
         self.lulc_reclass_table = self.config.get('lulc_reclass_table')
+
         #TODO move to config validator
         # if self.lulc_reclass_table is None:
         #     warnings.warn("Flag on the usage of reclassification table is not found.")
@@ -105,7 +111,8 @@ class UpdateLandImpedance():
 
                 # get the corresponding LULC file for this impedance file (get year from the filename)
                 year = base_name.split('_')[-1]
-                lulc_file_base = f"lulc_{year}_pa.tif"
+                lulc_file_base = str(self.lulc_template).replace("{year}.tif", "pa_{year}.tif")
+                lulc_file_base = lulc_file_base.format(year=year)
                 lulc_file = os.path.join(self.lulc_pa_dir, lulc_file_base)
 
                 # modify the output raster filename to ensure it's different from the input raster filename

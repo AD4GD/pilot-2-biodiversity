@@ -5,7 +5,7 @@ import json
 import subprocess
 
 # local imports
-from utils import get_lulc_template
+from utils import get_lulc_using_template
 from reprojection import RasterTransform
 import timing
 
@@ -14,14 +14,15 @@ class OverpassWrapper():
     This OSM (OpenStreetMap) Pre-Processor class fetches OSM data for a given set of years and a bounding box.
     Currently only fetches for one year of OSM data.
     """
-    def __init__(self, config:dict, output_dir:str, verbose:bool, years:list[int]) -> None:
+    def __init__(self, config:dict, output_dir:str, years:list[int], use_lulc_pa:bool, verbose:bool) -> None:
         """
         Initialize the OverpassWrapper (OSM Pre-Processor) class with the configuration file and output directory.
 
         Args:
-            lulc_dir (str): the directory containing the LULC files
             config (dict): The configuration.yaml loaded as a dictionary
             output_dir (str): the output directory to save the intermediate files
+            years (list[int]): a list of years to process
+            use_lulc_pa (bool): whether to use the LULC PA (Protected Area) template or not
             verbose (bool): verbose output
         """
         self.config = config
@@ -30,7 +31,7 @@ class OverpassWrapper():
         self.verbose = verbose
 
         # create a dictionary of LULC files and corresponding years
-        lulc_series = {get_lulc_template(self.config, year):year for year in self.years}
+        lulc_series = {get_lulc_using_template(self.config, use_lulc_pa, year):year for year in self.years}
         
         # We can use the first raster to get the bounding box, as all rasters for each case study should have the same extent
         lulc = list(lulc_series.keys())[0]

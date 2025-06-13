@@ -175,7 +175,7 @@ class ImpedanceWrapper():
 
         output_data = np.where(
             np.isin(input_data, list(reclass_dict.keys())), 
-            np.vectorize(reclass_dict.get, otypes=[float if has_decimal_values else int])(input_data), 
+            np.vectorize(lambda x: reclass_dict.get(x, float(out_nodata) if has_decimal_values else out_nodata), otypes=[float if has_decimal_values else int])(input_data), 
             float(out_nodata) if has_decimal_values else out_nodata
         )
 
@@ -209,12 +209,13 @@ class ImpedanceWrapper():
         
         return impedance_ds, impedance_max
     
-    def process_impedance_config(self, year:int) -> dict:
+    def process_impedance_config(self, year:int, use_lulc_pa:bool) -> dict:
         """
         Process the impedance configuration (initial setup + lulc & osm stressors)
 
         Args:
             year (int): The year to use for the impedance dataset.
+            use_lulc_pa (bool): Use LULC PA sum rasters instead of original LULC rasters
 
         Returns:
             impedance_stressors (dict): dictionary for stressors, mapping stressor raster path to YAML alias
@@ -226,7 +227,7 @@ class ImpedanceWrapper():
 
         icp = ImpedanceConfigProcessor(year=year, params_placeholder=self.params_placeholder, config=self.config, config_impedance=self.config_impedance, verbose=self.verbose)
         icp.setup_config_impedance()
-        impedance_stressors, self.config_impedance = icp.process_stressors(self.current_dir, self.stressor_dir, config_dir)
+        impedance_stressors, self.config_impedance = icp.process_stressors(self.current_dir, self.stressor_dir, config_dir,use_lulc_pa)
         # save the updated configuration file
         save_yaml(self.config_impedance, self.config_impedance_path)
 
@@ -272,6 +273,7 @@ class ImpedanceWrapper():
                 mem_driver=mem_driver,
                 impedance_ds=impedance_ds,
                 impedance_max=impedance_max,
+                nodata_value=out_nodata,
                 verbose=self.verbose
                 )
             if impedance_processor.ds is None:
@@ -289,6 +291,7 @@ class ImpedanceWrapper():
     
 if __name__ == "__main__":
     stressor_yaml_path = os.path.join('config', 'stressors.yaml')
+    use_lulc_pa = True
 
     if not os.path.exists(stressor_yaml_path):
         raise FileNotFoundError("The stressors.yaml file is not found. Please add the file to the config directory.")
@@ -309,7 +312,7 @@ if __name__ == "__main__":
         # 1. Process the impedance configuration (initial setup + lulc & osm stressors)
         # e.g. impedance_stressors = {'primary': '/data/data/output/roads_primary_2018.tif'}
         # update the impedance_stressors dictionary with the stressors for the current year
-        impedance_stressors.update(iw.process_impedance_config(year))
+        impedance_stressors.update(iw.process_impedance_config(year,use_lulc_pa))
 
     # 2. Prompt user to update the configuration file
     print("Please check/update the configuration file for impedance dataset (config_impedance.yaml):")
@@ -323,26 +326,38 @@ if __name__ == "__main__":
         # 3.0 set the output path for the new impedance raster dataset 
         impedance_tif_template = str(iw.config.get('impedance_tif'))
         impedance_tif_path = impedance_tif_template.format(year=year) # substitute year from the configuration file
+        original_impedance_tiff = os.path.normpath(os.path.join(iw.impedance_dir,impedance_tif_path))
+        
         impedance_tif_path = impedance_tif_path.replace(".tif", "_upd.tif")
         #impedance_tif_path = os.path.normpath(os.path.join(iw.impedance_res_dir , impedance_tif_path))
         impedance_tif_path = os.path.normpath(os.path.join(iw.impedance_dir,impedance_tif_path))
 
-        lulc_upd = os.path.join(iw.config.get('case_study_dir'), "output", str(iw.config.get('lulc').format(year=year)).replace('.tif', "_upd.tif"))
-        out_nodata = -9999
-        
-        # 3.1 Reclassify LULC raster to impedance raster
+        lulc_template = str(iw.config.get('lulc'))
+        if lulc_template is None or lulc_template == "":
+            raise Exception("lulc in config is null/empty or does not exist")
+        elif use_lulc_pa:
+            lulc_template = lulc_template.replace("{year}.tif","pa_{year}_upd.tif").format(year = year)
+        else:
+            lulc_template = lulc_template.replace('.tif', "_upd.tif").format(year=year)
+        lulc_upd = os.path.join(iw.config.get('case_study_dir'), "output", lulc_template)
+    
+        # 3.1 get nodata from original impedance raster
+        from utils import get_nodata_from_raster
+        nodata_value = get_nodata_from_raster(original_impedance_tiff)
+
+        # 3.2 Reclassify LULC raster to impedance raster
         impedance_tif = iw.reclassify_lulc2impedance(
             input_raster= lulc_upd,
             impedance_raster= impedance_tif_path,
             reclass_table= os.path.join(iw.impedance_dir, iw.config.get('impedance')),
-            out_nodata= out_nodata
+            out_nodata= nodata_value
         )
          
-        # 3.2  Get the maximum value of the impedance raster dataset
+        # 4  Get the maximum value of the impedance raster dataset
         impedance_ds, impedance_max = iw.get_impedance_max_value(impedance_tif_path=impedance_tif)
 
-        #3.0 Calculate impedance
-        max_result_tif = iw.calculate_impedance(year,impedance_stressors,impedance_ds,impedance_max, out_nodata)
+        #5 Calculate impedance
+        max_result_tif = iw.calculate_impedance(year,impedance_stressors,impedance_ds,impedance_max, nodata_value)
 
     # # delete temporary impedance stressors.yaml
     # os.remove(stressor_yaml_path)

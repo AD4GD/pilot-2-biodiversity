@@ -7,7 +7,7 @@ import json
 import time
 from rich import print as rprint
 # local imports
-from utils import get_lulc_template
+from utils import get_lulc_using_template
 from reprojection import RasterTransform
 
 
@@ -26,13 +26,13 @@ class TLSAdapter(HTTPAdapter):
 
 class OhsomeWrapper:
 
-    def __init__(self, config:dict, output_dir:str, years:list[int], verbose:bool):
+    def __init__(self, config:dict, output_dir:str, years:list[int], use_lulc_pa:bool, verbose:bool):
         self.config = config
         self.output_dir = output_dir
         self.verbose = verbose
         self.years = years
         # create a dictionary of LULC files and corresponding years
-        lulc_series = {get_lulc_template(self.config, year):year for year in self.years}
+        lulc_series = {get_lulc_using_template(self.config, use_lulc_pa, year):year for year in self.years}
 
         # We can use the first raster to get the bounding box, as all rasters for each case study should have the same extent
         lulc = list(lulc_series.keys())[0]

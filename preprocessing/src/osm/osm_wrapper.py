@@ -7,7 +7,7 @@ import shutil
 
 class OSMWrapper():
 
-    def __init__(self, working_dir:str, config_path:str, api_type:str, verbose:bool) -> None:
+    def __init__(self, working_dir:str, config_path:str, use_lulc_pa:bool, api_type:str, verbose:bool) -> None:
         """
         Initialize the WDPAWrapper class
 
@@ -25,14 +25,18 @@ class OSMWrapper():
         self.case_study_dir = self.config['case_study_dir']
         self.case_study = self.case_study_dir.split('/')[-1]
         self.verbose = verbose
-        self.osm_output_data_dir = os.path.abspath(os.path.join(working_dir, "data","shared","input","osm_data",self.case_study))
+        self.osm_output_data_dir = os.path.normpath(os.path.join(working_dir, "data","shared","input","osm_data",self.case_study))
         os.makedirs(self.osm_output_data_dir, exist_ok=True)
 
-        self.input_dir = os.path.abspath(os.path.join(working_dir, self.case_study_dir,"input"))
-        self.lulc_dir = os.path.abspath(self.config['lulc_dir'])
+        self.input_dir = os.path.normpath(os.path.join(working_dir, self.case_study_dir,"input"))
+        self.use_lulc_pa = use_lulc_pa
+        if self.use_lulc_pa:
+            self.lulc_dir = os.path.normpath(os.path.join(self.config['case_study_dir'], 'input', 'lulc_pa'))
+        else:
+            self.lulc_dir = os.path.normpath(self.config['lulc_dir'])
 
         # vector_dir is where the final merged gpkg files will be stored
-        self.vector_dir = os.path.abspath(os.path.join(self.input_dir, 'vector'))
+        self.vector_dir = os.path.normpath(os.path.join(self.input_dir, 'vector'))
         os.makedirs(self.vector_dir, exist_ok=True)
         self.gpkg_dir = os.path.join(self.osm_output_data_dir, 'gpkg_temp')
         os.makedirs(self.gpkg_dir, exist_ok=True)
@@ -46,7 +50,7 @@ class OSMWrapper():
             years (list): a list of years to process (From the OSMPreprocessor class)
             skip_fetch (bool): whether to skip fetching OSM data or not. If FALSE, it will OVERWRITE any existing JSON files.
         """
-        ow = OverpassWrapper(self.config, self.osm_output_data_dir, self.verbose, years)
+        ow = OverpassWrapper(self.config, self.osm_output_data_dir, years, self.use_lulc_pa, self.verbose)
         for year in years:
             # build the queries for the year
             queries = ow.overpass_query_builder(year, bbox=ow.bbox)
@@ -75,7 +79,7 @@ class OSMWrapper():
             years (list): a list of years to process (From the OSMPreprocessor class)
             skip_fetch (bool): whether to skip fetching OSM data or not. If FALSE, it will OVERWRITE any existing JSON files.
         """
-        ow = OhsomeWrapper(self.config, self.osm_output_data_dir, years, self.verbose)
+        ow = OhsomeWrapper(self.config, self.osm_output_data_dir, years, self.use_lulc_pa,  self.verbose)
         all_years = True if len(years) > 1 else False # if more than one year is provided, then fetch all years combined into one JSON file
         year = years[-1]
         intermediate_jsons = [os.path.join(self.osm_output_data_dir, file) for file in os.listdir(self.osm_output_data_dir) if f'ohsome_pre_{year}.json' in file]
@@ -148,7 +152,7 @@ class OSMWrapper():
 
 
 if __name__ == "__main__":
-    osm = OSMWrapper(os.getcwd(), "./config/config.yaml",api_type="ohsome", verbose=True)
+    osm = OSMWrapper(os.getcwd(), "./config/config.yaml",use_lulc_pa=False, api_type="ohsome", verbose=True)
     osm.osm_to_geojson(osm.years, skip_fetch=True)
     osm.osm_to_merged_gpkg(osm.years, osm.api_type)
     osm.delete_temp_files(True, True)
