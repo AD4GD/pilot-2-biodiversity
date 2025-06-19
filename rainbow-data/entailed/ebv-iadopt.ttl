@@ -13,45 +13,47 @@
 
 <https://raw.githubusercontent.com/opengeospatial/NamingAuthority/master/entailed/ebv-iadopt.ttl> a prov:Entity ;
     dcterms:format "text/turtle" ;
-    dcterms:hasVersion "git:0f9430b3eeebb6152af524823f3d8e24f88f7965",
+    dcterms:hasVersion "git:02f03bcf7e03cd525421551048b358c6197cbb29",
         "git:a9453b97572804acd59708a6bc49b1303e318859" ;
-    prov:wasAttributedTo _:Nddf49a4a498b4884a79539f6714905bd,
-        _:n5afbf70a4a3641a0ab8cf3c2f929c7dcb1 ;
+    prov:wasAttributedTo _:N268e9cba36cf45f4a4bc82d9b2d7ad02,
+        _:nbf2c92ae4c94434985ab62a959c172eab1 ;
     prov:wasGeneratedBy [ a prov:Activity ;
             rdfs:label "Entailment and validation" ;
-            rdfs:comment "python ogc.na.update_vocabs rainbow-data/catalog.ttl --batch -w rainbow-data --update --graph-store https://defs-dev.opengis.net/fuseki-hosted/data" ;
-            prov:endedAtTime "2025-06-14T03:38:13.268908"^^xsd:dateTime ;
-            prov:startedAtTime "2025-06-14T03:37:21.616452"^^xsd:dateTime ;
+            rdfs:comment "python ogc.na.update_vocabs rainbow-data/catalog.ttl --batch -w rainbow-data --update --graph-store https://defs-hosted.opengis.net/fuseki-hosted/data" ;
+            prov:endedAtTime "2025-06-19T07:37:31.402269"^^xsd:dateTime ;
+            prov:startedAtTime "2025-06-19T07:36:39.092472"^^xsd:dateTime ;
             prov:used [ a prov:Entity ;
                     dcterms:format "text/turtle" ;
-                    dcterms:hasVersion "git:0f9430b3eeebb6152af524823f3d8e24f88f7965" ;
+                    dcterms:hasVersion "git:02f03bcf7e03cd525421551048b358c6197cbb29" ;
                     rdfs:seeAlso <https://raw.githubusercontent.com/opengeospatial/NamingAuthority/master/ebv-iadopt.ttl> ],
                 [ a prov:Entity ;
-                    rdfs:seeAlso <https://datashapes.org/dash.ttl> ],
+                    rdfs:seeAlso <http://www.opengis.net/def/metamodel/profiles/skos_shared> ],
+                [ a prov:Entity ;
+                    rdfs:seeAlso <http://defs-dev.opengis.net/ogc-na/scripts/ogc_skos_profile.shapes.ttl> ],
                 [ a prov:Entity ;
                     rdfs:seeAlso <http://defs-dev.opengis.net/ogc-na/definitions/profiles/resources/skos_shared_shacl.ttl> ],
                 [ a prov:Entity ;
-                    rdfs:seeAlso <http://defs-dev.opengis.net/def/metamodel/profiles/skos_shared?_profile=shacl&_mediatype=text/turtle> ],
+                    rdfs:seeAlso <https://datashapes.org/dash.ttl> ],
                 [ a prov:Entity ;
                     rdfs:seeAlso <http://defs-dev.opengis.net/ogc-na/scripts/ogc_skos_profile_entailments.ttl> ],
-                [ a prov:Entity ;
-                    rdfs:seeAlso <http://www.opengis.net/def/metamodel/profiles/skos_shared> ],
                 [ a prov:Entity ;
                     rdfs:seeAlso <http://defs-dev.opengis.net/ogc-na/scripts/skosbasics.shapes.ttl> ],
                 [ a prov:Entity ;
                     dcterms:format "text/turtle" ;
-                    dcterms:hasVersion "git:0f9430b3eeebb6152af524823f3d8e24f88f7965" ;
-                    rdfs:seeAlso <https://raw.githubusercontent.com/opengeospatial/NamingAuthority/master/catalog.ttl> ],
-                [ a prov:Entity ;
-                    rdfs:seeAlso <http://defs-dev.opengis.net/ogc-na/scripts/ogc_skos_profile.shapes.ttl> ] ;
-            prov:wasAssociatedWith _:Nddf49a4a498b4884a79539f6714905bd ;
-            prov:wasInformedBy [ dcterms:identifier "84c2eae0-3bc4-4a04-9a5e-5808a2a6ba07" ] ],
+                    dcterms:hasVersion "git:02f03bcf7e03cd525421551048b358c6197cbb29" ;
+                    rdfs:seeAlso <https://raw.githubusercontent.com/opengeospatial/NamingAuthority/master/catalog.ttl> ] ;
+            prov:wasAssociatedWith _:N268e9cba36cf45f4a4bc82d9b2d7ad02 ;
+            prov:wasInformedBy [ dcterms:identifier "cfeb7c91-9544-47ed-8bb8-45e2b875b71d" ] ],
         [ a prov:Activity ;
             rdfs:label "Entailment and validation" ;
             rdfs:comment "python ogc.na.update_vocabs .ogc/catalog.ttl --batch -w . --update --graph-store https://defs-dev.opengis.net/fuseki-hosted/data" ;
             prov:endedAtTime "2025-04-08T10:56:28.542944"^^xsd:dateTime ;
             prov:startedAtTime "2025-04-08T10:55:47.469839"^^xsd:dateTime ;
             prov:used [ a prov:Entity ;
+                    dcterms:format "text/turtle" ;
+                    dcterms:hasVersion "git:a9453b97572804acd59708a6bc49b1303e318859" ;
+                    rdfs:seeAlso <https://raw.githubusercontent.com/opengeospatial/NamingAuthority/master/ebv-iadopt.ttl> ],
+                [ a prov:Entity ;
                     rdfs:seeAlso <http://defs-dev.opengis.net/ogc-na/scripts/ogc_skos_profile_entailments.ttl> ],
                 [ a prov:Entity ;
                     rdfs:seeAlso <http://www.opengis.net/def/metamodel/profiles/skos_shared> ],
@@ -66,12 +68,8 @@
                     dcterms:hasVersion "git:a9453b97572804acd59708a6bc49b1303e318859" ;
                     rdfs:seeAlso <https://raw.githubusercontent.com/opengeospatial/NamingAuthority/master/.ogc/catalog.ttl> ],
                 [ a prov:Entity ;
-                    rdfs:seeAlso <https://datashapes.org/dash.ttl> ],
-                [ a prov:Entity ;
-                    dcterms:format "text/turtle" ;
-                    dcterms:hasVersion "git:a9453b97572804acd59708a6bc49b1303e318859" ;
-                    rdfs:seeAlso <https://raw.githubusercontent.com/opengeospatial/NamingAuthority/master/ebv-iadopt.ttl> ] ;
-            prov:wasAssociatedWith _:n5afbf70a4a3641a0ab8cf3c2f929c7dcb1 ;
+                    rdfs:seeAlso <https://datashapes.org/dash.ttl> ] ;
+            prov:wasAssociatedWith _:nbf2c92ae4c94434985ab62a959c172eab1 ;
             prov:wasInformedBy [ dcterms:identifier "10eb4c50-0e21-413f-be6f-45b9526aff68" ] ] .
 
 <http://w3id.org/ad4gd/ev/ebv/> a skos:Collection ;
@@ -8399,14 +8397,14 @@
     skos:prefLabel "Essential Biodiversity Variables - codelist scheme"@en ;
     dcat:theme <http://w3id.org/ad4gd/ev/> .
 
-_:Nddf49a4a498b4884a79539f6714905bd a prov:Agent,
+_:N268e9cba36cf45f4a4bc82d9b2d7ad02 a prov:Agent,
         schema:SoftwareApplication ;
     rdfs:label "OGC-NA tools" ;
     dcterms:hasVersion "0.4" ;
     rdfs:comment "ogc.na.update_vocabs version 0.4" ;
     rdfs:seeAlso <https://github.com/opengeospatial/ogc-na-tools> .
 
-_:n5afbf70a4a3641a0ab8cf3c2f929c7dcb1 a prov:Agent,
+_:nbf2c92ae4c94434985ab62a959c172eab1 a prov:Agent,
         schema:SoftwareApplication ;
     rdfs:label "OGC-NA tools" ;
     dcterms:hasVersion "0.4" ;
