@@ -51,7 +51,7 @@ jobs:
           DB_PASSWORD: ${{ secrets.UPLOAD_GRAPH_STORE_PASSWORD }}
         run: |
           python -m ogc.na.update_vocabs rainbow-data/catalog.ttl --batch  -w rainbow-data \
-            --update --graph-store https://defs-dev.opengis.net/fuseki-hosted/data
+            --update --graph-store https://defs-hosted.opengis.net/fuseki-hosted/data
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
         with:
