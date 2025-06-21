@@ -2,6 +2,9 @@
 Validation Report
 Conforms: True
 
+# Failed artifacts
+http://defs-dev.opengis.net/ogc-na/scripts/ogc_skos_profile.shapes.ttl
+
 === conceptscheme (http://www.opengis.net/def/metamodel/profiles/skos_conceptscheme) ===
 Validation Report
 Conforms: True
@@ -10,11 +13,15 @@ Conforms: True
 Validation Report
 Conforms: True
 
+# Failed artifacts
+http://defs-dev.opengis.net/ogc-na/scripts/ogc_skos_profile.shapes.ttl
+
 === skos_shared (http://www.opengis.net/def/metamodel/profiles/skos_shared) ===
 Validation Report
 Conforms: True
 
 # Failed artifacts
+http://defs-dev.opengis.net/ogc-na/definitions/profiles/resources/skos_shared_shacl.ttl
 http://defs-dev.opengis.net/def/metamodel/profiles/skos_shared?_profile=shacl&_mediatype=text/turtle
 
 === skos (http://www.w3.org/2004/02/skos/core) ===
