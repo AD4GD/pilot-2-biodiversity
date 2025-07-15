@@ -112,7 +112,7 @@ def find_stressor_params(config_dict: dict, search_key: str):
     return None  # return None if not found
 
 
-def get_lulc_using_template(config:dict, get_lulc_pa:bool, year:int) -> str:
+def get_lulc_using_template(config: dict, year: int, get_lulc_pa: bool) -> str:
     """
     Gets the LULC template from the configuration file and returns the path to the LULC raster dataset for the input year.
 
@@ -130,11 +130,15 @@ def get_lulc_using_template(config:dict, get_lulc_pa:bool, year:int) -> str:
     if lulc_template is None or lulc_template == "":
         raise Exception("LULC template is null or not found in the configuration file.")
     else:
-        if get_lulc_pa:
+        if get_lulc_pa is not False:
             lulc_template = lulc_template.replace("{year}.tif", "pa_{year}.tif")
             lulc_filepath = os.path.normpath(os.path.join(config["lulc_pa_dir"],lulc_template.format(year=year)))
+            print(f"Get LULC from enrichment with PAs: {get_lulc_pa}") # NOTE: DEBUG
         else:
             lulc_filepath = os.path.normpath(os.path.join(config['lulc_dir'], lulc_template.format(year=year)))
+            print(f"Get LULC from enrichment with PAs: {get_lulc_pa}") # NOTE: DEBUG
+
+    print(f"Lulc filepath is {lulc_filepath}")    
     # check if the file exists
     if not os.path.exists(lulc_filepath):
         raise FileNotFoundError(f"LULC file for year {year} not found at path: {lulc_filepath}")
@@ -151,6 +155,7 @@ def read_years_from_config(config:dict) -> list[int]:
         list[int]: A list of years.
     """
     years = config.get('year', None)
+
     if years is None:
         raise TypeError("Year variable is null or not found in the configuration file.")
     elif isinstance(years, int):

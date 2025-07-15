@@ -55,6 +55,7 @@ class ImpedanceWrapper():
         }
 
         self.years = read_years_from_config(self.config) # read years from the configuration file
+        print(f"Years are: {self.years}")
 
         # to be passed into other classes
         self.current_dir = os.path.normpath(os.getcwd())
@@ -200,6 +201,8 @@ class ImpedanceWrapper():
         """
         
         if impedance_tif_path is not None:
+            #NOTE: DEBUG
+            print(f"Impedance TIF path is {impedance_tif_path}")
             impedance_ds = gdal.Open(impedance_tif_path) # open raster impedance dataset
             impedance_max = get_max_from_tif(impedance_ds) # call function from above
             print (f"Impedance raster GeoTIFF dataset used is {impedance_tif_path}") # debug
@@ -224,7 +227,7 @@ class ImpedanceWrapper():
         impedance_stressors = {} 
 
         config_dir = os.path.dirname(self.config_path)
-
+        print(f"YEAR is {year}")
         icp = ImpedanceConfigProcessor(year=year, params_placeholder=self.params_placeholder, config=self.config, config_impedance=self.config_impedance, verbose=self.verbose)
         icp.setup_config_impedance()
         impedance_stressors, self.config_impedance = icp.process_stressors(self.current_dir, self.stressor_dir, config_dir,use_lulc_pa)
@@ -312,7 +315,8 @@ if __name__ == "__main__":
         # 1. Process the impedance configuration (initial setup + lulc & osm stressors)
         # e.g. impedance_stressors = {'primary': '/data/data/output/roads_primary_2018.tif'}
         # update the impedance_stressors dictionary with the stressors for the current year
-        impedance_stressors.update(iw.process_impedance_config(year,use_lulc_pa))
+        impedance_stressors.update(iw.process_impedance_config(year,use_lulc_pa=False))
+        # NOTE: use_lulc_pa=True if you do want to use the updated impedance files
 
     # 2. Prompt user to update the configuration file
     print("Please check/update the configuration file for impedance dataset (config_impedance.yaml):")

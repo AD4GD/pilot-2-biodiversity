@@ -34,9 +34,12 @@ class WDPAPreprocessor():
 
         # read year 
         self.years = read_years_from_config(self.config)
+        print(self.years)
+        print(self.years[0])
 
         # each case study should have the same extent for LULC rasters, so we only need one raster to fetch the country codes
-        self.lulc = get_lulc_using_template(self.config, self.years[0])
+        self.lulc = get_lulc_using_template(self.config, self.years[0], get_lulc_pa=False)
+       
         if not os.path.exists(self.lulc):
             raise FileNotFoundError(f"LULC raster for year {self.years[0]} not found at {self.lulc}")
 
@@ -54,11 +57,11 @@ class WDPAPreprocessor():
         """
         url = 'https://api.ohsome.org/v1/elements/geometry'
         data = {"bboxes": {bbox}, "filter": "boundary=administrative and admin_level=2", "properties": 'tags'}
-        response = requests.post(url, data=data)
 
-        
-        # check if the request was successful
-        if response.status_code == 200:
+        try:
+            response = requests.post(url, data=data)
+            response.raise_for_status()
+
             response_json = response.json()
             print("Request was successful")
             # extract unique country names, filtering out None values
@@ -78,8 +81,12 @@ class WDPAPreprocessor():
                 with open(os.path.join(output_path,"countries.geojson"), 'w') as f:
                     json.dump(response_json, f, indent=4)
             return unique_country_names
-        else:
-            raise Exception(f"Error: {response.status_code}")
+        except requests.HTTPError as ex:
+            # possibly check response for a message
+            raise ex  # let the caller handle it
+        except requests.Timeout:
+            # request took too long
+            print("Timeout hit")
 
         # TODO - raise warning if no countries in the respnse but request is successful
         

@@ -6,4 +6,13 @@
 bfg-1.14.0.jar
 env/
 preprocessing/src/data/output/*
+
+# intermediate outputs
 preprocessing/src/data/cat_ext_390m_edge_upd/
+preprocessing/src/data/albera_buf_edge_upd/input/turtle_impedance/impedance_lulc_albera_ext_concat_2012_pa.tif
+preprocessing/src/data/albera_buf_edge_upd/input/turtle_impedance/impedance_lulc_albera_ext_concat_2017_upd.tif
+preprocessing/src/data/albera_buf_edge_upd/input/turtle_impedance/impedance_lulc_albera_ext_concat_2012_upd.tif
+preprocessing/src/data/albera_buf_edge_upd/input/turtle_impedance/impedance_lulc_albera_ext_concat_2022_upd.tif
+preprocessing/src/data/shared/input/lulc_pa/lulc_albera_ext_concat_pa_2012.tif
+preprocessing/src/data/shared/input/lulc_pa/lulc_albera_ext_concat_pa_2017.tif
+preprocessing/src/data/shared/input/lulc_pa/lulc_albera_ext_concat_pa_2022.tif

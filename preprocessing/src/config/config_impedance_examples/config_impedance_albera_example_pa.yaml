@@ -1,96 +1,12 @@
 initial_lulc:
   enabled: true
-  stressor_lulc_1004_2012:
-    decline_type: exp_decline
-    exp_decline:
-      lambda_decay: 100
-    prop_decline:
-      k_value: 0
-    types: null
-  stressor_lulc_1004_2017:
-    decline_type: exp_decline
-    exp_decline:
-      lambda_decay: 100
-    prop_decline:
-      k_value: 0
-    types: null
-  stressor_lulc_1004_2022:
-    decline_type: exp_decline
-    exp_decline:
-      lambda_decay: 100
-    prop_decline:
-      k_value: 0
-    types: null
-  stressor_lulc_1005_2012:
-    decline_type: prop_decline
-    exp_decline:
-      lambda_decay: 0
-    prop_decline:
-      k_value: 8
-    types: null
-  stressor_lulc_1005_2017:
-    decline_type: prop_decline
-    exp_decline:
-      lambda_decay: 0
-    prop_decline:
-      k_value: 8
-    types: null
-  stressor_lulc_1005_2022:
-    decline_type: prop_decline
-    exp_decline:
-      lambda_decay: 0
-    prop_decline:
-      k_value: 8
-    types: null
-  stressor_lulc_1006_2012:
-    decline_type: prop_decline
-    exp_decline:
-      lambda_decay: 0
-    prop_decline:
-      k_value: 7
-    types: null
-  stressor_lulc_1006_2017:
-    decline_type: prop_decline
-    exp_decline:
-      lambda_decay: 0
-    prop_decline:
-      k_value: 7
-    types: null
-  stressor_lulc_1006_2022:
-    decline_type: prop_decline
-    exp_decline:
-      lambda_decay: 0
-    prop_decline:
-      k_value: 7
-    types: null
-  stressor_lulc_1007_2012:
-    decline_type: prop_decline
-    exp_decline:
-      lambda_decay: 0
-    prop_decline:
-      k_value: 9
-    types: null
-  stressor_lulc_1007_2017:
-    decline_type: prop_decline
-    exp_decline:
-      lambda_decay: 0
-    prop_decline:
-      k_value: 9
-    types: null
-  stressor_lulc_1007_2022:
-    decline_type: prop_decline
-    exp_decline:
-      lambda_decay: 0
-    prop_decline:
-      k_value: 9
-    types: null
   stressor_lulc_4_2012:
     decline_type: exp_decline
     exp_decline:
       lambda_decay: 100
     prop_decline:
       k_value: 0
-    types: null
+    types: null 
   stressor_lulc_4_2017:
     decline_type: exp_decline
     exp_decline:
@@ -168,6 +84,90 @@ initial_lulc:
     prop_decline:
       k_value: 9
     types: null
+  stressor_lulc_1004_2012:
+    decline_type: exp_decline
+    exp_decline:
+      lambda_decay: 100
+    prop_decline:
+      k_value: 0
+    types: null 
+  stressor_lulc_1004_2017:
+    decline_type: exp_decline
+    exp_decline:
+      lambda_decay: 100
+    prop_decline:
+      k_value: 0
+    types: null
+  stressor_lulc_1004_2022:
+    decline_type: exp_decline
+    exp_decline:
+      lambda_decay: 100
+    prop_decline:
+      k_value: 0
+    types: null
+  stressor_lulc_1005_2012:
+    decline_type: prop_decline
+    exp_decline:
+      lambda_decay: 0
+    prop_decline:
+      k_value: 8
+    types: null
+  stressor_lulc_1005_2017:
+    decline_type: prop_decline
+    exp_decline:
+      lambda_decay: 0
+    prop_decline:
+      k_value: 8
+    types: null
+  stressor_lulc_1005_2022:
+    decline_type: prop_decline
+    exp_decline:
+      lambda_decay: 0
+    prop_decline:
+      k_value: 8
+    types: null
+  stressor_lulc_1006_2012:
+    decline_type: prop_decline
+    exp_decline:
+      lambda_decay: 0
+    prop_decline:
+      k_value: 7
+    types: null
+  stressor_lulc_1006_2017:
+    decline_type: prop_decline
+    exp_decline:
+      lambda_decay: 0
+    prop_decline:
+      k_value: 7
+    types: null
+  stressor_lulc_1006_2022:
+    decline_type: prop_decline
+    exp_decline:
+      lambda_decay: 0
+    prop_decline:
+      k_value: 7
+    types: null
+  stressor_lulc_1007_2012:
+    decline_type: prop_decline
+    exp_decline:
+      lambda_decay: 0
+    prop_decline:
+      k_value: 9
+    types: null
+  stressor_lulc_1007_2017:
+    decline_type: prop_decline
+    exp_decline:
+      lambda_decay: 0
+    prop_decline:
+      k_value: 9
+    types: null
+  stressor_lulc_1007_2022:
+    decline_type: prop_decline
+    exp_decline:
+      lambda_decay: 0
+    prop_decline:
+      k_value: 9
+    types: null
 vector:
   enabled: true
   railways:
@@ -199,13 +199,6 @@ vector:
       prop_decline:
         k_value: 0
       types: null
-    tertiary:
-      decline_type: exp_decline
-      exp_decline:
-        lambda_decay: 500
-      prop_decline:
-        k_value: 500
-      types: null
     trunk:
       decline_type: exp_decline
       exp_decline:
@@ -215,3 +208,4 @@ vector:
       types: null
     types: true
   types: true
+

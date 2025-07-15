@@ -94,7 +94,7 @@ class WDPAWrapper():
         # print(f"GeoPackage file created: {gpkg}")
         return gpkg
     
-    def rasterize_protected_areas(self, merged_gpkg:str, lulc_dir:str, lulc_template:str ,pa_to_yearly_rasters:bool) -> None:
+    def rasterize_protected_areas(self, merged_gpkg:str, lulc_dir:str, lulc_template:str, pa_to_yearly_rasters:bool, keep_intermediate_gpkg: bool) -> None:
         """
         Rasterize the protected areas by year of establishment.
 
@@ -103,6 +103,7 @@ class WDPAWrapper():
             lulc_dir (str): The path to the directory containing the LULC raster data.
             lulc_template (str): The template for the LULC raster data.
             pa_to_yearly_rasters (bool): Rasterize the protected areas by year of establishment
+            keep_intermediate_gpkg (bool): Keep the intermediate gpkgs or delete them
 
         Returns:
             None
@@ -113,7 +114,7 @@ class WDPAWrapper():
 
         rp = PARasterizer(merged_gpkg, lulc_dir, lulc_template, raster_output_dir)
         rp.reproject_pa_data(rp.lulc_metadata.crs_info["epsg"],filter_by_year=pa_to_yearly_rasters)
-        rp.rasterize_pa_geopackage(rp.lulc_metadata, pa_to_yearly_rasters, keep_intermediate_gpkg=False)
+        rp.rasterize_pa_geopackage(rp.lulc_metadata, pa_to_yearly_rasters, keep_intermediate_gpkg)
 
     def sum_lulc_pa_rasters(self, output_path:str, lulc_dir:str, lulc_template:str, pa_path:str ,use_yearly_pa_rasters:bool) -> None:
         """
@@ -189,7 +190,7 @@ if __name__ == "__main__":
     lulc_dir = wp.config.get("lulc_dir")
     lulc_template = wp.config['lulc']
 
-    wp.rasterize_protected_areas(merged_gpkg, lulc_dir,lulc_template.split('_{year}.tif')[0], pa_to_yearly_rasters=False)
+    wp.rasterize_protected_areas(merged_gpkg, lulc_dir,lulc_template.split('_{year}.tif')[0], pa_to_yearly_rasters=False, keep_intermediate_gpkg=False)
 
     # delete the merged GeoPackage file
     os.remove(merged_gpkg)
