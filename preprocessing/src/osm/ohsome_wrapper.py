@@ -31,8 +31,9 @@ class OhsomeWrapper:
         self.output_dir = output_dir
         self.verbose = verbose
         self.years = years
+        print(use_lulc_pa)
         # create a dictionary of LULC files and corresponding years
-        lulc_series = {get_lulc_using_template(self.config, use_lulc_pa, year):year for year in self.years}
+        lulc_series = {get_lulc_using_template(self.config, year, use_lulc_pa):year for year in self.years}
 
         # We can use the first raster to get the bounding box, as all rasters for each case study should have the same extent
         lulc = list(lulc_series.keys())[0]
@@ -184,7 +185,7 @@ class OhsomeWrapper:
                 else:
                     raise requests.RequestException(f"Request failed with status code: {response.status_code}")
             except requests.RequestException as e:
-                print(f"Request failed for params: {query_params}. Error: {e}")
+                print(f"Request failed for params: {query_params}. Ohsome API error for fetching OSM data: {e}")
             
             query_finish = time.time()
             query_time = query_finish - query_start

@@ -31,7 +31,7 @@ class OverpassWrapper():
         self.verbose = verbose
 
         # create a dictionary of LULC files and corresponding years
-        lulc_series = {get_lulc_using_template(self.config, use_lulc_pa, year):year for year in self.years}
+        lulc_series = {get_lulc_using_template(self.config, year, use_lulc_pa):year for year in self.years}
         
         # We can use the first raster to get the bounding box, as all rasters for each case study should have the same extent
         lulc = list(lulc_series.keys())[0]
@@ -100,7 +100,7 @@ class OverpassWrapper():
                 intermediate_jsons.append(output_file)
                 
             else:
-                print(f"Error: {response.status_code} for {query_name} in the {year} year")
+                print(f"Overpass API Error: {response.status_code} for {query_name} in the {year} year")
                 print(response.text)
                 print ("-" * 30)
 
@@ -131,10 +131,10 @@ class OverpassWrapper():
             [out:json]
             [maxsize:1073741824]
             [timeout:9000]
-            [date:"{year}-12-31T23:59:59Z"];
+            [date:"{year}-12-31T23:59:59Z"]
+            [bbox:{bbox}];
             (
-            {filters}
-            ({bbox});
+            {filters};
             node(w);
             );
             out;

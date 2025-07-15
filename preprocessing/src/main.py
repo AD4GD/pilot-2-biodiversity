@@ -101,9 +101,10 @@ def process_wdpa(
         print("Rasterizing the merged GeoPackage file...")
         lulc_dir = wp.config.get("lulc_dir")
         lulc_template = wp.config['lulc']
-        wp.rasterize_protected_areas(merged_gpkg, lulc_dir,lulc_template.split('_{year}.tif')[0], pa_to_yearly_rasters=use_yearly_pa_raster)
+        wp.rasterize_protected_areas(merged_gpkg, lulc_dir,lulc_template.split('_{year}.tif')[0], pa_to_yearly_rasters=use_yearly_pa_raster, keep_intermediate_gpkg=delete_intermediate_files)
 
-        if delete_intermediate_files:
+        print(delete_intermediate_files) # NOTE: DEBUG - somehow if you specify it, delete_intermediate_files becomes False
+        if not delete_intermediate_files: # NOTE: by default, --del-temp is True, so if it False, the following condition applies
             os.remove(merged_gpkg)
             typer.secho(f"{merged_gpkg} file has been deleted", fg=typer.colors.YELLOW)
         
@@ -162,7 +163,7 @@ def process_osm(
 
     if record_time:
         start_time = time.time()
-
+    
     config_path = os.path.join(config_dir, "config.yaml")
     check_file_exists(config_path)
     try:
@@ -177,7 +178,7 @@ def process_osm(
                 if year != "all":
                     # replace the years list with the selected year
                     osm.years = [int(year)]
-
+   
         # fetch OSM data for the selected years using the selected API
         osm.osm_to_geojson(osm.years, skip_fetch)
 
@@ -231,7 +232,7 @@ def enrich_lulc(
     check_file_exists(config_path)
     print(os.getcwd())
     try:
-        lew = LULCEnrichmentWrapper(os.getcwd(),config_path,api_type,threads,use_lulc_pa ,verbose)
+        lew = LULCEnrichmentWrapper(os.getcwd(),config_path,api_type,threads,use_lulc_pa,verbose)
 
         # prompt user to use all years or a specific year
         if len(lew.years) > 1:
@@ -315,7 +316,8 @@ def recalc_impedance(
         # 1. Process the impedance configuration (initial setup + lulc & osm stressors)
         # e.g. impedance_stressors = {'primary': '/data/data/output/roads_primary_2018.tif'}
         print(f"Processing year: {year}")
-        single_year_impedance_stressors = iw.process_impedance_config(year,use_lulc_pa)
+        single_year_impedance_stressors = iw.process_impedance_config(year,use_lulc_pa=False)
+        # NOTE: use_lulc_pa = True if you want to update it with protected areas
 
         # 2. Prompt user to update the configuration file
         
@@ -381,7 +383,7 @@ def recalc_impedance(
             input_raster= lulc_upd,
             impedance_raster= impedance_tif_path,
             reclass_table= os.path.join(iw.impedance_dir, iw.config.get('impedance')),
-            out_nodata_overwrite=nodata_value
+            out_nodata=nodata_value
         )
          
         # 4  Get the maximum value of the impedance raster dataset
@@ -401,7 +403,6 @@ def recalc_impedance(
         finish_time = time.time()
         elapsed_time = finish_time - start_time
         typer.secho(f"Elapsed time: {elapsed_time:.4f} seconds", fg=typer.colors.BLUE, bg=typer.colors.WHITE)
-
 
 #Test command
 @app.command("test")

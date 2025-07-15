@@ -235,6 +235,7 @@ class ImpedanceProcessor():
         else:
             self.max_result = np.maximum(self.max_result, result)  # take max of previous and current
         
+        
         # FOR CUMULATIVE FUNCTION OF DIFFERENT STRESSORS 
         '''
         # combine the results from each raster by summing
@@ -265,6 +266,9 @@ class ImpedanceProcessor():
         out_result.FlushCache()
         self.ds.FlushCache()   
 
+        print("MAX VALUE")
+        print(np.max(self.max_result))
+
         print(f"Finished processing: {self.stressor_raster}")
         print("-" * 40)
         
@@ -284,6 +288,8 @@ class ImpedanceProcessor():
         nodata_mask = (impedance_array == initial_nodata_val) # NOTE - if NODATA vals in input and output impedance are different, that will mask all no data vals
 
         #let's choose the maximum value from initial impedance dataset and edge effect calculated previously:
+        print("MAX VALUE")
+        print(np.max(self.max_result))
         self.max_result = np.maximum(self.max_result, impedance_array)
         #then, apply the maximum value of initial impedance dataset as a cap to the maximum result (impedance can't be higher than in the initial impedance dataset):
         self.max_result[self.max_result > self.impedance_max] = self.impedance_max

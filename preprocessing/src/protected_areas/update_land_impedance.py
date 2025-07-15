@@ -5,6 +5,7 @@ import numpy as np
 import os
 import subprocess
 import pandas as pd
+import re
 
 class UpdateLandImpedance():
     """
@@ -110,10 +111,14 @@ class UpdateLandImpedance():
                 base_name, extension = os.path.splitext(impedance_file)
 
                 # get the corresponding LULC file for this impedance file (get year from the filename)
-                year = base_name.split('_')[-1]
+                match = re.search(r'\d{4}', base_name)
+                year = match.group() if match else None
                 lulc_file_base = str(self.lulc_template).replace("{year}.tif", "pa_{year}.tif")
                 lulc_file_base = lulc_file_base.format(year=year)
                 lulc_file = os.path.join(self.lulc_pa_dir, lulc_file_base)
+                print(f"self.lulc_template is {self.lulc_template}")
+                print(F"Year is {year}")
+                print(f"LULC_file is {lulc_file}")
 
                 # modify the output raster filename to ensure it's different from the input raster filename
                 output_file = f"{base_name}_pa{extension}"
@@ -152,7 +157,7 @@ class UpdateLandImpedance():
         reclass_dict,has_decimal,data_type = self.generate_impedance_reclass_dict(reclass_table)
         # open the impedance dataset and LULC dataset in read-only mode
         impedance_ds = gdal.Open(impedance_in_path, gdal.GA_ReadOnly)
-        lulc_pa_ds =  gdal.Open(lulc_pa_path, gdal.GA_ReadOnly)
+        lulc_pa_ds =  gdal.Open(lulc_pa_path, gdal.GA_ReadOnly) # NOTE - Wrong
         if impedance_ds is None or lulc_pa_ds is None:
             print("Error: Could not open LULC or impedance dataset.")
             return
@@ -234,7 +239,7 @@ class UpdateLandImpedance():
             # update dictionary again
             reclass_dict.update({-2147483647: 9999, -32768: 9999, 0: 9999}) # minimum value for int16, int32 and 0 are assigned with 9999.00 (nodata)
             data_type = "Int64"
-            
+
         return reclass_dict , has_decimal , data_type
 
 

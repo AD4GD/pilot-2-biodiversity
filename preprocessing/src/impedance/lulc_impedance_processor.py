@@ -32,6 +32,7 @@ class LULCImpedanceProcessor(ImpedanceConfigurationHandler):
         """
         super().__init__(config, config_impedance, params_placeholder, impedance_stressors, year, current_dir, output_dir)
         self.config_dir = config_dir
+        self.year = year
         # additional directories
         self.lulc_dir = self.config.get('lulc_dir')
         if self.config["subcase_study"]:
@@ -51,7 +52,9 @@ class LULCImpedanceProcessor(ImpedanceConfigurationHandler):
             config_impedance (dict): The updated configuration file with the LULC stressors added.
         """
         # define the path to the LULC raster dataset
-        self.lulc_path = os.path.normpath(os.path.join(get_lulc_using_template(self.config,use_lulc_pa,self.year)))
+        get_lulc_pa=use_lulc_pa
+        # NOTE: DEBUG print(f"get_lulc_pa is {get_lulc_pa}")
+        self.lulc_path = os.path.normpath(os.path.join(get_lulc_using_template(self.config,self.year,get_lulc_pa)))
         self.lulc_properties = self.get_lulc_raster_properties(self.lulc_path)
         self.impedance_stressors = self.extract_lulc_stressors(self.year)
         return self.impedance_stressors, self.config_impedance
