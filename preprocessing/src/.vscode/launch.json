@@ -38,6 +38,13 @@
             "request": "launch",
             "module": "impedance.${fileBasenameNoExtension}",
             "cwd": "${workspaceFolder}",
-        }
+        },
+        {
+            "name": "Python: Module - testing",
+            "type": "python",
+            "request": "launch",
+            "module": "testing.${fileBasenameNoExtension}",
+            "cwd": "${workspaceFolder}",
+        },
     ]
 }
