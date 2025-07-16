@@ -33,11 +33,7 @@ class OhsomeWrapper:
         self.years = years
         print(use_lulc_pa)
         # create a dictionary of LULC files and corresponding years
-<<<<<<< Updated upstream
-        lulc_series = {get_lulc_using_template(self.config, year, use_lulc_pa):year for year in self.years}
-=======
         lulc_series = {get_lulc_using_template(config=self.config, year = year, get_lulc_pa=use_lulc_pa):year for year in self.years}
->>>>>>> Stashed changes
 
         # We can use the first raster to get the bounding box, as all rasters for each case study should have the same extent
         lulc = list(lulc_series.keys())[0]

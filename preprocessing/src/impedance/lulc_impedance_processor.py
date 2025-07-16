@@ -52,13 +52,7 @@ class LULCImpedanceProcessor(ImpedanceConfigurationHandler):
             config_impedance (dict): The updated configuration file with the LULC stressors added.
         """
         # define the path to the LULC raster dataset
-<<<<<<< Updated upstream
-        get_lulc_pa=use_lulc_pa
-        # NOTE: DEBUG print(f"get_lulc_pa is {get_lulc_pa}")
-        self.lulc_path = os.path.normpath(os.path.join(get_lulc_using_template(self.config,self.year,get_lulc_pa)))
-=======
         self.lulc_path = os.path.normpath(os.path.join(get_lulc_using_template(config=self.config, year = self.year, get_lulc_pa=use_lulc_pa)))
->>>>>>> Stashed changes
         self.lulc_properties = self.get_lulc_raster_properties(self.lulc_path)
         self.impedance_stressors = self.extract_lulc_stressors(self.year)
         return self.impedance_stressors, self.config_impedance

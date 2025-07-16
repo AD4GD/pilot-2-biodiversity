@@ -112,11 +112,7 @@ def find_stressor_params(config_dict: dict, search_key: str):
     return None  # return None if not found
 
 
-<<<<<<< Updated upstream
-def get_lulc_using_template(config: dict, year: int, get_lulc_pa: bool) -> str:
-=======
 def get_lulc_using_template(config:dict, year:int, get_lulc_pa:bool) -> str:
->>>>>>> Stashed changes
     """
     Gets the LULC template from the configuration file and returns the path to the LULC raster dataset for the input year.
 
