@@ -45,8 +45,7 @@ class LandscapeAffinityEstimator:
                 band = ds.GetRasterBand(1)
                 # read raster band as a NumPy array
                 data = band.ReadAsArray()
-                # reverse values with condition (if it is 9999
-                # or 0 leave it, otherwise make it reversed)
+                # reverse values if it is not 9999 or 0
                 reversed_data = np.where((data == 9999) | (data == 0), data, 1 / data)
 
                 # write reversed data to affinity file

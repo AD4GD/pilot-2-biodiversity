@@ -57,7 +57,7 @@ class LULCEnrichmentWrapper():
         self.years = read_years_from_config(self.config)
 
         # create a dict of LULC files for each year
-        self.lulc_filepaths = {year:get_lulc_using_template(self.config, get_lulc_pa=use_lulc_pa, year=year) for year in self.years}
+        self.lulc_filepaths = {year:get_lulc_using_template(config=self.config, get_lulc_pa=use_lulc_pa, year=year) for year in self.years}
 
         self.osm_api_type = osm_api_type
         self.max_threads = threads
@@ -86,7 +86,7 @@ class LULCEnrichmentWrapper():
         files_to_validate = [self.vp.vector_roads_buffered, self.vp.vector_railways_buffered]
         self.vp.check_vector_geometry_validity(files_to_validate)
 
-    def merge_lulc_osm_data(self, year:int, nodata_value:int, save_osm_stressors:bool, cog_compress:bool, ):
+    def merge_lulc_osm_data(self, year:int, nodata_value:float, save_osm_stressors:bool, cog_compress:bool, ):
         """
         Merges the LULC and OSM data into a single raster dataset.
 
@@ -126,7 +126,7 @@ class LULCEnrichmentWrapper():
 
         return lulc_upd
     
-    # def sum_raster_with_raster(self, base_raster:str, sum_raster:str, output_raster:str, nodata_value:int):
+    # def sum_raster_with_raster(self, base_raster:str, sum_raster:str, output_raster:str, nodata_value:float):
     #     """
     #     Sums two raster datasets and saves the result to a new raster dataset.
     #     (Used to sum PA raster with any other raster)
@@ -205,7 +205,7 @@ class LULCEnrichmentWrapper():
                 raise ValueError(f"Unable to open raster file: {raster_path}")
             print(f"Dimensions of {os.path.basename(raster_path)}: {width} x {height}")
 
-    def write_raster(self, output_data:any, output_ds:any, output_raster:str, nodata_value:int, cog_compress:bool):
+    def write_raster(self, output_data:any, output_ds:any, output_raster:str, nodata_value:float, cog_compress:bool):
         """
         Write a new raster dataset from the given data array.
 
@@ -301,7 +301,7 @@ class LULCEnrichmentWrapper():
         
         return output_gpkg
    
-    def rasterize_vector_roads(self, year:int, output_dir:str, raster_metadata:str ,roads_gpkg:str, burn_value:int, groupby_roads:bool):
+    def rasterize_vector_roads(self, year:int, output_dir:str, raster_metadata:str ,roads_gpkg:str, burn_value:float, groupby_roads:bool):
         """
         Rasterize roads vector layer to be used for enriching the LULC dataset.
 

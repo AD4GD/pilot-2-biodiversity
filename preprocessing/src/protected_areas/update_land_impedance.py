@@ -92,13 +92,14 @@ class UpdateLandImpedance():
                 pa_output_raster_path = f"{base_name}_pa{extension}"
                 '''
             
-                # as soon as gdal_translate doesn't support rewriting, we should delete non-compressed GeoTIFFs...
+                # as gdal_translate doesn't support rewriting, we should delete non-compressed GeoTIFFs...
                 os.remove(output_raster_path)
             
                 os.rename(compressed_raster_path, output_raster_path)
 
                 print("Reclassification complete for:", input_raster_path + "\n------------------------------------")
 
+        # 2. If user wants to use multiplier effect of protected areas to update impedance dataset
         else:
             print ("Impedance dataset is being updated by the multiplier (PA effect)...")
             for impedance_file in self.impedance_files:
@@ -108,6 +109,11 @@ class UpdateLandImpedance():
                     # remove the file 
                     os.remove(impedance_in_path)
                     continue
+                elif impedance_file.endswith('_upd.tif'):
+                    print(f"Skipping file {impedance_file} from reclassified lulc impedance")
+                    continue
+
+                # split the path into the base name and extension
                 base_name, extension = os.path.splitext(impedance_file)
 
                 # get the corresponding LULC file for this impedance file (get year from the filename)
@@ -132,7 +138,7 @@ class UpdateLandImpedance():
                 print("Path to compressed raster is:", compressed_raster_path)
                 subprocess.run(['gdal_translate', impedance_out_path, compressed_raster_path,'-a_nodata', '9999', '-ot', data_type, '-co', 'COMPRESS=LZW'])
             
-                # as soon as gdal_translate doesn't support rewriting, we should delete non-compressed GeoTIFFs...
+                # as gdal_translate doesn't support rewriting, we should delete non-compressed GeoTIFFs...
                 os.remove(impedance_out_path)
                 os.rename(compressed_raster_path, impedance_out_path)
                 

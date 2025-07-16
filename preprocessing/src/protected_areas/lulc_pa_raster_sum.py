@@ -67,7 +67,7 @@ class LulcPaRasterSum():
 
         return temp_pa_file
 
-    def combine_pa_lulc(self, keep_temp_files:bool=False):
+    def combine_pa_lulc(self, keep_temp_files:bool=False) -> list[str]:
         """
         Combine the LULC and PA raster data
 
@@ -75,11 +75,12 @@ class LulcPaRasterSum():
             keep_temp_files (bool): Keep the temporary files
 
         Returns:
-            None
+            list[str]: List of output file paths for the combined LULC and PA rasters
         """
         lulc_files = os.listdir(self.lulc_dir)
         # filter files for the case study
         lulc_files = [f for f in lulc_files if self.lulc_template.split("_{year}.tif")[0] in f.split("_{year}.tif")[0]]
+        lulc_outputs = []
         
         for lulc_file in lulc_files:
             # get PA file for the year or use multi-year PA file
@@ -111,12 +112,15 @@ class LulcPaRasterSum():
                 ])
                 subprocess.run(gdal_command, shell=True)
                 print(f"[green] Raster sum complete for year: {year} [green]")
+                lulc_outputs.append(lulc_pa_sum_file)
             else:
                 raise FileNotFoundError(f"PA file for year {year} does not exist")
             
             # remove the temp files
             if keep_temp_files == False:
                 subprocess.run(f"rm -rf {pa_file}", shell=True)
+
+        return lulc_outputs
 
 
 # Example usage

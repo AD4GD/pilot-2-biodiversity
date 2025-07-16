@@ -34,8 +34,6 @@ class WDPAWrapper():
         #NOTE External data from API should always be stored in the shared directory
         self.pa_geojson_dir = os.path.abspath(os.path.join(working_dir, "data", "shared", "input", "protected_areas"))
         os.makedirs(self.pa_geojson_dir, exist_ok=True)
-        # self.pa_input_dir = os.path.abspath(os.path.join(working_dir,self.config.get("case_study_dir"), self.config.get("input_dir"), "protected_areas"))
-        # os.makedirs(self.pa_input_dir, exist_ok=True)
         self.pa_output_dir = os.path.abspath(os.path.join(working_dir, self.config.get("case_study_dir"), "output", "protected_areas"))
         os.makedirs(self.pa_output_dir, exist_ok=True)
         self.pa_output_data_dir = os.path.join(self.pa_output_dir, "pa_data")
@@ -116,7 +114,7 @@ class WDPAWrapper():
         rp.reproject_pa_data(rp.lulc_metadata.crs_info["epsg"],filter_by_year=pa_to_yearly_rasters)
         rp.rasterize_pa_geopackage(rp.lulc_metadata, pa_to_yearly_rasters, keep_intermediate_gpkg)
 
-    def sum_lulc_pa_rasters(self, output_path:str, lulc_dir:str, lulc_template:str, pa_path:str ,use_yearly_pa_rasters:bool) -> None:
+    def sum_lulc_pa_rasters(self, output_path:str, lulc_dir:str, lulc_template:str, pa_path:str ,use_yearly_pa_rasters:bool) -> list[str]:
         """
         Sum the LULC and PA raster data.
 
@@ -127,7 +125,7 @@ class WDPAWrapper():
             pa_path (str): The path to the directory containing the PA raster data.
             use_yearly_pa_rasters (bool): Use yearly PA rasters instead of multi-year rasters.
         Returns:
-            None
+            list[str]: A list of file paths to the summed LULC and PA rasters.
         """
 
         lprs = LulcPaRasterSum(
@@ -138,9 +136,9 @@ class WDPAWrapper():
             use_yearly_pa_rasters=use_yearly_pa_rasters
         )
         # lprs.assign_no_data_values()
-        lprs.combine_pa_lulc()
+        return lprs.combine_pa_lulc()
 
-    def compute_affinity(self, affinity_dir:str='affinity') -> None:
+    def compute_affinity(self, affinity_dir:str) -> None:
         """
         Compute the affinity between the protected areas.
 
