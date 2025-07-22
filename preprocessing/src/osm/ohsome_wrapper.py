@@ -167,6 +167,7 @@ class OhsomeWrapper:
                 response = self.session.post(url, data=query_params, timeout=timeout)  # use 'data' instead of 'params'
                 if response.status_code == 200:
                     response_data = response.json()
+
                     # count features
                     feature_count = len(response_data.get("features",[])) # how many values corresponds to "features" key
                     # get the features list
@@ -200,9 +201,19 @@ if __name__ == "__main__":
     case_study = case_study_dir.split('/')[-1]
     osm_output_data_dir = os.path.abspath(os.path.join(os.getcwd(), "data","shared","input","osm_data",case_study))
     years = read_years_from_config(config)
-    ow = OhsomeWrapper(config, osm_output_data_dir, years, verbose=True)
+
     all_years = True if len(years) > 1 else False
     skip_fetch = True
+
+
+    ow = OhsomeWrapper(
+        config=config,
+        output_dir=osm_output_data_dir,
+        years=years,
+        use_lulc_pa=False,
+        verbose=True
+    )
+
     if skip_fetch == False:
         ow.fetch_osm_data(years, ow.ohsome_query_builder(all_years=all_years))
     else:

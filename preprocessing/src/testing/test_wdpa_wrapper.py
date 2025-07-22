@@ -11,52 +11,54 @@ import pandas as pd
 import yaml
 import os
 import json
-from testing.testing_toolkit import check_vector_pixels, check_raster_metadata, calculate_raster_difference
+from testing.testing_toolkit import check_raster_metadata, calculate_raster_difference
 
 class TestWdpaWrapperProcessor(TestCase):
     @classmethod
     def setUpClass(cls):
         """Setup the test environment once before all tests"""
-        config_path = "./config/config.yaml"
+        config_path = "./config/config_testing.yaml"
         cls.wwp = WDPAWrapper(
-            working_dir=os.getcwd(),
+            working_dir=os.path.join(os.getcwd(), "testing"),
             config_path=config_path,
             verbose=True,
         )
 
         with open(config_path, 'r') as file:
             cls.config = dict(yaml.safe_load(file))
-        cls.working_dir = os.getcwd()
+        cls.working_dir = os.path.join(os.getcwd(), "testing")
         cls.pa_geojson_dir = os.path.join(cls.working_dir, "data", "shared", "input", "protected_areas")
         cls.pa_output_dir = os.path.join(cls.working_dir, cls.config["case_study_dir"], "output", "protected_areas")
         cls.pa_output_data_dir = os.path.join(cls.pa_output_dir, "data")
 
         if cls.config["subcase_study"]:
-            cls.impedance_dir = os.path.join(cls.working_dir, cls.config["case_study_dir"], cls.config['impedance_dir'].split('/')[0], cls.config["subcase_study"] + "_" + cls.config['impedance_dir'].split('/')[-1])
+            cls.impedance_dir = os.path.join(cls.working_dir, cls.config["case_study_dir"], cls.config['impedance_dir'].split('/')[0], cls.config["subcase_study"]+ "_" + cls.config['impedance_dir'].split('/')[-1])
         else:
             cls.impedance_dir = os.path.join(cls.working_dir, cls.config["case_study_dir"], cls.config['impedance_dir'])
 
         cls.affinty = os.path.join(cls.working_dir, cls.config["case_study_dir"],"output", "affinity")
         cls.test_outputs = []
 
-    @classmethod
-    def tearDownClass(cls):
-        """Cleanup the test environment after all tests"""
-        # delete files with test_ prefix
-        for file in os.listdir(cls.pa_output_dir):
-            if os.path.exists(file) and file.startswith("test_"):
-                os.remove(os.path.join(cls.pa_output_dir, file))
+    # @classmethod
+    # def tearDownClass(cls):
+    #     """Cleanup the test environment after all tests"""
+    #     # delete files with test_ prefix
+    #     for file in os.listdir(cls.pa_output_dir):
+    #         if os.path.exists(file) and file.startswith("test_"):
+    #             os.remove(os.path.join(cls.pa_output_dir, file))
 
-        # clean up other test outputs
-        for file in cls.test_outputs:
-            if os.path.exists(file):
-                os.remove(file)
+    #     # clean up other test outputs
+    #     for file in cls.test_outputs:
+    #         if os.path.exists(file):
+    #             os.remove(file)
 
 
 
     @patch('requests.post')
     def test_get_lulc_country_codes(self, mock_post):
         """Test if the method returns the correct country codes."""
+
+        self.assertEqual(self.working_dir, "/src/testing")
         # Mock the response from ohsome API
         mock_response = Mock()
         mock_response.status_code = 200
@@ -79,20 +81,24 @@ class TestWdpaWrapperProcessor(TestCase):
 
 
     def test_protected_area_to_merged_geopackage(self):
-        """Test if the method creates a merged GeoPackage file."""
+        """Test if the method creates a merged GeoPackage file.
+        1. test if the merged package all the corect layers.
+        2. test if the merged package has the correct number of features.
+        """
         country_codes = {'FRA', 'ESP'}
 
+        pa_test_data_dir = os.path.join(self.working_dir, "data", "shared", "input", "protected_areas")
         #read in testing/data FRA and ESP then append a new json response with {"protected_areas": []} to simulate no protected areas found
         side_effect = [
-            Mock(status_code=200, json=lambda: json.load(open(os.path.join(os.getcwd(), "testing/data", 'FRA_PA.json'), 'r'))),
+            Mock(status_code=200, json=lambda: json.load(open(os.path.join(pa_test_data_dir, 'FRA_PA.json'), 'r'))),
             Mock(status_code=200, json=lambda: {"protected_areas": []}),  # Simulate no more protected areas found
-            Mock(status_code=200, json=lambda: json.load(open(os.path.join(os.getcwd(),"testing/data", 'ESP_PA.json'), 'r'))),
+            Mock(status_code=200, json=lambda: json.load(open(os.path.join(pa_test_data_dir, 'ESP_PA.json'), 'r'))),
             Mock(status_code=200, json=lambda: {"protected_areas": []}), # Simulate no more protected areas found
         ]
 
         with patch.multiple('requests', get=Mock(side_effect=side_effect)):
             # Call the method to create a merged GeoPackage
-            merged_gpkg = self.wwp.protected_area_to_merged_geopackage(country_codes,output_file="test_merged_pa.gpkg", skip_fetch=False)
+            merged_gpkg = self.wwp.protected_area_to_merged_geopackage(country_codes,output_file="merged_pa.gpkg", skip_fetch=False)
 
             # Check if the merged GeoPackage file exists
             self.assertTrue(os.path.exists(merged_gpkg))
@@ -100,19 +106,34 @@ class TestWdpaWrapperProcessor(TestCase):
             # cleanup
             self.test_outputs.append(merged_gpkg)
 
+            # add the geojsons to the test outputs to cleanup later
+            for country_code in country_codes:
+                geojson_file = os.path.join(self.pa_geojson_dir, f"{country_code}_protected_areas.geojson")
+                if os.path.exists(geojson_file):
+                    self.test_outputs.append(geojson_file)
+
 
     @patch('protected_areas.wpda_wrapper.WDPAWrapper.protected_area_to_merged_geopackage')
     def test_rasterize_protected_areas(self, mocked_geopackage):
-        """Test if the method rasterizes protected areas correctly."""
+        """Test if the method rasterizes protected areas correctly.
+        1. Test if the rasterized files are created in the output directory.
+        2. check specific pixel values were burned in the rasterized files. *
+        """
         country_codes = {'FRA', 'ESP'}
-        mocked_geopackage.return_value = os.path.join(self.pa_geojson_dir, "test_merged_pa.gpkg")
+        mocked_geopackage.return_value = os.path.join(self.pa_geojson_dir, "merged_pa.gpkg")
 
-        merged_gpkg = self.wwp.protected_area_to_merged_geopackage(country_codes,output_file="test_merged_pa.gpkg", skip_fetch=True)
+        merged_gpkg = self.wwp.protected_area_to_merged_geopackage(country_codes,output_file="merged_pa.gpkg", skip_fetch=True)
         # Call the method to rasterize protected areas
         lulc_dir = self.wwp.config.get("lulc_dir")
         lulc_template = self.wwp.config['lulc']
-        self.wwp.rasterize_protected_areas(merged_gpkg=merged_gpkg, lulc_dir=lulc_dir, lulc_template=lulc_template.split('_{year}.tif')[0], pa_to_yearly_rasters=False)
-
+        self.wwp.rasterize_protected_areas(
+            merged_gpkg=merged_gpkg, 
+            lulc_dir=lulc_dir, 
+            lulc_template=lulc_template.split('_{year}.tif')[0], 
+            pa_to_yearly_rasters=False,
+            keep_intermediate_gpkg=False,
+            )
+        
         # Check if the rasterized files are created in the output directory
         filepath = os.path.join(self.pa_output_dir, "pa_rasters")
         output_files = os.listdir(filepath)
@@ -125,17 +146,19 @@ class TestWdpaWrapperProcessor(TestCase):
 
 
     def test_sum_lulc_pa_rasters(self):
-        """Test if the method sums LULC protected area rasters correctly."""
+        """Test if the method sums LULC protected area rasters correctly.
+        1. Test if the rasterized files are created in the output directory.
+        2. check specific pixel values were burned in the rasterized files. *
+        """
         # Define input and output paths
-        output_path = os.path.join(self.config["lulc_pa_dir"])
-        lulc_dir = self.wwp.config.get("lulc_dir")
+        output_path = os.path.join(self.working_dir, self.config["lulc_pa_dir"])
+        lulc_dir = os.path.join(self.working_dir,self.wwp.config.get("lulc_dir"))
         lulc_template = str(self.wwp.config['lulc'])
         pa_path = os.path.join(self.pa_output_dir, "pa_rasters")
 
         # Call the method to sum LULC protected area rasters
         output_files = self.wwp.sum_lulc_pa_rasters(output_path=output_path, lulc_dir=lulc_dir, lulc_template=lulc_template, pa_path=pa_path, use_yearly_pa_rasters=False)
 
-        
         # Check if the summed rasters have different values to original rasters
         for file in output_files:
             self.assertTrue(os.path.exists(file))
@@ -162,7 +185,7 @@ class TestWdpaWrapperProcessor(TestCase):
                 calculate_raster_difference(
                     before_raster_path=matching_lulc_file, 
                     after_raster_path=file, 
-                    output_raster_path=os.path.join("testing","data",f"lulc_pa_{year}_diff.tif"),
+                    output_raster_path=os.path.join("testing","data","test_output",f"lulc_pa_{year}_diff.tif"),
                     write_difference=True
                 )
             )
@@ -203,8 +226,8 @@ class TestWdpaWrapperProcessor(TestCase):
 
     def test_compute_affinity(self):
         """Test if the method computes landscape affinity."""
-        affinity_files = [f for f in os.listdir(self.affinty) if f.endswith('.tif')]
         self.wwp.compute_affinity(affinity_dir=self.affinty)
+        affinity_files = [f for f in os.listdir(self.affinty) if f.endswith('.tif')]
         
         for file in affinity_files:
             # open file and read array

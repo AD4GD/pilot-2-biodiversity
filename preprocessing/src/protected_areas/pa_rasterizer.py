@@ -143,7 +143,9 @@ class PARasterizer:
                 # save the reprojected geodataframe to a new GeoPackage
                 output_path = os.path.join(self.output_dir, "pa_multi_year.gpkg")
                 gdf.to_file(output_path, driver='GPKG')
-                print(f"Protected areas are written to:",output_path)
+            
+                print(f"Protected areas  are written to:",output_path)
+
         
     def rasterize_pa(self, lulc_metadata:RasterMetadata, vector_filepath:str, output_filepath:str):
         """

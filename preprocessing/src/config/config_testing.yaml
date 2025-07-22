@@ -1,3 +1,5 @@
+# This config file is used for unit testing only!
+
 # !DO NOT REMOVE keys, just assign 'null' if needed
 
 ## INPUT DATASETS
@@ -54,7 +56,7 @@ user_vector: null # derived from other sources and provided by users ('null' by 
 # recommended to leave as default
 case_study_dir: 'data/case_study_albera' # prefix (directory name) for the case study's input and output files#
 # when case studies share the same LULC file, but different impedance files (e.g. 'turtle' and 'bird') we can use the parameter below to get each impedance file
-subcase_study: 'albera_buf_edge_upd/turtle' # LEAVE EMPTY if there is no sub-case study. Otherwise, specify the sub-case study name (e.g. 'forest' or 'turtle')
+subcase_study: 'turtle' # LEAVE EMPTY if there is no sub-case study. Otherwise, specify the sub-case study name (e.g. 'forest' or 'turtle')
 lulc_dir: 'data/shared/input/lulc'
 lulc_pa_dir: 'data/shared/input/lulc_pa'
 vector_dir: 'input/vector'

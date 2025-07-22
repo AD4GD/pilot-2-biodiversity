@@ -55,8 +55,6 @@ class TestLulcDataProcessor(TestCase):
             self.assertTrue(os.path.exists(self.lew.vp.vector_roads_buffered))
             self.assertTrue(os.path.exists(self.lew.vp.vector_railways_buffered))
 
-
-
     def test_rasterize_vector_roads(self):
         self.test_buffer_vector_data()
         expected_road_types = ['motorway', 'primary', 'secondary', 'tertiary','trunk']
@@ -115,9 +113,6 @@ class TestLulcDataProcessor(TestCase):
         self.assertTrue(os.path.exists(output_path))
         # clean up
         os.remove(output_path)
-        
-
-    # def test_
     
     def test_rasterize_vector_layers(self):
         """

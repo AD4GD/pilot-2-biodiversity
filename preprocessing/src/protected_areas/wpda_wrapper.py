@@ -148,8 +148,6 @@ class WDPAWrapper():
         Returns:
             None
         """
-        os.makedirs(affinity_dir, exist_ok=True)
-
         if self.config["subcase_study"]:
             impedance_dir = os.path.join(self.working_dir, self.config["case_study_dir"], self.config['impedance_dir'].split('/')[0], self.config["subcase_study"] + "_" + self.config['impedance_dir'].split('/')[-1])
         else:

@@ -1,0 +1,25 @@
+lulc	impedance	type	impedance_rounded	edge_effect	vector_refine
+1	1000	marine water	1000	0	0
+2	100	continental water	100	0	1
+3	500	snowdrifts	500	0	0
+4	200	road infrastructure	200	1	1
+5	200	"spread urban (""urbanised"")"	200	1	0
+6	1000	urban	1000	1	0
+7	500	industrial and commercial areas	500	1	0
+8	50	sand dunes and beaches	50	0	0
+9	50	areas with poor vegetation or denudated	50	0	0
+10	20	wetlands	20	0	0
+11	5	lowland meadows	5	0	0
+12	10	midland meadows	10	0	0
+13	30	supraforest meadows	30	0	0
+14	1	bushes	1	0	0
+15	10	coniferous forests	10	0	0
+16	10	sclerophyll forests	10	0	0
+17	10	deciduous forests	10	0	0
+18	50	burnt areas	50	0	0
+19	5	rainfed herbaceous crops	5	0	0
+20	5	irrigated herbaceous crops	5	0	0
+21	5	rice fields	5	0	0
+22	10	vineyards	10	0	0
+23	5	rainfed fruit trees	5	0	0
+24	5	irrigated fruit trees	5	0	0

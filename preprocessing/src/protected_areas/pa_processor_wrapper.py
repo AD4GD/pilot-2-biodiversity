@@ -111,18 +111,18 @@ class PAProcessorWrapper:
             str: The path to the merged GeoPackage file.
         """
         # define the output merged GeoPackage file
-        gpkg = os.path.join(self.output_dir, output_file)
+        gpkg_file = os.path.join(self.output_dir, output_file)
         # remove GeoPackage if it already exists
-        if os.path.exists(gpkg):
-            os.remove(gpkg)
+        if os.path.exists(gpkg_file):
+            os.remove(gpkg_file)
 
-       # loop through the GeoJSON files and convert them to a geopackage
+        # loop through the GeoJSON files and convert them to a geopackage
+        # layer_names = []
         for geojson_file in geojson_filepaths:
-            # writes layer name as the first name from geojson files
-            layer_name = os.path.splitext(os.path.basename(geojson_file))[0]
-            # use ogr2ogr to convert GeoJSON to GeoPackage
+            layer_name = "protected_areas" # write all PAs to a single layer
             subprocess.run([
-                "ogr2ogr", "-f", "GPKG", "-append", "-nln", layer_name, gpkg, geojson_file
+                "ogr2ogr", "-f", "GPKG", "-append", "-nln", layer_name, gpkg_file, geojson_file
             ]) 
 
-        return gpkg
+
+        return gpkg_file

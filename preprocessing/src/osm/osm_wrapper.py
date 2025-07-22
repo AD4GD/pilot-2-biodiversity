@@ -100,7 +100,7 @@ class OSMWrapper():
         else:
             raise ValueError("Invalid API type. Please use either 'overpass' or 'ohsome'.")
      
-    def osm_to_merged_gpkg(self, years:list, api_type:str):
+    def osm_to_merged_gpkg(self, years:list, api_type:str) ->  list[str]:
         """
         Converts the OSM GeoJSON files to GeoPackage files and merges them into a single GeoPackage file.
 
@@ -109,9 +109,9 @@ class OSMWrapper():
             api_type (str): the API to use for fetching OSM data (either 'overpass' or 'ohsome')
 
         Returns:
-            None: Writes the GeoPackage files to the output directory
-        
+            output_files (list): a list of paths to the merged GeoPackage files for each year
         """
+        output_files = []
         for year in years:
             ogtg = OSMGeojsonToGpkg(self.osm_output_data_dir,self.gpkg_dir,target_epsg=4326, year=year, api_type=api_type)
             # if verbose mode is used then use the filtered.geojson files
@@ -125,6 +125,9 @@ class OSMWrapper():
             gpkg_path = ogtg.fix_geometries_in_gpkg(output_file, fixed_gpkg_path)
             #Move file to vector_dir for next component
             shutil.move(gpkg_path, os.path.join(self.vector_dir, f'osm_merged_{year}.gpkg'))
+            output_files.append(os.path.join(self.vector_dir, f'osm_merged_{year}.gpkg'))
+
+        return output_files
 
     
     def delete_temp_files(self, delete_geojsons:bool, delete_gpkg_files:bool):
