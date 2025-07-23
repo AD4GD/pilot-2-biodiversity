@@ -11,13 +11,13 @@ class VectorDataPreprocessor():
     Preprocesses OSM vector data for rasterization, which includes reprojecting, fixing geometries 
     and buffering features in biodiversity stressor layers (roads and railways).
     """
-    def __init__(self, config: dict, current_dir:str, vector_dir:str, year:int, lulc_crs:int, lulc_is_cartesian:bool) -> None:
+    def __init__(self, config: dict, working_dir:str, vector_dir:str, year:int, lulc_crs:int, lulc_is_cartesian:bool) -> None:
         """
         Initializes the vector data preprocessor. Extracts vector layer names and checks if the CRS of the vector data matches the LULC data.
 
         Args:
             config (dict): configuration file
-            current_dir (str): current directory
+            working_dir (str): working directory
             vector_dir (str): vector directory
             year (int): year of the data
             lulc_crs (int): LULC CRS
@@ -27,7 +27,7 @@ class VectorDataPreprocessor():
         self.year = year
         self.lulc_crs = lulc_crs
         self.lulc_is_cartesian = lulc_is_cartesian
-        self.current_dir = current_dir
+        self.current_dir = working_dir
         self.vector_dir = vector_dir
         self.vector_refine = self.load_auxillary_data(self.current_dir, self.vector_dir , year)
         print(f"Path to the input vector dataset: {self.vector_refine}")

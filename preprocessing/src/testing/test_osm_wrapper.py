@@ -11,7 +11,7 @@ import pandas as pd
 import yaml
 import os
 import json
-from testing.testing_toolkit import check_vector_pixels, check_raster_metadata, calculate_raster_difference
+from testing.testing_toolkit import check_vector_pixels_by_coordinates, check_raster_metadata, calculate_raster_difference
 
 #TODO fix mock data intercept. it is using the same data for all intercepts
 class TestOsmWrapperProcessor(TestCase):

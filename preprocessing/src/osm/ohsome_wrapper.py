@@ -26,15 +26,26 @@ class TLSAdapter(HTTPAdapter):
 
 class OhsomeWrapper:
 
-    def __init__(self, config:dict, output_dir:str, years:list[int], use_lulc_pa:bool, verbose:bool):
+    def __init__(self, working_dir:str ,config:dict, output_dir:str, years:list[int], use_lulc_pa:bool, verbose:bool):
+        """
+        Initialize the OhsomeWrapper class with the configuration file and output directory.
+
+        Args:
+            working_dir (str): path to the current/working directory
+            config (dict): path to the configuration file
+            output_dir (str): path to the output directory where the OSM data will be stored
+            years (list): a list of years to process (From the OSMPreprocessor class
+            use_lulc_pa (bool): whether to use LULC PA data or not
+            verbose (bool): verbose output
+        """
         self.config = config
         self.output_dir = output_dir
         self.verbose = verbose
         self.years = years
-        print(use_lulc_pa)
-        # create a dictionary of LULC files and corresponding years
-        lulc_series = {get_lulc_using_template(config=self.config, year = year, get_lulc_pa=use_lulc_pa):year for year in self.years}
 
+        # create a dictionary of LULC files and corresponding years
+        lulc_series = {get_lulc_using_template(working_dir=working_dir,config=self.config, year = year, get_lulc_pa=use_lulc_pa):year for year in self.years}
+        
         # We can use the first raster to get the bounding box, as all rasters for each case study should have the same extent
         lulc = list(lulc_series.keys())[0]
 

@@ -7,7 +7,7 @@ from unittest import TestCase
 
 
 
-def check_vector_pixels(testing:TestCase, col:int ,row:int, tiff_path:str, expected_value:int):
+def check_vector_pixels_by_coordinates(testing:TestCase, col:int ,row:int, tiff_path:str, expected_value:int):
     """
     Tests the pixel value at a specific location in a raster file against an expected value.
 
@@ -25,6 +25,24 @@ def check_vector_pixels(testing:TestCase, col:int ,row:int, tiff_path:str, expec
     # close the raster
     ds = None
     testing.assertEqual(pixel_value, expected_value)
+
+def check_raster_min_max_values(testing:TestCase, raster_path:str, expected_min:int, expected_max:int):
+    """
+    Tests the minimum and maximum pixel values of a raster file against expected values.
+
+    Args:
+        testing (TestCase): The unittest TestCase instance for assertions.
+        raster_path (str): Path to the raster file.
+        expected_min (int): Expected minimum pixel value.
+        expected_max (int): Expected maximum pixel value.
+    """
+    with rasterio.open(raster_path) as src:
+        data = src.read(1)  # Read the first band
+        actual_min = data.min()
+        actual_max = data.max()
+    
+    testing.assertEqual(actual_min, expected_min)
+    testing.assertEqual(actual_max, expected_max)
 
 def check_raster_metadata(testing:TestCase, raster_path:str, expected_nodata:int, expected_cell_size:int, expected_is_cartesian:bool, expected_x_min:int, expected_y_min:int, expected_x_max:int, expected_y_max:int):
     """
@@ -53,7 +71,7 @@ def check_raster_metadata(testing:TestCase, raster_path:str, expected_nodata:int
 
 def calculate_raster_difference(before_raster_path:str, after_raster_path:str, output_raster_path:str, write_difference:bool=True) -> bool:
     """
-    Calculates the pixel-wise difference between two raster datasets and saves the result.
+    Calculates the pixel-wise difference between two raster datasets and saves the result to a new raster file.
 
     Args:
         before_raster_path (str): Path to the 'before' raster file.
@@ -62,7 +80,7 @@ def calculate_raster_difference(before_raster_path:str, after_raster_path:str, o
         write_difference (bool): If True, writes the difference raster to the output path. If False, returns whether the rasters are different.
 
     Returns:
-        bool: True if the rasters are different (if write_difference is False), otherwise None.
+        bool: True if the rasters are different and False if they are the same.
     """
     try:
         with rasterio.open(before_raster_path) as src_before, \
@@ -89,7 +107,6 @@ def calculate_raster_difference(before_raster_path:str, after_raster_path:str, o
             if write_difference:
                 with rasterio.open(output_raster_path, 'w', **profile) as dst:
                     dst.write(difference_array, 1)
-
                 print(f"Raster difference calculated and saved to: {output_raster_path}")
 
             # assert they are different
@@ -98,7 +115,6 @@ def calculate_raster_difference(before_raster_path:str, after_raster_path:str, o
             else:
                 return True
                 
-
     except rasterio.RasterioIOError as e:
         print(f"Error opening raster file: {e}")
     except ValueError as e:

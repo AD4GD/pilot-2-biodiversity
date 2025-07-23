@@ -57,8 +57,8 @@ class LULCEnrichmentWrapper():
         self.years = read_years_from_config(self.config)
 
         # create a dict of LULC files for each year
-        self.lulc_filepaths = {year:get_lulc_using_template(config=self.config, get_lulc_pa=use_lulc_pa, year=year) for year in self.years}
-
+        self.lulc_filepaths = {year:get_lulc_using_template(working_dir=working_dir,config=self.config, get_lulc_pa=use_lulc_pa, year=year) for year in self.years}
+        
         self.osm_api_type = osm_api_type
         self.max_threads = threads
 
@@ -71,10 +71,21 @@ class LULCEnrichmentWrapper():
             year (int): year of the data to process
         """
         ## LULC PREPROCESSING 
-        self.lp = LULCDataPreprocessor(self.config, self.lulc_filepaths[year], self.working_dir)
-        
+        self.lp = LULCDataPreprocessor(
+            config=self.config, 
+            working_dir=self.working_dir,
+            lulc_filepath= self.lulc_filepaths[year]
+        )
+
         ## OSM PREPROCESSING
-        self.vp = VectorDataPreprocessor(self.config, self.working_dir, self.vector_dir, year, self.lp.raster_metadata.crs_info["epsg"], self.lp.raster_metadata.is_cartesian)
+        self.vp = VectorDataPreprocessor(
+            config=self.config,
+            working_dir=self.working_dir,
+            vector_dir=self.vector_dir,
+            year=year,
+            lulc_crs= self.lp.raster_metadata.crs_info["epsg"],
+            lulc_is_cartesian=self.lp.raster_metadata.is_cartesian
+        )
 
     def buffer_vector_roads_and_railways(self):
         """
@@ -99,11 +110,6 @@ class LULCEnrichmentWrapper():
         
         # step 1: rasterize vector layers
         self.rasters_temp = self.rasterize_vector_layers(year, save_osm_stressors)
-
-        # step 1.1: sum with PA
-        # if self.use_lulc_pa:
-            
-
 
         # step 2 merging rasters
         lulc_upd = os.path.normpath(os.path.join(self.working_dir, self.output_dir, os.path.basename(self.lulc_filepaths[year]).replace('.tif', "_upd.tif")))

@@ -293,8 +293,8 @@ def recalc_impedance(
     config_path = os.path.join(config_dir, "config.yaml")
     check_file_exists(config_path)
     
-    iw = ImpedanceWrapper( 
-        types = None,
+    iw = ImpedanceWrapper(
+        working_dir=os.getcwd(),
         decline_type = decline_type,
         lambda_decay = lambda_decay,
         k_value = k_value,

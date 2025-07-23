@@ -14,7 +14,7 @@ class OverpassWrapper():
     This OSM (OpenStreetMap) Pre-Processor class fetches OSM data for a given set of years and a bounding box.
     Currently only fetches for one year of OSM data.
     """
-    def __init__(self, config:dict, output_dir:str, years:list[int], use_lulc_pa:bool, verbose:bool) -> None:
+    def __init__(self, working_dir:str, config:dict, output_dir:str, years:list[int], use_lulc_pa:bool, verbose:bool) -> None:
         """
         Initialize the OverpassWrapper (OSM Pre-Processor) class with the configuration file and output directory.
 
@@ -30,8 +30,10 @@ class OverpassWrapper():
         self.years = years
         self.verbose = verbose
 
+        # split working dir from output_dir (first part of the path)
+        working_dir = os.path.dirname(output_dir)
         # create a dictionary of LULC files and corresponding years
-        lulc_series = {get_lulc_using_template(config=self.config, year = year, get_lulc_pa=use_lulc_pa):year for year in self.years}
+        lulc_series = {get_lulc_using_template(working_dir=working_dir,config=self.config, year = year, get_lulc_pa=use_lulc_pa):year for year in self.years}
         
         # We can use the first raster to get the bounding box, as all rasters for each case study should have the same extent
         lulc = list(lulc_series.keys())[0]
@@ -286,7 +288,7 @@ if __name__ == "__main__":
     from utils import load_yaml
     config = load_yaml("./config/config.yaml")
     year = 2017
-    ow = OverpassWrapper(config, "data/osm", True, [year])
+    ow = OverpassWrapper(config=config, output_dir="data/osm", years=[year], use_lulc_pa=True, verbose=True)
     queries = ow.overpass_query_builder(year, ow.bbox)
     intermediate_jsons = ow.fetch_osm_data(queries, year)
     ow.convert_to_geojson(queries, year)

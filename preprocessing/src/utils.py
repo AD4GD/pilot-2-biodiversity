@@ -112,11 +112,12 @@ def find_stressor_params(config_dict: dict, search_key: str):
     return None  # return None if not found
 
 
-def get_lulc_using_template(config:dict, year:int, get_lulc_pa:bool) -> str:
+def get_lulc_using_template(working_dir:str, config:dict, year:int, get_lulc_pa:bool) -> str:
     """
     Gets the LULC template from the configuration file and returns the path to the LULC raster dataset for the input year.
 
     Args:
+        working_dir (str): The working directory where the data directory is located.
         config (dict): The configuration dictionary.
         year (int): The year for which the LULC template is required.
         get_lulc_pa (bool): If True, returns the path to the LULC PA sum raster dataset, otherwise returns the path to the LULC raster dataset.
@@ -132,10 +133,10 @@ def get_lulc_using_template(config:dict, year:int, get_lulc_pa:bool) -> str:
     else:
         if get_lulc_pa is not False:
             lulc_template = lulc_template.replace("{year}.tif", "pa_{year}.tif")
-            lulc_filepath = os.path.normpath(os.path.join(config["lulc_pa_dir"],lulc_template.format(year=year)))
+            lulc_filepath = os.path.normpath(os.path.join(working_dir,config["lulc_pa_dir"],lulc_template.format(year=year)))
             print(f"Get LULC from enrichment with PAs: {get_lulc_pa}") # NOTE: DEBUG
         else:
-            lulc_filepath = os.path.normpath(os.path.join(config['lulc_dir'], lulc_template.format(year=year)))
+            lulc_filepath = os.path.normpath(os.path.join(working_dir,config['lulc_dir'], lulc_template.format(year=year)))
             print(f"Get LULC from enrichment with PAs: {get_lulc_pa}") # NOTE: DEBUG
 
     print(f"Lulc filepath is {lulc_filepath}")    

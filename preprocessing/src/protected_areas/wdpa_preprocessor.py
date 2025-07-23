@@ -13,16 +13,16 @@ class WDPAPreprocessor():
     Since the LULC rasters have the same extent, we only need to fetch the country codes for one raster.
     """
 
-    def __init__(self, config:dict,  current_dir:str, verbose:bool) -> None:
+    def __init__(self, config:dict, working_dir:str, verbose:bool) -> None:
         """
         Initialize the WDPAPreprocessor
 
         Args:
             config (dict): dictionary containing the configuration parameters
-            current_dir (str): the current directory
+            current_dir (str): the current working directory
 
         """
-        self.current_dir = current_dir
+        self.working_dir = working_dir
         self.config = config
         self.verbose = verbose
 
@@ -38,7 +38,7 @@ class WDPAPreprocessor():
         print(self.years[0])
 
         # each case study should have the same extent for LULC rasters, so we only need one raster to fetch the country codes
-        self.lulc = get_lulc_using_template(config=self.config, get_lulc_pa=False ,year=self.years[0])
+        self.lulc = get_lulc_using_template(working_dir=self.working_dir,config=self.config, get_lulc_pa=False ,year=self.years[0])
         if not os.path.exists(self.lulc):
             raise FileNotFoundError(f"LULC raster for year {self.years[0]} not found at {self.lulc}")
 

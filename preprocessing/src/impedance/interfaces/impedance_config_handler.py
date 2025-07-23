@@ -4,7 +4,7 @@ class ImpedanceConfigurationHandler(ABC):
     """Abstract class for processing impedance configuration files."""
     
     def __init__(self, config:dict, config_impedance:dict, params_placeholder:dict, impedance_stressors:dict, year:int, 
-        current_dir:str, output_dir:str) -> None:
+        working_dir:str, output_dir:str) -> None:
         """Initializes the ImpedanceConfigProcessor class.
 
         Args:
@@ -13,7 +13,7 @@ class ImpedanceConfigurationHandler(ABC):
             params_placeholder (dict): The dictionary template for the configuration YAML file (for each stressor).
             impedance_stressors (dict): The dictionary for stressors, mapping stressor raster path to YAML alias.
             year (int): The year for which the edge effect is calculated.
-            current_dir (str): The parent directory
+            working_dir (str): The parent directory
             output_dir (str): The output directory
         """
         super().__init__()
@@ -22,7 +22,7 @@ class ImpedanceConfigurationHandler(ABC):
         self.params_placeholder = params_placeholder
         self.impedance_stressors = impedance_stressors
         self.year = year
-        self.current_dir = current_dir
+        self.working_dir = working_dir
         self.output_dir = output_dir
         
     @abstractmethod

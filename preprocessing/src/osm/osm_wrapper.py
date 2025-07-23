@@ -50,7 +50,14 @@ class OSMWrapper():
             years (list): a list of years to process (From the OSMPreprocessor class)
             skip_fetch (bool): whether to skip fetching OSM data or not. If FALSE, it will OVERWRITE any existing JSON files.
         """
-        ow = OverpassWrapper(self.config, self.osm_output_data_dir, years, self.use_lulc_pa, self.verbose)
+        ow = OverpassWrapper(
+            working_dir=self.working_dir,
+            config=self.config,
+            output_dir=self.osm_output_data_dir,
+            years=years,
+            use_lulc_pa=self.use_lulc_pa,
+            verbose=self.verbose
+        )
         for year in years:
             # build the queries for the year
             queries = ow.overpass_query_builder(year, bbox=ow.bbox)
@@ -79,7 +86,14 @@ class OSMWrapper():
             years (list): a list of years to process (From the OSMPreprocessor class)
             skip_fetch (bool): whether to skip fetching OSM data or not. If FALSE, it will OVERWRITE any existing JSON files.
         """
-        ow = OhsomeWrapper(self.config, self.osm_output_data_dir, years, self.use_lulc_pa,  self.verbose)
+        ow = OhsomeWrapper(
+            working_dir=self.working_dir,
+            config=self.config,
+            output_dir=self.osm_output_data_dir,
+            years=years,
+            use_lulc_pa=self.use_lulc_pa,
+            verbose=self.verbose
+        )
         all_years = True if len(years) > 1 else False # if more than one year is provided, then fetch all years combined into one JSON file
         year = years[-1]
         intermediate_jsons = [os.path.join(self.osm_output_data_dir, file) for file in os.listdir(self.osm_output_data_dir) if f'ohsome_pre_{year}.json' in file]

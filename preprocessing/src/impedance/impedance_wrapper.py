@@ -14,7 +14,7 @@ class ImpedanceWrapper():
     It abstracts the pipeline process of populating the impedance configuration file, processing the stressors, and calculating the impedance. 
     """
     def __init__(self,
-        types: str, # None on init
+        working_dir: str,
         decline_type: str,
         lambda_decay: float,
         k_value: float,
@@ -26,7 +26,7 @@ class ImpedanceWrapper():
         Initialize the ImpedanceWrapper class with the configuration file paths and other parameters.
 
         Args:
-            types (str): The types of stressors.
+            working_dir (str): The working directory for the project.
             decline_type (str): The type of decline.
             lambda_decay (float): The lambda decay value.
             k_value (float): The k value.
@@ -44,7 +44,7 @@ class ImpedanceWrapper():
         
         # define the dictionary template for the configuration YAML file (for each stressor). We are using variables defined above.
         self.params_placeholder = {
-            'types': types, # specify whether category of stressors has particular types different in parameters (for example, primary and secondary roads)
+            'types': None, # specify whether category of stressors has particular types different in parameters (for example, primary and secondary roads)
             'decline_type': decline_type,  # user will choose from 'exp_decline' and 'prop_decline'
             'exp_decline': {
                 'lambda_decay': lambda_decay  # placeholder for exponential decay value
@@ -58,7 +58,7 @@ class ImpedanceWrapper():
         print(f"Years are: {self.years}")
 
         # to be passed into other classes
-        self.current_dir = os.path.normpath(os.getcwd())
+        self.current_dir = os.path.normpath(working_dir)
         self.case_study_dir = os.path.join(self.current_dir, self.config.get('case_study_dir')) # get the case study directory
         self.output_dir = os.path.join(self.case_study_dir, "output") # get the output directory
         self.stressor_dir = os.path.join(self.output_dir, "stressors") # get the directory for stressors
@@ -300,7 +300,6 @@ if __name__ == "__main__":
         raise FileNotFoundError("The stressors.yaml file is not found. Please add the file to the config directory.")
     
     iw = ImpedanceWrapper( 
-        types = None,
         decline_type = 'exp_decline', # 'exp_decline' or 'prop_decline'
         lambda_decay = 500,
         k_value = 500,
