@@ -1,4 +1,4 @@
-=== conceptscheme (http://www.opengis.net/def/metamodel/profiles/skos_conceptscheme) ===
+=== skos_ogc (http://www.opengis.net/def/metamodel/profiles/skos_conceptscheme_ogc) ===
 Validation Report
 Conforms: True
 
@@ -13,7 +13,7 @@ http://defs-dev.opengis.net/def/metamodel/profiles/skos_shared?_profile=shacl&_m
 Validation Report
 Conforms: True
 
-=== skos_ogc (http://www.opengis.net/def/metamodel/profiles/skos_conceptscheme_ogc) ===
+=== conceptscheme (http://www.opengis.net/def/metamodel/profiles/skos_conceptscheme) ===
 Validation Report
 Conforms: True
 
