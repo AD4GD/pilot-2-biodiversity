@@ -1,4 +1,4 @@
-=== skos_ogc (http://www.opengis.net/def/metamodel/profiles/skos_conceptscheme_ogc) ===
+=== vocprez (http://www.opengis.net/def/metamodel/profiles/vocprez_ogc) ===
 Validation Report
 Conforms: True
 
@@ -9,7 +9,7 @@ Conforms: True
 # Failed artifacts
 http://defs-dev.opengis.net/def/metamodel/profiles/skos_shared?_profile=shacl&_mediatype=text/turtle
 
-=== vocprez (http://www.opengis.net/def/metamodel/profiles/vocprez_ogc) ===
+=== skos_ogc (http://www.opengis.net/def/metamodel/profiles/skos_conceptscheme_ogc) ===
 Validation Report
 Conforms: True
 
