@@ -1,3 +1,7 @@
+=== conceptscheme (http://www.opengis.net/def/metamodel/profiles/skos_conceptscheme) ===
+Validation Report
+Conforms: True
+
 === vocprez (http://www.opengis.net/def/metamodel/profiles/vocprez_ogc) ===
 Validation Report
 Conforms: True
@@ -13,10 +17,6 @@ Used rules artifacts:
 http://www.opengis.net/def/metamodel/profiles/skos_shared?_profile=shacl&_mediatype=text/turtle
  - http://defs-dev.opengis.net/ogc-na/definitions/profiles/resources/skos_shared_shacl.ttl
  - http://www.opengis.net/def/metamodel/profiles/skos_shared
-=== conceptscheme (http://www.opengis.net/def/metamodel/profiles/skos_conceptscheme) ===
-Validation Report
-Conforms: True
-
 === skos (http://www.w3.org/2004/02/skos/core) ===
 Validation Report
 Conforms: True
