@@ -14,7 +14,7 @@
 <https://raw.githubusercontent.com/opengeospatial/NamingAuthority/master/entailed/ebv-iadopt.ttl> a prov:Entity ;
     dcterms:format "text/turtle" ;
     dcterms:hasVersion "git:a9453b97572804acd59708a6bc49b1303e318859" ;
-    prov:wasAttributedTo _:n16d1b84b46f34767be0d5457d9f78268b1 ;
+    prov:wasAttributedTo _:n2575c97f6fd54c419eb5c0edafc3fb79b1 ;
     prov:wasGeneratedBy [ a prov:Activity ;
             rdfs:label "Entailment and validation" ;
             rdfs:comment "python ogc.na.update_vocabs .ogc/catalog.ttl --batch -w . --update --graph-store https://defs-dev.opengis.net/fuseki-hosted/data" ;
@@ -40,7 +40,7 @@
                     rdfs:seeAlso <https://raw.githubusercontent.com/opengeospatial/NamingAuthority/master/ebv-iadopt.ttl> ],
                 [ a prov:Entity ;
                     rdfs:seeAlso <http://defs-dev.opengis.net/ogc-na/scripts/ogc_skos_profile_entailments.ttl> ] ;
-            prov:wasAssociatedWith _:n16d1b84b46f34767be0d5457d9f78268b1 ;
+            prov:wasAssociatedWith _:n2575c97f6fd54c419eb5c0edafc3fb79b1 ;
             prov:wasInformedBy [ dcterms:identifier "10eb4c50-0e21-413f-be6f-45b9526aff68" ] ] .
 
 <http://w3id.org/ad4gd/ev/ebv/> a skos:Collection ;
@@ -7879,7 +7879,7 @@
     skos:prefLabel "Essential Biodiversity Variables - codelist scheme"@en ;
     dcat:theme <http://w3id.org/ad4gd/ev/> .
 
-_:n16d1b84b46f34767be0d5457d9f78268b1 a prov:Agent,
+_:n2575c97f6fd54c419eb5c0edafc3fb79b1 a prov:Agent,
         schema:SoftwareApplication ;
     rdfs:label "OGC-NA tools" ;
     dcterms:hasVersion "0.4" ;
