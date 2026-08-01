@@ -2,18 +2,18 @@
 Error performing SHACL validation: A Shape-Expecting & List-Expecting predicate should get a well-formed RDF list with 1 or more members.
 For reference, see https://www.w3.org/TR/shacl/#shapes-recursion
 Used rules artifacts:
-http://defs-dev.opengis.net/ogc-na/definitions/profiles/resources/skos_shared_shacl.ttl
- - http://www.opengis.net/def/metamodel/profiles/skos_shared?_profile=shacl&_mediatype=text/turtle
+http://www.opengis.net/def/metamodel/profiles/skos_shared?_profile=shacl&_mediatype=text/turtle
  - http://www.opengis.net/def/metamodel/profiles/skos_shared
-=== conceptscheme (http://www.opengis.net/def/metamodel/profiles/skos_conceptscheme) ===
-Validation Report
-Conforms: True
-
+ - http://defs-dev.opengis.net/ogc-na/definitions/profiles/resources/skos_shared_shacl.ttl
 === vocprez (http://www.opengis.net/def/metamodel/profiles/vocprez_ogc) ===
 Validation Report
 Conforms: True
 
 === skos_ogc (http://www.opengis.net/def/metamodel/profiles/skos_conceptscheme_ogc) ===
+Validation Report
+Conforms: True
+
+=== conceptscheme (http://www.opengis.net/def/metamodel/profiles/skos_conceptscheme) ===
 Validation Report
 Conforms: True
 
